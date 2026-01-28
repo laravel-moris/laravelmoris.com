@@ -1,0 +1,63 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Providers;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        //
+    }
+
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
+    {
+        // Unguard models (no $fillable needed on models)
+        Model::unguard();
+
+        // Strict mode only in production
+        Model::shouldBeStrict(app()->isProduction());
+
+        // Enforce morph map for polymorphic relations
+        $this->enforceMorphMap();
+
+
+        // Prohibit destructive database commands in production
+        DB::prohibitDestructiveCommands(app()->isProduction());
+    }
+
+    private function enforceMorphMap()
+    {
+
+        $ns = app()->getNamespace();
+
+        $map = collect(File::allFiles(app_path('Models')))
+            ->map(fn ($f) => $ns.Str::of($f->getRealPath())
+                ->after(app_path().DIRECTORY_SEPARATOR)
+                ->replace(DIRECTORY_SEPARATOR, '\\')
+                ->replaceLast('.php', '')
+            )
+            ->filter(fn ($class) => class_exists($class) && is_subclass_of($class, Model::class))
+            ->mapWithKeys(fn ($class) => [Str::kebab(class_basename($class)) => $class])
+            ->all();
+
+        // user => User::class
+        // snake-case => PascalCase::class
+        Relation::enforceMorphMap($map);
+    }
+}
