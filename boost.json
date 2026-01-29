@@ -5,6 +5,9 @@
     "guidelines": true,
     "herd_mcp": true,
     "mcp": true,
+    "packages": [
+        "spatie/boost-spatie-guidelines"
+    ],
     "sail": false,
     "skills": [
         "pest-testing",

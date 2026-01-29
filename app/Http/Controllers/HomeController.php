@@ -4,13 +4,29 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Queries\GetCommunityLinksQuery;
+use App\Queries\GetFeaturedSpeakersQuery;
+use App\Queries\GetHappeningNowQuery;
+use App\Queries\GetPastSponsorsQuery;
+use App\Queries\GetUpcomingMeetupsQuery;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
 
 class HomeController
 {
-    public function __invoke(Request $request): View
-    {
-        return view('index');
+    public function __invoke(
+        GetHappeningNowQuery $getHappeningNowQuery,
+        GetUpcomingMeetupsQuery $getUpcomingMeetupsQuery,
+        GetFeaturedSpeakersQuery $getFeaturedSpeakersQuery,
+        GetCommunityLinksQuery $getCommunityLinksQuery,
+        GetPastSponsorsQuery $getPastSponsorsQuery,
+    ): View {
+
+        return view('index', [
+            'happeningNow' => $getHappeningNowQuery->execute(),
+            'meetups' => $getUpcomingMeetupsQuery->execute(),
+            'speakers' => $getFeaturedSpeakersQuery->execute(),
+            'communityLinks' => $getCommunityLinksQuery->execute(),
+            'sponsors' => $getPastSponsorsQuery->execute(),
+        ]);
     }
 }

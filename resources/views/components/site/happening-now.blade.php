@@ -1,11 +1,15 @@
 @props([
-    'title' => 'Happening Now',
-    'headline' => null,
-    'meta' => [],
+    'event',
 ])
 
 @php
-    $meta = count($meta) ? $meta : [];
+    $startsAt = $event->startsAt;
+    $endsAt = $event->endsAt;
+    $meta = array_values(array_filter([
+        $startsAt?->format('F j'),
+        $startsAt && $endsAt ? sprintf('%s-%s', $startsAt->format('H:i'), $endsAt->format('H:i')) : null,
+        $event->speakersCount ? sprintf('%d speakers', $event->speakersCount) : null,
+    ]));
 @endphp
 
 <div {{ $attributes->merge(['class' => 'lm-reveal relative overflow-hidden rounded-3xl border border-border/70 bg-surface p-6 md:p-8']) }} data-reveal>
@@ -19,11 +23,11 @@
                     <span class="absolute inline-flex size-2 animate-ping rounded-full bg-coral/60"></span>
                     <span class="relative inline-flex size-2 rounded-full bg-coral"></span>
                 </span>
-                <span class="text-[11px] font-bold uppercase tracking-[0.14em] text-muted">{{ $title }}</span>
+                <span class="text-[11px] font-bold uppercase tracking-[0.14em] text-muted">Happening Now</span>
             </div>
 
             <p class="mt-4 text-balance text-[22px] font-bold tracking-[-0.02em] md:text-[26px]">
-                {{ $headline }}
+                {{ $event->title }}
             </p>
 
             @if (count($meta))
@@ -39,7 +43,9 @@
         </div>
 
         <div class="flex flex-wrap gap-3 md:flex-nowrap">
-            <x-ui.button href="#" variant="primary" size="sm" class="rounded-xl">Join the meetup</x-ui.button>
+            @if (filled($event->ctaUrl))
+                <x-ui.button :href="$event->ctaUrl" variant="primary" size="sm" class="rounded-xl" target="_blank" rel="noopener">Join the meetup</x-ui.button>
+            @endif
         </div>
     </div>
 </div>

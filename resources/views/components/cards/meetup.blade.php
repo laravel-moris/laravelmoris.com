@@ -1,14 +1,16 @@
 @props([
-    'status' => 'past',
-    'featured' => false,
-    'month' => null,
-    'day' => null,
-    'title' => null,
-    'speakers' => [],
+    'card',
 ])
 
 @php
-    $isUpcoming = $status === 'upcoming';
+    $featured = $card->featured;
+    $title = $card->title;
+    $speakers = $card->speakers;
+
+    $startsAt = $card->startsAt;
+    $isUpcoming = $startsAt->isFuture();
+    $month = $startsAt->format('F');
+    $day = $startsAt->format('j');
 
     $rootClasses = implode(' ', array_filter([
         'group lm-card lm-reveal lm-card-accent-top p-9',
@@ -32,9 +34,14 @@
     <h3 class="mt-6 text-[20px] font-bold leading-snug tracking-[-0.01em]">{{ $title }}</h3>
 
     <div class="mt-5 flex border-t border-border/70 pt-5">
-        @foreach ($speakers as $initials)
-            <div class="grid size-10 place-items-center rounded-full bg-surface-2 text-primary font-bold text-[12px] border-[3px] border-surface -ml-3 first:ml-0 transition-transform duration-300 group-hover:-translate-y-1 hover:z-10 hover:-translate-y-1.5 hover:scale-[1.05]">
-                {{ $initials }}
+        @foreach ($speakers as $speaker)
+            <div class="size-10 rounded-full bg-surface-2 border-[3px] border-surface -ml-3 first:ml-0 overflow-hidden transition-transform duration-300 group-hover:-translate-y-1 hover:z-10 hover:-translate-y-1.5 hover:scale-[1.05]">
+                <img
+                    src="{{ $speaker->avatarUrl }}"
+                    alt="{{ $speaker->name }}"
+                    class="h-full w-full object-cover"
+                    loading="lazy"
+                >
             </div>
         @endforeach
     </div>
