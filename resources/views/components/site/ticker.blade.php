@@ -4,11 +4,10 @@
 
 @php
     $items = count($items) ? $items : [
-        ['label' => 'Next Meetup:', 'value' => 'January 28'],
         ['label' => 'Mauritius', 'value' => 'Tech Hub'],
         ['label' => 'Join', 'value' => 'Our Community'],
         ['label' => 'Call for', 'value' => 'Speakers'],
-        ['label' => '500+', 'value' => 'Members'],
+        ['label' => '100+', 'value' => 'Members'],
         ['label' => 'Free', 'value' => 'Pizza & Drinks'],
         ['label' => 'Tropical', 'value' => 'Tech Vibes'],
         ['label' => 'Learn', 'value' => 'Laravel Together'],
