@@ -199,6 +199,9 @@ protected function isAccessible(User $user, ?string $path = null): bool
 
 - Always create Form Request classes for validation rather than inline validation in controllers. Include both validation rules and custom error messages.
 - Check sibling Form Requests to see if the application uses array or string based validation rules.
+- Always model endpoints as RESTful resources using the standard 7 methods (`index`, `create`, `store`, `show`, `edit`, `update`, `destroy`).
+- Only use an invokable controller (`__invoke`) when the endpoint is a single, standalone operation that cannot reasonably be expressed as one of the 7 resource actions without distorting the domain model (e.g. `/health`, `/logout`, `/orders/{order}/cancel`). 
+- Never add ad-hoc public methods to controllers beyond the 7; create a new resource controller or an invokable controller instead. 
 
 ## Authentication & Authorization
 
@@ -281,3 +284,5 @@ protected function isAccessible(User $user, ?string $path = null): bool
 
 - Always run `composer lint:fix` after writing code
 - Always run `php artisan test` after completing a coding session.
+- Always generate files with artisan command. Create new Laravel classes/files using `php artisan make:*` commands rather than hand-writing them. To discover available commands, run `php artisan list`. To inspect usage/options, run `php artisan <command> --help`. If you’re not sure which command to use, search by keyword with `php artisan <keyword> --no-interaction` (single word), then pick the most appropriate `make:*` command.
+- Prefer Laravel helpers/utilities over raw PHP (verify with Boost docs). For strings, arrays, paths, dates, config, collections, etc., default to Laravel’s helpers and fluent utilities (including chaining) to match project conventions and readability. When you’re unsure which helper or fluent API is the right fit, use Boost `search-docs` first and implement the documented, version-appropriate approach. Use native PHP functions only when Laravel doesn’t provide a clearer/safer equivalent.
