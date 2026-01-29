@@ -5,7 +5,165 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
-@theme {
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@layer base {
+    :root {
+        color-scheme: dark;
+
+        --bg-primary: #0a0908;
+        --bg-secondary: #141210;
+        --bg-tertiary: #1c1a17;
+
+        --text-primary: #faf9f7;
+        --text-secondary: #a39e96;
+
+        --accent: #ff2d20;
+        --accent-hover: #ff4535;
+
+        /* Mauritius accent colors (subtle use only) */
+        --sunset-coral: #ff6b6b;
+        --sunset-orange: #ff9f43;
+        --sunset-pink: #fd79a8;
+        --sunset-purple: #a29bfe;
+        --ocean-teal: #48dbfb;
+        --ocean-cyan: #00d2d3;
+        --sand-gold: #fdcb6e;
+        --palm-green: #55efc4;
+
+        --card-border: rgba(255, 45, 32, 0.15);
+        --card-border-light: rgba(255, 255, 255, 0.08);
+    }
+
+    [data-theme='light'] {
+        color-scheme: light;
+
+        --bg-primary: #faf9f7;
+        --bg-secondary: #f5f3f0;
+        --bg-tertiary: #eceae7;
+
+        --text-primary: #1c1a17;
+        --text-secondary: #6b6560;
+
+        --card-border: rgba(255, 45, 32, 0.15);
+        --card-border-light: rgba(0, 0, 0, 0.05);
+    }
+}
+
+@theme inline {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-display: 'Oswald', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+        'Courier New', monospace;
+
+    --color-background: var(--bg-primary);
+    --color-surface: var(--bg-secondary);
+    --color-surface-2: var(--bg-tertiary);
+
+    --color-foreground: var(--text-primary);
+    --color-muted: var(--text-secondary);
+
+    --color-border: var(--card-border-light);
+    --color-border-strong: var(--card-border);
+
+    --color-primary: var(--accent);
+    --color-primary-hover: var(--accent-hover);
+
+    --color-coral: var(--sunset-coral);
+    --color-orange: var(--sunset-orange);
+    --color-pink: var(--sunset-pink);
+    --color-purple: var(--sunset-purple);
+    --color-teal: var(--ocean-teal);
+    --color-cyan: var(--ocean-cyan);
+    --color-gold: var(--sand-gold);
+    --color-green: var(--palm-green);
+}
+
+@layer components {
+    .lm-container {
+        @apply mx-auto max-w-[1600px] px-6 md:px-12;
+    }
+
+    .lm-section {
+        @apply relative z-10 py-16 md:py-[100px];
+    }
+
+    .lm-reveal {
+        @apply opacity-0 translate-y-10 data-[revealed=true]:opacity-100 data-[revealed=true]:translate-y-0 transition-[opacity,transform] duration-500 ease-out motion-reduce:opacity-100 motion-reduce:translate-y-0 motion-reduce:transition-none;
+    }
+
+    .lm-btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-full font-bold uppercase tracking-[0.12em] transition-[transform,background-color,border-color,color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 disabled:pointer-events-none disabled:opacity-50;
+    }
+
+    .lm-btn-md {
+        @apply px-10 py-[18px] text-[13px];
+    }
+
+    .lm-btn-sm {
+        @apply px-6 py-2.5 text-[13px];
+    }
+
+    .lm-btn-primary {
+        @apply bg-primary text-white hover:bg-primary-hover hover:-translate-y-0.5;
+    }
+
+    .lm-btn-secondary {
+        @apply bg-surface-2 text-foreground border-2 border-border/70 hover:border-teal hover:text-teal hover:-translate-y-0.5;
+    }
+
+    .lm-card {
+        @apply relative overflow-hidden rounded-3xl bg-surface border border-border/70 transition-[transform,border-color] duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)];
+    }
+
+    .lm-card-accent-top {
+        @apply before:content-[''] before:absolute before:inset-x-0 before:top-0 before:h-1 before:origin-left before:scale-x-0 before:transition-transform before:duration-[400ms] before:ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:before:scale-x-100;
+    }
+}
+
+@keyframes lm-ticker {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes lm-hero-title {
+    0% {
+        opacity: 0;
+        transform: translateY(60px) scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes lm-hero-subtitle {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes lm-hero-cta {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
