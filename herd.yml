@@ -1,0 +1,8 @@
+name: laravelmoris.com
+php: '8.4'
+secured: true
+aliases:
+    - laravelmoris.com.test
+services: {  }
+integrations:
+    forge: {  }
