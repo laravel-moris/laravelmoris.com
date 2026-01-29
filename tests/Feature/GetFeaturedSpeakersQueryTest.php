@@ -21,7 +21,7 @@ test('it returns random featured speakers with approved papers', function () {
     }
 
     $query = app(GetFeaturedSpeakersQuery::class);
-    $speakers = $query->execute(6);
+    $speakers = $query->execute(6)->toCollection();
 
     expect($speakers)->toHaveCount(6)->and($speakers->first()->avatarUrl)->toBeString()->and($speakers->first()->name)->toBeString();
 });

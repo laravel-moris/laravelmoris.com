@@ -27,7 +27,7 @@ test('it returns 6 meetups: upcoming first, then past fill, excluding happening 
     $futureLocation = OnlineLocation::factory()->create(['url' => 'https://example.test/future']);
     $pastLocation = OnlineLocation::factory()->create(['url' => 'https://example.test/past']);
 
-    $upcomingEvents = collect(range(1, 5))->map(function (int $i) use ($now, $futureLocation) {
+    collect(range(1, 5))->map(function (int $i) use ($now, $futureLocation) {
         $event = Event::factory()->create([
             'title' => "Upcoming {$i}",
             'starts_at' => $now->addDays($i),
@@ -59,10 +59,9 @@ test('it returns 6 meetups: upcoming first, then past fill, excluding happening 
         ->and($meetupsCollection->first()->featured)
         ->toBeTrue()
         ->and($meetupsCollection->filter(fn ($m) => $m->featured))
-        ->toHaveCount(1);
+        ->toHaveCount(1)
+        ->and($meetupsCollection->pluck('id')->all())->not->toContain($live->id);
 
-    // Excludes happening now
-    expect($meetupsCollection->pluck('id')->all())->not->toContain($live->id);
 
     $nowUtc = now('Indian/Mauritius')->utc()->toImmutable();
     $isUpcoming = fn ($m) => $m->startsAt->greaterThanOrEqualTo($nowUtc);
