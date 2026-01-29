@@ -6,7 +6,6 @@ namespace App\Providers;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
@@ -35,7 +34,6 @@ class AppServiceProvider extends ServiceProvider
 
         // Enforce morph map for polymorphic relations
         $this->enforceMorphMap();
-
 
         // Prohibit destructive database commands in production
         DB::prohibitDestructiveCommands(app()->isProduction());

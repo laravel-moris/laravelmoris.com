@@ -283,6 +283,8 @@ protected function isAccessible(User $user, ?string $path = null): bool
 ## Strict Rules
 
 - Always run `composer lint:fix` after writing code
+- Always use string for database fields instead of enums. We can use a PHP enums instead.
+- No fillable on Models needed.
 - Always run `php artisan test` after completing a coding session.
 - Always generate files with artisan command. Create new Laravel classes/files using `php artisan make:*` commands rather than hand-writing them. To discover available commands, run `php artisan list`. To inspect usage/options, run `php artisan <command> --help`. If you’re not sure which command to use, search by keyword with `php artisan <keyword> --no-interaction` (single word), then pick the most appropriate `make:*` command.
 - Prefer Laravel helpers/utilities over raw PHP (verify with Boost docs). For strings, arrays, paths, dates, config, collections, etc., default to Laravel’s helpers and fluent utilities (including chaining) to match project conventions and readability. When you’re unsure which helper or fluent API is the right fit, use Boost `search-docs` first and implement the documented, version-appropriate approach. Use native PHP functions only when Laravel doesn’t provide a clearer/safer equivalent.
