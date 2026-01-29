@@ -43,6 +43,39 @@ This project has domain-specific skills available. You MUST activate the relevan
 - Stick to existing directory structure; don't create new base folders without approval.
 - Do not change the application's dependencies without approval.
 
+=== actions-first rules ===
+
+# Actions-First Architecture (Mandatory)
+
+Related to skill: - `actions-first-architecture`
+
+## Core rule
+All business logic MUST live in `app/Actions/**`.
+
+The following layers must be thin “adapters” only:
+- Controllers
+- Form Requests (validation + authorization only)
+- Jobs
+- Console Commands
+- Event Listeners / Subscribers
+- Livewire / Filament / UI handlers (if applicable)
+
+They may only:
+- authorize / validate
+- map input into Data objects
+- call Actions
+- return responses / dispatch events / queue jobs
+
+## Data-first inputs (Spatie Laravel Data)
+- Actions MUST NOT accept raw arrays (except for framework internals like Eloquent attribute arrays).
+- Define input (and optionally output) as `Spatie\LaravelData\Data` in `app/Data/**`.
+- Prefer `DataCollection<TData>` over `array`.
+
+## Action API conventions
+- Actions MUST expose exactly one public method: `execute(...)`.
+- Actions MUST be constructor-injectable and resolved via the container (no manual `new`).
+- Actions MAY compose other Actions via constructor injection.
+
 ## Frontend Bundling
 
 - If the user doesn't see a frontend change reflected in the UI, it could mean they need to run `npm run build`, `npm run dev`, or `composer run dev`. Ask them.
@@ -98,6 +131,7 @@ This project has domain-specific skills available. You MUST activate the relevan
 
 # PHP
 
+- Always use strict typing at the head of a `.php` file: `declare(strict_types=1);`.
 - Always use curly braces for control structures, even for single-line bodies.
 
 ## Constructors
@@ -129,6 +163,13 @@ protected function isAccessible(User $user, ?string $path = null): bool
 ## PHPDoc Blocks
 
 - Add useful array shape type definitions when appropriate.
+
+=== herd rules ===
+
+# Laravel Herd
+
+- The application is served by Laravel Herd and will be available at: `https?://[kebab-case-project-dir].test`. Use the `get-absolute-url` tool to generate valid URLs for the user.
+- You must not run any commands to make the site available via HTTP(S). It is always available through Laravel Herd.
 
 === laravel/core rules ===
 
