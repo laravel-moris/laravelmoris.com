@@ -3,9 +3,9 @@
         [
             'status' => 'upcoming',
             'featured' => true,
-            'month' => 'November',
-            'day' => '29',
-            'title' => 'Laravel Moris November 2025 Meetup',
+            'month' => 'February',
+            'day' => '28',
+            'title' => 'Laravel Moris February 2026 Meetup',
             'speakers' => ['BB', 'PM', 'SR'],
         ],
         [
@@ -129,6 +129,8 @@
         ['logo' => 'LARAVEL', 'label' => 'Official Partner'],
         ['logo' => 'CERTIFICATION', 'label' => 'Laravel Program Partner'],
     ];
+
+    $nextMeetup = collect($meetups)->firstWhere('status', 'upcoming');
 @endphp
 
 <x-layout.guest title="Laravel Moris">
@@ -136,8 +138,19 @@
     <x-site.header />
     <x-site.hero />
 
-    <x-ui.section id="meetups">
+    <x-ui.section class="pt-0 pb-10 md:pb-12">
+        <x-site.happening-now
+            headline="Laravel Moris February 2026 Meetup"
+            :meta="[
+                (($nextMeetup['month'] ?? 'TBA') . ' ' . ($nextMeetup['day'] ?? '')),
+                (count($nextMeetup['speakers'] ?? []) ? (count($nextMeetup['speakers']) . ' speakers') : 'Speakers TBA'),
+            ]"
+        />
+    </x-ui.section>
+
+    <x-ui.section id="meetups" class="pt-0">
         <x-ui.section-header title="Upcoming" accent="Meetups" />
+
         <div class="grid gap-7 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
             @foreach ($meetups as $meetup)
                 <x-cards.meetup

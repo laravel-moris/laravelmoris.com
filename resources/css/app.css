@@ -113,6 +113,11 @@
         @apply bg-surface-2 text-foreground border-2 border-border/70 hover:border-teal hover:text-teal hover:-translate-y-0.5;
     }
 
+    .lm-icon-btn {
+        @apply relative grid place-items-center rounded-full bg-surface-2 border border-border/70 text-muted transition-[transform,border-color,color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-primary hover:text-primary hover:scale-[1.05] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60;
+        @apply size-11;
+    }
+
     .lm-card {
         @apply relative overflow-hidden rounded-3xl bg-surface border border-border/70 transition-[transform,border-color] duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)];
     }
