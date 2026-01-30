@@ -43,7 +43,18 @@
                 />
             @endforeach
 
-            <x-ui.button href="#" variant="primary" size="sm" class="rounded-lg">Log In</x-ui.button>
+            @auth
+                <form action="{{ route('logout') }}" method="POST" class="flex items-center">
+                    @csrf
+                    <x-ui.button type="submit" variant="secondary" size="sm" class="rounded-lg">
+                        Log Out
+                    </x-ui.button>
+                </form>
+            @else
+                <x-ui.button href="{{ route('login') }}" variant="primary" size="sm" class="rounded-lg">
+                    Log In
+                </x-ui.button>
+            @endauth
 
             <x-site.header.theme-toggle size="md" class="ml-2 size-12" />
         </nav>
