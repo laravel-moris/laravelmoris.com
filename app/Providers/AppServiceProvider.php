@@ -41,7 +41,7 @@ final class AppServiceProvider extends ServiceProvider
 
         URL::forceScheme('https');
 
-        // Register custom Blade directives for OAuth provider checks
+        // for OAuth provider checks
         Blade::if('provider', function (string $provider): bool {
             return config("services.{$provider}.client_id") !== null;
         });
