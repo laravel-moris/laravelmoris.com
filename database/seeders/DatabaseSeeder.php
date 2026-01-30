@@ -256,7 +256,7 @@ class DatabaseSeeder extends Seeder
             return null;
         }
 
-        $disk = Storage::disk(config('filesystems.default'));
+        $disk = Storage::disk('public');
 
         /** @var Response $response */
         $response = Http::timeout(10)->retry(2, 200)->get($url);
