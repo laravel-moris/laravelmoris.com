@@ -7,6 +7,6 @@
         <i class="ci {{ $link->iconKey }} ci-3x"></i>
     </div>
 
-    <h3 class="text-[20px] font-bold tracking-[-0.01em]">{{ $link->name }}</h3>
-    <p class="mt-3 text-[14px] text-muted leading-relaxed">{{ $link->description }}</p>
+    <x-ui.text.h3 class="text-[20px] font-bold tracking-[-0.01em]">{{ $link->name }}</x-ui.text.h3>
+    <x-ui.text.muted class="mt-3 leading-relaxed">{{ $link->description }}</x-ui.text.muted>
 </a>

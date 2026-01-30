@@ -21,7 +21,7 @@ class HomeController
         GetPastSponsorsQuery $getPastSponsorsQuery,
     ): View {
 
-        return view('index', [
+        return view('pages.home', [
             'happeningNow' => $getHappeningNowQuery->execute(),
             'meetups' => $getUpcomingMeetupsQuery->execute(),
             'speakers' => $getFeaturedSpeakersQuery->execute(),

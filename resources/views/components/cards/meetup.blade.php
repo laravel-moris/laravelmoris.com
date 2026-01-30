@@ -31,7 +31,7 @@
         <span class="mt-1 text-[32px] font-bold leading-none {{ $featured ? 'text-white' : 'text-foreground group-hover:text-white' }}">{{ $day }}</span>
     </div>
 
-    <h3 class="mt-6 text-[20px] font-bold leading-snug tracking-[-0.01em]">{{ $title }}</h3>
+    <x-ui.text.h3 class="mt-6 text-[20px] font-bold leading-snug tracking-[-0.01em]">{{ $title }}</x-ui.text.h3>
 
     <div class="mt-5 flex border-t border-border/70 pt-5">
         @foreach ($speakers as $speaker)

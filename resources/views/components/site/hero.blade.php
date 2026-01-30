@@ -9,9 +9,9 @@
         {{ $title }} <span class="text-coral inline-block">{{ $highlight }}</span>
     </h1>
 
-    <p class="relative mt-6 max-w-[500px] text-muted text-[16px] font-medium uppercase tracking-[0.2em] opacity-0 animate-[lm-hero-subtitle_1s_cubic-bezier(0.16,1,0.3,1)_forwards] [animation-delay:400ms] before:content-[''] before:absolute before:top-1/2 before:right-[calc(100%+24px)] before:h-px before:w-[60px] before:bg-border/70 before:opacity-70 after:content-[''] after:absolute after:top-1/2 after:left-[calc(100%+24px)] after:h-px after:w-[60px] after:bg-border/70 after:opacity-70 max-md:before:hidden max-md:after:hidden">
+    <x-ui.text.subtitle class="relative mt-6 max-w-[500px] opacity-0 animate-[lm-hero-subtitle_1s_cubic-bezier(0.16,1,0.3,1)_forwards] [animation-delay:400ms] before:content-[''] before:absolute before:top-1/2 before:right-[calc(100%+24px)] before:h-px before:w-[60px] before:bg-border/70 before:opacity-70 after:content-[''] after:absolute after:top-1/2 after:left-[calc(100%+24px)] after:h-px after:w-[60px] after:bg-border/70 after:opacity-70 max-md:before:hidden max-md:after:hidden">
         {{ $subtitle }}
-    </p>
+    </x-ui.text.subtitle>
 
     <div class="mt-12 flex flex-wrap justify-center gap-5 opacity-0 animate-[lm-hero-cta_1s_cubic-bezier(0.16,1,0.3,1)_forwards] [animation-delay:600ms] max-md:w-full max-md:max-w-[320px] max-md:flex-col">
         <x-ui.button href="#" variant="primary">Join Next Meetup</x-ui.button>

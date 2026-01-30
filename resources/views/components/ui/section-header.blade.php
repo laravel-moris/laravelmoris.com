@@ -6,16 +6,16 @@
 
 <div {{ $attributes->merge(['class' => 'mb-12 md:mb-16']) }}>
     @if ($title)
-        <h2 class="text-[clamp(32px,5vw,48px)] font-bold tracking-[-0.02em]">
+        <x-ui.text.h2>
             {{ $title }}
             @if ($accent)
                 <span class="text-coral">{{ $accent }}</span>
             @endif
-        </h2>
+        </x-ui.text.h2>
     @endif
 
     @if ($subtitle)
-        <p class="mt-4 text-muted text-[14px] font-medium uppercase tracking-[0.14em]">{{ $subtitle }}</p>
+            <x-ui.text.muted class="mt-4">{{ $subtitle }}</x-ui.text.muted>
     @endif
 
     @if (trim($slot) !== '')

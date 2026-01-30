@@ -9,13 +9,13 @@
         <img src="{{ $speaker->avatarUrl }}" alt="{{ $speaker->name }}" class="h-full w-full object-cover" loading="lazy">
     </div>
 
-    <h3 class="text-[20px] font-bold tracking-[-0.01em]">{{ $speaker->name }}</h3>
+    <x-ui.text.h3 class="text-[20px] font-bold tracking-[-0.01em]">{{ $speaker->name }}</x-ui.text.h3>
 
     @if (filled($speaker->title))
-        <p class="mt-2 text-[13px] font-semibold uppercase tracking-[0.14em] text-teal">{{ $speaker->title }}</p>
+        <x-ui.text.muted class="mt-2 font-semibold uppercase tracking-[0.14em] text-teal">{{ $speaker->title }}</x-ui.text.muted>
     @endif
 
     @if (filled($speaker->bio))
-        <p class="mt-4 text-[14px] leading-relaxed text-muted">{{ $speaker->bio }}</p>
+        <x-ui.text.muted class="mt-4 leading-relaxed">{{ $speaker->bio }}</x-ui.text.muted>
     @endif
 </div>

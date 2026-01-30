@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -35,7 +35,7 @@
         --card-border-light: rgba(255, 255, 255, 0.08);
     }
 
-    [data-theme='light'] {
+    [data-theme="light"] {
         color-scheme: light;
 
         --bg-primary: #faf9f7;
@@ -51,11 +51,14 @@
 }
 
 @theme inline {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-display: 'Oswald', ui-sans-serif, system-ui, sans-serif;
-    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
-        'Courier New', monospace;
+    --font-sans:
+        "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+    --font-display: "Oswald", ui-sans-serif, system-ui, sans-serif;
+    --font-mono:
+        "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
 
     --color-background: var(--bg-primary);
     --color-surface: var(--bg-secondary);
@@ -90,7 +93,25 @@
     }
 
     .lm-reveal {
-        @apply opacity-0 translate-y-10 data-[revealed=true]:opacity-100 data-[revealed=true]:translate-y-0 transition-[opacity,transform] duration-500 ease-out motion-reduce:opacity-100 motion-reduce:translate-y-0 motion-reduce:transition-none;
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+            opacity 0.5s ease-out,
+            transform 0.5s ease-out;
+    }
+
+    .lm-reveal[data-revealed="true"] {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .lm-reveal,
+        .lm-reveal[data-revealed="true"] {
+            opacity: 1;
+            transform: none;
+            transition: none;
+        }
     }
 
     .lm-btn {
@@ -124,6 +145,34 @@
 
     .lm-card-accent-top {
         @apply before:content-[''] before:absolute before:inset-x-0 before:top-0 before:h-1 before:origin-left before:scale-x-0 before:transition-transform before:duration-[400ms] before:ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:before:scale-x-100;
+    }
+
+    .lm-avatar {
+        @apply relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-surface-2 border border-border/70;
+    }
+
+    .lm-chip {
+        @apply inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-surface-2 px-3 py-1 text-sm font-medium text-muted;
+    }
+
+    .lm-table {
+        @apply w-full border-collapse text-left;
+    }
+
+    .lm-table thead {
+        @apply border-b border-border/70 text-sm uppercase tracking-wider text-muted;
+    }
+
+    .lm-table th {
+        @apply px-4 py-4 font-semibold;
+    }
+
+    .lm-table tbody tr {
+        @apply border-b border-border/40 transition-colors duration-200 hover:bg-surface-2/50;
+    }
+
+    .lm-table td {
+        @apply px-4 py-4;
     }
 }
 

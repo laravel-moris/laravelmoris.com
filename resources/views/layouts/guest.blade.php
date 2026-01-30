@@ -1,16 +1,12 @@
-@props([
-    'title' => 'Laravel Moris',
-])
-
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="dark">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ $title }}</title>
+        <title>@yield('title', 'Laravel Moris')</title>
 
-        <link rel="icon" type="image/png" href="https://laravelmoris.com/build/assets/logo-CaoYWjBH.png">
+        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,11 +25,15 @@
                 }
             </style>
         @endif
+
+        @stack('head')
     </head>
     <body class="min-h-dvh bg-background text-foreground font-sans overflow-x-hidden relative transition-colors duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)]">
         <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 opacity-20 [background-image:radial-gradient(var(--color-primary)_0.8px,transparent_0.8px)] [background-size:12px_12px]"></div>
         <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 [background:radial-gradient(ellipse_600px_400px_at_15%_30%,var(--color-background)_0%,transparent_70%),radial-gradient(ellipse_500px_350px_at_85%_25%,var(--color-background)_0%,transparent_65%),radial-gradient(ellipse_700px_500px_at_50%_80%,var(--color-background)_0%,transparent_75%)]"></div>
 
-        {{ $slot }}
+        @yield('body')
+
+        @stack('scripts')
     </body>
 </html>

@@ -26,9 +26,9 @@
                 <span class="text-[11px] font-bold uppercase tracking-[0.14em] text-muted">Happening Now</span>
             </div>
 
-            <p class="mt-4 text-balance text-[22px] font-bold tracking-[-0.02em] md:text-[26px]">
+            <x-ui.text.h4 class="mt-4">
                 {{ $event->title }}
-            </p>
+            </x-ui.text.h4>
 
             @if (count($meta))
                 <div class="mt-4 flex flex-wrap items-center gap-2">
