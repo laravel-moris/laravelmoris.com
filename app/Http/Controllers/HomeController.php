@@ -27,6 +27,7 @@ class HomeController
             'speakers' => $getFeaturedSpeakersQuery->execute(),
             'communityLinks' => $getCommunityLinksQuery->execute(),
             'sponsors' => $getPastSponsorsQuery->execute(),
+            'nextMeetupId' => $getUpcomingMeetupsQuery->execute(1)->first()?->id,
         ]);
     }
 }

@@ -1,1 +1,1 @@
-<x-site.hero />
+<x-site.hero :nextMeetupId="$nextMeetupId" />

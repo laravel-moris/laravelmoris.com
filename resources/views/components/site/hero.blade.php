@@ -2,6 +2,7 @@
     'title' => 'LARAVEL',
     'highlight' => 'MORIS',
     'subtitle' => 'Mauritius Laravel Meetup Community',
+    'nextMeetupId' => null,
 ])
 
 <section class="relative z-10 flex min-h-[85vh] flex-col items-center justify-center text-center px-6 py-12 md:px-12">
@@ -14,8 +15,13 @@
     </x-ui.text.subtitle>
 
     <div class="mt-12 flex flex-wrap justify-center gap-5 opacity-0 animate-[lm-hero-cta_1s_cubic-bezier(0.16,1,0.3,1)_forwards] [animation-delay:600ms] max-md:w-full max-md:max-w-[320px] max-md:flex-col">
-        <x-ui.button href="#" variant="primary">Join Next Meetup</x-ui.button>
-        <x-ui.button href="#" variant="secondary">Become a Speaker</x-ui.button>
-        <x-ui.button href="#" variant="secondary">Become a Sponsor</x-ui.button>
+        @if($nextMeetupId)
+            <x-ui.button href="{{ route('events.show', $nextMeetupId) }}" variant="primary">Join Next Meetup</x-ui.button>
+            <x-ui.button href="{{ route('papers.create', $nextMeetupId) }}" variant="secondary">Become a Speaker</x-ui.button>
+        @else
+            <x-ui.button href="{{ route('events.index') }}" variant="primary">Join Next Meetup</x-ui.button>
+            <x-ui.button href="{{ route('events.index') }}" variant="secondary">Become a Speaker</x-ui.button>
+        @endif
+        <x-ui.button href="mailto:contact@laravelmoris.com" variant="secondary">Become a Sponsor</x-ui.button>
     </div>
 </section>

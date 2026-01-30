@@ -51,22 +51,32 @@
                         />
                     </div>
 
-                    <div class="mb-4">
-                        <x-ui.input
-                            label="Phone Number"
-                            name="phone"
-                            type="tel"
-                            placeholder="Mobile/WhatsApp"
-                            help="We'll use this to contact you about your talk"
-                        />
-                    </div>
-
                     <div class="mb-6">
                         <x-ui.textarea
                             label="Description"
                             name="description"
                             placeholder="Describe what you'll talk about..."
                             rows="5"
+                        />
+                    </div>
+
+                    <div class="mb-4">
+                        <x-ui.input
+                            label="Phone Number"
+                            name="phone"
+                            type="tel"
+                            placeholder="Mobile/WhatsApp"
+                            help="We'll use this to number to contact you"
+                        />
+                    </div>
+
+                    <div class="mb-4">
+                        <x-ui.input
+                            label="Contact Email"
+                            name="secondaryEmail"
+                            type="email"
+                            placeholder="contact@example.com"
+                            help="Optional email so we can reach you"
                         />
                     </div>
 
