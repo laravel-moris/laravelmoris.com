@@ -62,7 +62,6 @@ test('it returns 6 meetups: upcoming first, then past fill, excluding happening 
         ->toHaveCount(1)
         ->and($meetupsCollection->pluck('id')->all())->not->toContain($live->id);
 
-
     $nowUtc = now('Indian/Mauritius')->utc()->toImmutable();
     $isUpcoming = fn ($m) => $m->startsAt->greaterThanOrEqualTo($nowUtc);
 
