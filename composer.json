@@ -80,6 +80,9 @@
             "@php artisan ide-helper:models -N",
             "@php artisan ide-helper:eloquent"
         ],
+        "format:blade": [
+            "npx prettier --write resources/**/*.blade.php"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
