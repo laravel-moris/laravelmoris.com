@@ -1,4 +1,5 @@
 @extends('layouts.guest')
+@use('App\Enums\RsvpStatus')
 
 @section('title', 'My Profile | Laravel Moris')
 
@@ -47,17 +48,22 @@
                         @if(auth()->user()->rsvps->count() > 0)
                             <div class="mt-4 space-y-3">
                                 @foreach(auth()->user()->rsvps as $event)
-                                    <div class="flex items-center justify-between p-3 bg-surface-2 rounded-lg">
-                                        <div>
-                                            <x-ui.text.body class="font-medium">{{ $event->title }}</x-ui.text.body>
-                                            <x-ui.text.muted class="text-sm">
-                                                {{ $event->starts_at->format('M d, Y') }}
-                                            </x-ui.text.muted>
+                                    <a href="{{ route('events.show', $event) }}" class="block group">
+                                        <div class="flex items-center justify-between p-3 bg-surface-2 rounded-lg group-hover:border-primary/50 border border-transparent transition-all">
+                                            <div>
+                                                <x-ui.text.body class="font-medium group-hover:text-primary transition-colors">{{ $event->title }}</x-ui.text.body>
+                                                <x-ui.text.muted class="text-sm">
+                                                    {{ $event->starts_at->format('M d, Y') }}
+                                                </x-ui.text.muted>
+                                            </div>
+                                            @php
+                                                $status = $event->pivot->status ? RsvpStatus::from($event->pivot->status) : RsvpStatus::Maybe
+                                            @endphp
+                                            <x-ui.chip color="{{ $status->color() }}">
+                                                {{ $status->label() }}
+                                            </x-ui.chip>
                                         </div>
-                                        <x-ui.chip color="primary">
-                                            {{ $event->pivot->status }}
-                                        </x-ui.chip>
-                                    </div>
+                                    </a>
                                 @endforeach
                             </div>
                         @else

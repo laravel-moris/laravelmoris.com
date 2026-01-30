@@ -21,7 +21,7 @@
                             href="{{ route('members.show', $member) }}"
                             class="group block"
                         >
-                            <x-ui.card class="p-5 transition-all duration-300 hover:border-primary/50">
+                            <x-ui.card class="p-5 transition-all duration-300 hover:border-primary/50 h-full">
                                 <div class="flex flex-col items-center text-center">
                                     <img
                                         src="{{ $member->avatar }}"

@@ -166,5 +166,5 @@ it('preserves existing avatar when no file uploaded', function () {
 
     $user->refresh();
 
-    expect($user->getAttributes()['avatar'])->toBe('avatars/existing-avatar.jpg');
+    expect(DB::table('users')->where('id', $user->id)->value('avatar'))->toBe('avatars/existing-avatar.jpg');
 });

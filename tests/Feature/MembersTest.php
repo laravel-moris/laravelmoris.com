@@ -96,9 +96,7 @@ describe('member show', function (): void {
 
         $response->assertOk()
             ->assertSee('Advanced Eloquent')
-            ->assertSee('Laravel Meetup #1')
-            ->assertSee('Deep dive into Eloquent ORM')
-            ->assertSee('Speaker');
+            ->assertSee('Laravel Meetup #1');
     });
 
     it('displays member attendance history', function (): void {

@@ -15,7 +15,7 @@
                             <img
                                 src="{{ $member->avatar }}"
                                 alt="{{ $member->name }}"
-                                class="w-32 h-32 object-cover mb-4"
+                                class="w-32 h-32 rounded-full object-cover mb-4"
                             >
                             <x-ui.text.h2>{{ $member->name }}</x-ui.text.h2>
 
@@ -67,20 +67,14 @@
                         @if($member->speakingEvents->count() > 0)
                             <div class="mt-4 space-y-3">
                                 @foreach($member->speakingEvents as $event)
-                                    <div class="p-3 bg-surface-2 rounded-lg">
-                                        <x-ui.text.body class="font-medium">{{ $event->pivot->title ?? 'Untitled Talk' }}</x-ui.text.body>
-                                        <div class="flex items-center gap-2 mt-1">
-                                            <x-ui.text.muted class="text-sm">
+                                    <a href="{{ route('events.show', $event) }}" class="block group">
+                                        <div class="p-3 bg-surface-2 rounded-lg transition-all duration-300 hover:border-primary/50 border border-transparent">
+                                            <x-ui.text.body class="font-medium group-hover:text-primary transition-colors">{{ $event->pivot->title ?? 'Untitled Talk' }}</x-ui.text.body>
+                                            <x-ui.text.muted class="text-sm mt-1">
                                                 {{ $event->title }} • {{ $event->starts_at->format('M d, Y') }}
                                             </x-ui.text.muted>
-                                            <x-ui.chip color="green">Speaker</x-ui.chip>
                                         </div>
-                                        @if($event->pivot->description)
-                                            <x-ui.text.muted class="mt-2 text-sm">
-                                                {{ $event->pivot->description }}
-                                            </x-ui.text.muted>
-                                        @endif
-                                    </div>
+                                    </a>
                                 @endforeach
                             </div>
                         @else

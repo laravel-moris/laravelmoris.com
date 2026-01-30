@@ -6,9 +6,9 @@
 
 @php
     $defaultLinks = [
-        ['label' => 'Meetups', 'href' => '#meetups'],
+        ['label' => 'Events', 'href' => route('events.index')],
         ['label' => 'Members', 'href' => route('members.index')],
-        ['label' => 'Sponsors', 'href' => '#sponsors'],
+        ['label' => 'Sponsors', 'href' => route('sponsors.index')],
         ['label' => 'Join Community', 'href' => '#community'],
     ];
     $navLinks = count($links) ? $links : $defaultLinks;

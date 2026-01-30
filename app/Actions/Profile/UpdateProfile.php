@@ -14,12 +14,17 @@ final readonly class UpdateProfile
 
     public function execute(User $user, UpdateProfileData $data): User
     {
-        $user->update([
+        $updateData = [
             'name' => $data->name,
             'title' => $data->title,
             'bio' => $data->bio,
-            'avatar' => $data->avatar instanceof UploadedFile ? $this->storeAvatarFile($data->avatar) : $user->avatar,
-        ]);
+        ];
+
+        if ($data->avatar instanceof UploadedFile) {
+            $updateData['avatar'] = $this->storeAvatarFile($data->avatar);
+        }
+
+        $user->update($updateData);
 
         return $user;
     }

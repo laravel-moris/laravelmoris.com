@@ -17,7 +17,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class HomePageSeeder extends Seeder
 {
@@ -213,32 +212,39 @@ class HomePageSeeder extends Seeder
     private function seedSponsorsForPastEvents($pastEvents): void
     {
         $disk = Storage::disk('public');
-        $logoContent = File::get(database_path('seeders/data/sponsor.png'));
+        $logosPath = database_path('seeders/data/logos');
 
-        $disk->put('sponsors/placeholder.png', $logoContent);
-
-        $sponsorNames = [
-            'ESOKIA',
-            'ALCHE',
-            'WORKSHOP17',
-            'RINGIER',
-            'BLACK PIRATES',
-            'LARAVEL',
-            'CERTIFICATION',
+        $sponsorsConfig = [
+            ['name' => 'ESOKIA', 'slug' => 'esokia', 'website' => 'https://esokia.com'],
+            ['name' => 'ALCHE', 'slug' => 'alche', 'website' => 'https://alcheducation.com'],
+            ['name' => 'NATIVEPHP', 'slug' => 'nativephp', 'website' => 'https://nativephp.com'],
+            ['name' => 'RINGIER', 'slug' => 'ringier', 'website' => 'https://www.ringier.com'],
+            ['name' => 'BLACK PIRATES', 'slug' => 'black-pirates', 'website' => 'https://www.blackpiratesresto.com'],
+            ['name' => 'LARAVEL', 'slug' => 'laravel', 'website' => 'https://laravel.com'],
+            ['name' => 'CERTIFICATION', 'slug' => 'certification', 'website' => 'https://www.certificationforlaravel.com'],
         ];
 
         /** @var array<string, Sponsor> $sponsors */
         $sponsors = [];
 
-        foreach ($sponsorNames as $name) {
-            $slug = Str::slug($name);
-            $path = "sponsors/{$slug}.png";
-            $disk->put($path, $logoContent);
+        foreach ($sponsorsConfig as $config) {
+            // Try PNG first, then SVG
+            $pngFile = "{$logosPath}/{$config['slug']}.png";
+            $svgFile = "{$logosPath}/{$config['slug']}.svg";
 
-            $sponsors[$name] = Sponsor::create([
-                'name' => $name,
-                'logo' => $path,
-                'website' => null,
+            $logoPath = null;
+            if (File::exists($pngFile)) {
+                $logoPath = "sponsors/{$config['slug']}.png";
+                $disk->put($logoPath, File::get($pngFile));
+            } elseif (File::exists($svgFile)) {
+                $logoPath = "sponsors/{$config['slug']}.svg";
+                $disk->put($logoPath, File::get($svgFile));
+            }
+
+            $sponsors[$config['name']] = Sponsor::create([
+                'name' => $config['name'],
+                'logo' => $logoPath,
+                'website' => $config['website'],
             ]);
         }
 
@@ -263,7 +269,7 @@ class HomePageSeeder extends Seeder
         if ($api) {
             $api->sponsors()->syncWithoutDetaching([
                 $sponsors['ALCHE']->id,
-                $sponsors['WORKSHOP17']->id,
+                $sponsors['NATIVEPHP']->id,
                 $sponsors['CERTIFICATION']->id,
             ]);
         }
