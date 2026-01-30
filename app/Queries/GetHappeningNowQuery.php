@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Cache;
 
 readonly class GetHappeningNowQuery
 {
-    // @note: Cache cannot cache null properly using a placeholder
+    // @note: Cache cannot cache null properly, using a placeholder
     private const NULL_RETURN = '__none__';
 
     public function execute(): ?HappeningNowData
