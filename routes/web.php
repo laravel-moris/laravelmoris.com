@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\RedirectController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MembersController;
+use App\Http\Controllers\Paper\PaperSubmissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SponsorsController;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,9 @@ Route::get('/events/{event}', [EventsController::class, 'show'])->name('events.s
 Route::post('/events/{event}/rsvp', \App\Http\Controllers\Event\RSVPController::class)->name('events.rsvp');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/events/{event}/submit-paper', [PaperSubmissionController::class, 'create'])->name('papers.create');
+    Route::post('/events/{event}/submit-paper', [PaperSubmissionController::class, 'store'])->name('papers.store');
+
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -80,24 +80,30 @@
                         @if(auth()->user()->papers->count() > 0)
                             <div class="mt-4 space-y-3">
                                 @foreach(auth()->user()->papers as $paper)
-                                    <div class="p-3 bg-surface-2 rounded-lg">
-                                        <x-ui.text.body class="font-medium">{{ $paper->title }}</x-ui.text.body>
-                                        <div class="flex items-center gap-2 mt-1">
-                                            <x-ui.text.muted class="text-sm">
-                                                {{ $paper->event->title ?? 'Unknown Event' }}
-                                            </x-ui.text.muted>
-                                            @php
-                                                $paperColor = match($paper->status->value) {
-                                                    'approved' => 'green',
-                                                    'rejected' => 'coral',
-                                                    default => 'gold',
-                                                };
-                                            @endphp
-                                            <x-ui.chip color="{{ $paperColor }}">
-                                                {{ $paper->status->value }}
-                                            </x-ui.chip>
+                                    <a href="{{ $paper->event ? route('events.show', $paper->event) : '#' }}" class="block group">
+                                        <div class="p-3 bg-surface-2 rounded-lg group-hover:border-primary/50 border border-transparent transition-all">
+                                            <div class="flex items-start justify-between gap-3">
+                                                <div class="flex-1 min-w-0">
+                                                    <x-ui.text.body class="font-medium group-hover:text-primary transition-colors truncate">{{ $paper->title }}</x-ui.text.body>
+                                                    <div class="flex items-center gap-2 mt-1">
+                                                        <x-ui.text.muted class="text-sm truncate">
+                                                            {{ $paper->event->title ?? 'Unknown Event' }}
+                                                        </x-ui.text.muted>
+                                                    </div>
+                                                </div>
+                                                @php
+                                                    $paperColor = match($paper->status->value) {
+                                                        'approved' => 'green',
+                                                        'rejected' => 'coral',
+                                                        default => 'gold',
+                                                    };
+                                                @endphp
+                                                <x-ui.chip color="{{ $paperColor }}" class="shrink-0 self-center">
+                                                    {{ $paper->status->value }}
+                                                </x-ui.chip>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 @endforeach
                             </div>
                         @else

@@ -20,6 +20,7 @@ readonly class GetFeaturedSpeakersQuery
                 ->limit($limit)
                 ->get()
                 ->map(fn (User $user) => new SpeakerCardData(
+                    id: $user->id,
                     name: $user->name,
                     avatarUrl: (string) $user->avatar,
                     title: $user->title,

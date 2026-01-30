@@ -23,6 +23,7 @@ readonly class GetPastSponsorsQuery
                 ->orderBy('name')
                 ->get()
                 ->map(fn (Sponsor $sponsor) => new SponsorCardData(
+                    id: $sponsor->id,
                     name: $sponsor->name,
                     logoUrl: filled($sponsor->logo) ? $disk->url($sponsor->logo) : $placeholderLogoUrl,
                     website: $sponsor->website,

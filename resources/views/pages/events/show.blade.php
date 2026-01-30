@@ -14,6 +14,12 @@
                 </div>
             @endif
 
+            @if(Session::has('success'))
+                <div class="mb-6 p-4 bg-green/10 border border-green/30 rounded-lg text-green">
+                    {{ Session::get('success') }}
+                </div>
+            @endif
+
             <div class="mb-6">
                 <x-ui.button
                     href="{{ route('events.index') }}"
@@ -119,6 +125,29 @@
                             >
                                 Log in to RSVP
                             </x-ui.button>
+                        @endauth
+
+                        @auth
+                            @if(!$event->starts_at->isPast())
+                                @php($hasSubmittedPaper = auth()->user()->papers()->where('event_id', $event->id)->exists())
+                                @if($hasSubmittedPaper)
+                                    <x-ui.button
+                                        variant="secondary"
+                                        disabled
+                                        class="opacity-50"
+                                    >
+                                        Talk Submitted
+                                    </x-ui.button>
+                                @else
+                                    <x-ui.button
+                                        href="{{ route('papers.create', $event) }}"
+                                        variant="secondary"
+                                        class="lm-border-beam-gold !text-gold !border-gold/50"
+                                    >
+                                        Submit a Talk
+                                    </x-ui.button>
+                                @endif
+                            @endif
                         @endauth
                     </div>
                 @endif

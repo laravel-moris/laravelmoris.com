@@ -19,7 +19,7 @@
     ]));
 @endphp
 
-<div class="{{ $rootClasses }}" data-reveal>
+<a href="{{ route('events.show', $card->id) }}" class="block {{ $rootClasses }}" data-reveal>
     <span
         class="absolute right-6 top-6 rounded-full px-4 py-2 text-[10px] font-bold uppercase tracking-[0.12em] border {{ $isUpcoming ? ($featured ? 'bg-coral text-white border-transparent' : 'bg-coral/10 text-coral border-coral/20') : 'bg-muted/10 text-muted border-muted/20' }}"
     >
@@ -45,4 +45,4 @@
             </div>
         @endforeach
     </div>
-</div>
+</a>

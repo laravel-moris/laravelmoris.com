@@ -106,6 +106,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
+
         .lm-reveal,
         .lm-reveal[data-revealed="true"] {
             opacity: 1;
@@ -115,7 +116,7 @@
     }
 
     .lm-btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-full font-bold uppercase tracking-[0.12em] transition-[transform,background-color,border-color,color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 disabled:pointer-events-none disabled:opacity-50;
+        @apply inline-flex items-center justify-center gap-2 rounded-full font-bold uppercase tracking-[0.12em] transition-[transform, background-color, border-color, color] duration-300 ease-[cubic-bezier(0.16, 1, 0.3, 1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 disabled:pointer-events-none disabled:opacity-50;
     }
 
     .lm-btn-md {
@@ -135,16 +136,16 @@
     }
 
     .lm-icon-btn {
-        @apply relative grid place-items-center rounded-full bg-surface-2 border border-border/70 text-muted transition-[transform,border-color,color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-primary hover:text-primary hover:scale-[1.05] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60;
+        @apply relative grid place-items-center rounded-full bg-surface-2 border border-border/70 text-muted transition-[transform, border-color, color] duration-300 ease-[cubic-bezier(0.16, 1, 0.3, 1)] hover:border-primary hover:text-primary hover:scale-[1.05] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60;
         @apply size-11;
     }
 
     .lm-card {
-        @apply relative overflow-hidden rounded-3xl bg-surface border border-border/70 transition-[transform,border-color] duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)];
+        @apply relative overflow-hidden rounded-3xl bg-surface border border-border/70 transition-[transform, border-color] duration-[400ms] ease-[cubic-bezier(0.16, 1, 0.3, 1)];
     }
 
     .lm-card-accent-top {
-        @apply before:content-[''] before:absolute before:inset-x-0 before:top-0 before:h-1 before:origin-left before:scale-x-0 before:transition-transform before:duration-[400ms] before:ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:before:scale-x-100;
+        @apply before:content-[''] before:absolute before:inset-x-0 before:top-0 before:h-1 before:origin-left before:scale-x-0 before:transition-transform before:duration-[400ms] before:ease-[cubic-bezier(0.16, 1, 0.3, 1)] group-hover:before:scale-x-100;
     }
 
     .lm-avatar {
@@ -220,4 +221,87 @@
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+@keyframes lm-shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+@keyframes lm-pulse-gold {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(253, 203, 110, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 40px rgba(253, 203, 110, 0.6);
+    }
+}
+
+@keyframes lm-border-spin {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+.lm-border-beam-gold {
+    position: relative;
+    z-index: 1;
+}
+
+.lm-border-beam-gold::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 250%;
+    height: 250%;
+    background: linear-gradient(45deg,
+            transparent 30%,
+            rgba(253, 203, 110, 0.8) 50%,
+            rgba(253, 203, 110, 1) 60%,
+            rgba(253, 203, 110, 0.8) 70%,
+            transparent 90%);
+    transform: translate(-50%, -50%);
+    animation: lm-border-spin 3s linear infinite;
+    pointer-events: none;
+    z-index: -1;
+    border-radius: 9999px;
+}
+
+
+@keyframes lm-pulse-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(253, 203, 110, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 40px rgba(253, 203, 110, 0.6);
+    }
+}
+
+.lm-shimmer-gold {
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(253, 203, 110, 0.4) 50%,
+            transparent 100%);
+    background-size: 200% 100%;
+    animation: lm-shimmer 2s infinite linear;
+}
+
+.lm-pulse-gold {
+    animation: lm-pulse-glow 2s infinite ease-in-out;
 }
