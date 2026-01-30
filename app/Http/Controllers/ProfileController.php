@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Actions\Profile\UpdateProfile;
 use App\Data\Profile\UpdateProfileData;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 final readonly class ProfileController
@@ -18,20 +19,20 @@ final readonly class ProfileController
     public function index(): View
     {
         return view('pages.profile.index', [
-            'user' => auth()->user(),
+            'user' => Auth::user(),
         ]);
     }
 
     public function edit(): View
     {
         return view('pages.profile.edit', [
-            'user' => auth()->user(),
+            'user' => Auth::user(),
         ]);
     }
 
     public function update(UpdateProfileData $data): RedirectResponse
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         $data = new UpdateProfileData(
             name: $data->name,

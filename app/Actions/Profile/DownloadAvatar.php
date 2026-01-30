@@ -7,14 +7,14 @@ namespace App\Actions\Profile;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
-final class DownloadAvatar
+final readonly class DownloadAvatar
 {
+    public function __construct(private StoreAvatar $storeAvatar) {}
+
     public function execute(?string $url): ?string
     {
-        if ($url === null) {
+        if (blank($url)) {
             return null;
         }
 
@@ -29,12 +29,11 @@ final class DownloadAvatar
             }
 
             $extension = $this->getExtensionFromUrl($url);
-            $filename = sprintf("avatars/%s.{$extension}", Str::random(16));
 
-            Storage::disk('public')->put($filename, $response->body());
-
-            return $filename;
+            return $this->storeAvatar->execute($response->body(), $extension);
         } catch (ConnectionException $e) {
+            report($e);
+
             return null;
         }
     }

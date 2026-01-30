@@ -7,18 +7,18 @@ namespace App\Actions\Profile;
 use App\Data\Profile\UpdateProfileData;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
-final class UpdateProfile
+final readonly class UpdateProfile
 {
+    public function __construct(private StoreAvatar $storeAvatar) {}
+
     public function execute(User $user, UpdateProfileData $data): User
     {
         $user->update([
             'name' => $data->name,
             'title' => $data->title,
             'bio' => $data->bio,
-            'avatar' => $data->avatar instanceof UploadedFile ? $this->storeAvatarFile($data->avatar) : null,
+            'avatar' => $data->avatar instanceof UploadedFile ? $this->storeAvatarFile($data->avatar) : $user->avatar,
         ]);
 
         return $user;
@@ -27,10 +27,7 @@ final class UpdateProfile
     private function storeAvatarFile(UploadedFile $file): string
     {
         $extension = $file->getClientOriginalExtension();
-        $filename = sprintf("avatars/%s.{$extension}", Str::random());
 
-        Storage::disk('public')->put($filename, $file->getContent());
-
-        return $filename;
+        return $this->storeAvatar->execute($file->getContent(), $extension);
     }
 }

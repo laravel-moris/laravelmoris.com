@@ -27,7 +27,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table): void {
             $table->dropColumn([
                 'provider',
-                'provider_id'
+                'provider_id',
             ]);
         });
     }

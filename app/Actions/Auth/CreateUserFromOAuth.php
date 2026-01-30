@@ -10,7 +10,7 @@ use App\Models\User;
 use App\Queries\FindUserByOAuth;
 use Illuminate\Support\Str;
 
-final class CreateUserFromOAuth
+final readonly class CreateUserFromOAuth
 {
     public function __construct(
         private FindUserByOAuth $findUserByOAuth,
@@ -21,7 +21,7 @@ final class CreateUserFromOAuth
     {
         $user = $this->findUserByOAuth->execute($data);
 
-        if ($user !== null) {
+        if (filled($user)) {
             return $user;
         }
 
@@ -31,7 +31,7 @@ final class CreateUserFromOAuth
             'name' => $data->name,
             'email' => $data->email ?? "{$data->providerId}@laravelmoris.com",
             'avatar' => $this->downloadAvatar->execute($data->avatar),
-            'password' => Str::random(16),
+            'password' => Str::random(),
         ]);
     }
 }

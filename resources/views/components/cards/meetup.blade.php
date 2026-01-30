@@ -26,7 +26,7 @@
         {{ $isUpcoming ? 'Upcoming' : 'Past' }}
     </span>
 
-    <div class="inline-flex flex-col items-center rounded-2xl bg-surface-2 border border-border/70 px-5 py-4 transition-transform duration-300 {{ $featured ? 'bg-coral border-transparent scale-[1.05]' : 'group-hover:scale-[1.05] group-hover:bg-coral group-hover:border-transparent' }}">
+    <div class="inline-flex flex-col items-center rounded-2xl border border-border/70 px-5 py-4 transition-transform duration-300 {{ $featured ? 'bg-coral border-transparent scale-[1.05]' : 'bg-surface-2 group-hover:scale-[1.05] group-hover:bg-coral group-hover:border-transparent' }}">
         <span class="text-[11px] font-bold uppercase tracking-[0.14em] {{ $featured ? 'text-white/85' : 'text-muted group-hover:text-white/85' }}">{{ $month }}</span>
         <span class="mt-1 text-[32px] font-bold leading-none {{ $featured ? 'text-white' : 'text-foreground group-hover:text-white' }}">{{ $day }}</span>
     </div>
