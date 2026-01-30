@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RedirectController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JoinController;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\Paper\PaperSubmissionController;
 use App\Http\Controllers\ProfileController;
@@ -17,6 +18,8 @@ Route::get('/', HomeController::class)->name('home');
 Route::view('/styleguide', 'pages.styleguide')->name('styleguide');
 Route::view('/terms', 'pages.terms')->name('terms');
 Route::view('/privacy-policy', 'pages.privacy')->name('privacy');
+
+Route::get('/join', [JoinController::class, 'index'])->name('join.index');
 
 Route::view('/login', 'auth.login')->name('login');
 Route::get('/auth/{provider}', RedirectController::class)->name('auth.provider');
