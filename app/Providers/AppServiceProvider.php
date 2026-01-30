@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 
@@ -32,11 +33,12 @@ class AppServiceProvider extends ServiceProvider
         // Strict mode only in production
         Model::shouldBeStrict(app()->isProduction());
 
-        // Enforce morph map for polymorphic relations
         $this->enforceMorphMap();
 
         // Prohibit destructive database commands in production
         DB::prohibitDestructiveCommands(app()->isProduction());
+
+        URL::forceScheme('https');
     }
 
     private function enforceMorphMap()

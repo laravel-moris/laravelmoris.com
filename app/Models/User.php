@@ -41,8 +41,6 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
             'provider' => 'string',
             'provider_id' => 'string',
-            'oauth_token' => 'encrypted',
-            'oauth_refresh_token' => 'encrypted',
         ];
     }
 

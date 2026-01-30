@@ -44,6 +44,10 @@
             @endforeach
 
             @auth
+                <x-site.header.nav-link
+                    href="{{ route('profile.index') }}"
+                    label="Profile"
+                />
                 <form action="{{ route('logout') }}" method="POST" class="flex items-center">
                     @csrf
                     <x-ui.button type="submit" variant="secondary" size="sm" class="rounded-lg">

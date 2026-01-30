@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace App\Actions\Auth;
 
+use App\Actions\Profile\DownloadAvatar;
 use App\Data\Auth\OAuthUserData;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use App\Queries\FindUserByOAuth;
+use Illuminate\Support\Str;
 
 final class CreateUserFromOAuth
 {
     public function __construct(
         private FindUserByOAuth $findUserByOAuth,
+        private DownloadAvatar $downloadAvatar
     ) {}
 
     public function execute(OAuthUserData $data): User
@@ -19,11 +22,6 @@ final class CreateUserFromOAuth
         $user = $this->findUserByOAuth->execute($data);
 
         if ($user !== null) {
-            $user->update([
-                'oauth_token' => $data->token,
-                'oauth_refresh_token' => $data->refreshToken,
-            ]);
-
             return $user;
         }
 
@@ -31,11 +29,9 @@ final class CreateUserFromOAuth
             'provider' => $data->provider,
             'provider_id' => $data->providerId,
             'name' => $data->name,
-            'email' => $data->email ?? "{$data->providerId}@github.com",
-            'avatar' => $data->avatar,
-            'password' => Hash::make((string) random_int(1, 100000)),
-            'oauth_token' => $data->token,
-            'oauth_refresh_token' => $data->refreshToken,
+            'email' => $data->email ?? "{$data->providerId}@laravelmoris.com",
+            'avatar' => $this->downloadAvatar->execute($data->avatar),
+            'password' => Str::random(16),
         ]);
     }
 }

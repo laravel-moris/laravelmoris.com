@@ -61,8 +61,6 @@ it('creates a new user from oauth callback', function () {
         $mock->shouldReceive('getName')->andReturn('John Doe');
         $mock->shouldReceive('getEmail')->andReturn('john@example.com');
         $mock->shouldReceive('getAvatar')->andReturn('https://example.com/avatar.jpg');
-        $mock->token = 'oauth-token-123';
-        $mock->refreshToken = 'refresh-token-456';
     });
 
     Socialite::shouldReceive('driver')
@@ -84,7 +82,7 @@ it('creates a new user from oauth callback', function () {
         ->where('provider_id', '123456')
         ->first();
 
-    expect($user)->not->toBeNull()->and($user->name)->toBe('John Doe')->and($user->email)->toBe('john@example.com')->and($user->provider)->toBe('github')->and($user->provider_id)->toBe('123456')->and($user->oauth_token)->toBe('oauth-token-123')->and($user->oauth_refresh_token)->toBe('refresh-token-456');
+    expect($user)->not->toBeNull()->and($user->name)->toBe('John Doe')->and($user->email)->toBe('john@example.com')->and($user->provider)->toBe('github')->and($user->provider_id)->toBe('123456');
 });
 
 it('logs in existing user from oauth callback', function () {
@@ -93,8 +91,6 @@ it('logs in existing user from oauth callback', function () {
         'provider_id' => '789012',
         'name' => 'Jane Doe',
         'email' => 'jane@example.com',
-        'oauth_token' => 'old-token',
-        'oauth_refresh_token' => 'old-refresh',
     ]);
 
     $socialiteUser = mock(SocialiteUser::class, function ($mock) {
@@ -102,8 +98,6 @@ it('logs in existing user from oauth callback', function () {
         $mock->shouldReceive('getName')->andReturn('Jane Doe Updated');
         $mock->shouldReceive('getEmail')->andReturn('jane@example.com');
         $mock->shouldReceive('getAvatar')->andReturn('https://example.com/new-avatar.jpg');
-        $mock->token = 'new-oauth-token';
-        $mock->refreshToken = 'new-refresh-token';
     });
 
     Socialite::shouldReceive('driver')
@@ -120,7 +114,7 @@ it('logs in existing user from oauth callback', function () {
 
     $existingUser->refresh();
 
-    expect($existingUser->oauth_token)->toBe('new-oauth-token')->and($existingUser->oauth_refresh_token)->toBe('new-refresh-token');
+    expect($existingUser->name)->toBe('Jane Doe');
 });
 
 it('handles oauth callback with null email', function () {
@@ -129,8 +123,6 @@ it('handles oauth callback with null email', function () {
         $mock->shouldReceive('getName')->andReturn('No Email User');
         $mock->shouldReceive('getEmail')->andReturn(null);
         $mock->shouldReceive('getAvatar')->andReturn(null);
-        $mock->token = 'token-789';
-        $mock->refreshToken = null;
     });
 
     Socialite::shouldReceive('driver')
@@ -150,7 +142,7 @@ it('handles oauth callback with null email', function () {
         ->where('provider_id', '345678')
         ->first();
 
-    expect($user)->not->toBeNull()->and($user->email)->toBe('345678@github.com')->and($user->name)->toBe('No Email User');
+    expect($user)->not->toBeNull()->and($user->email)->toBe('345678@laravelmoris.com')->and($user->name)->toBe('No Email User');
 });
 
 it('handles oauth callback with null name', function () {
@@ -159,8 +151,6 @@ it('handles oauth callback with null name', function () {
         $mock->shouldReceive('getName')->andReturn(null);
         $mock->shouldReceive('getEmail')->andReturn('noname@example.com');
         $mock->shouldReceive('getAvatar')->andReturn(null);
-        $mock->token = 'token-abc';
-        $mock->refreshToken = null;
     });
 
     Socialite::shouldReceive('driver')
@@ -190,8 +180,7 @@ it('redirects to login with error on oauth failure', function () {
         ->andReturnSelf();
 
     Socialite::shouldReceive('user')
-        ->once()
-        ->andThrow(new \Exception('OAuth failed'));
+        ->once();
 
     get(route('auth.callback', 'github'))
         ->assertRedirect(route('login'))

@@ -16,8 +16,6 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table): void {
             $table->string('provider')->nullable()->after('password');
             $table->string('provider_id')->nullable()->after('provider');
-            $table->text('oauth_token')->nullable()->after('provider_id');
-            $table->text('oauth_refresh_token')->nullable()->after('oauth_token');
         });
     }
 
@@ -29,9 +27,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table): void {
             $table->dropColumn([
                 'provider',
-                'provider_id',
-                'oauth_token',
-                'oauth_refresh_token',
+                'provider_id'
             ]);
         });
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Auth;
+namespace App\Queries;
 
 use App\Data\Auth\OAuthUserData;
 use App\Models\User;

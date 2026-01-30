@@ -15,20 +15,16 @@ final class OAuthUserData extends Data
         public readonly string $name,
         public readonly ?string $email,
         public readonly ?string $avatar,
-        public readonly ?string $token,
-        public readonly ?string $refreshToken,
     ) {}
 
     public static function fromSocialite(SocialiteUser $socialiteUser, string $provider): self
     {
         return new self(
             provider: $provider,
-            providerId: $socialiteUser->getId(),
+            providerId: (string) $socialiteUser->getId(),
             name: $socialiteUser->getName() ?? 'User',
             email: $socialiteUser->getEmail(),
             avatar: $socialiteUser->getAvatar(),
-            token: $socialiteUser->token,
-            refreshToken: $socialiteUser->refreshToken ?? null,
         );
     }
 }

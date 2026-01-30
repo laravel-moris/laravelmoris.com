@@ -13,67 +13,70 @@
                     Last updated: {{ now()->format('F d, Y') }}
                 </x-ui.text.muted>
 
-                <div class="mt-8 space-y-6">
+                <div class="mt-8 space-y-8">
                     <section>
-                        <x-ui.text.h3>1. Information We Collect</x-ui.text.h3>
-                        <x-ui.text.body class="mt-2">
-                            We collect information you provide directly to us when you create an account, including your name, email address, and GitHub profile information when you authenticate via GitHub OAuth.
+                        <x-ui.text.body>
+                            Welcome to Laravel Moris, a community for developers in Mauritius who connect through regular physical meetups. We value your privacy and are committed to protecting your personal information. This Privacy Policy explains what information we collect, how we use it, and who we share it with.
                         </x-ui.text.body>
                     </section>
 
                     <section>
-                        <x-ui.text.h3>2. How We Use Your Information</x-ui.text.h3>
+                        <x-ui.text.h2>Information We Collect</x-ui.text.h2>
+                        <ul class="list-disc ml-6 space-y-2 mt-2">
+                            <li>
+                                <strong>Personal Information:</strong> During RSVP and login, we collect your email address, Google ID (to prevent spam), meal preference, and transport preference. If you choose to provide it, we also collect your phone number.
+                            </li>
+                            <li>
+                                <strong>Website Usage Data:</strong> We may collect anonymous data about the website usage, such as pages visited and time spent on each page via Google Analytics. This data helps us improve the website experience for everyone.
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <x-ui.text.h2>How We Use Your Information</x-ui.text.h2>
+                        <ul class="list-disc ml-6 space-y-2 mt-2">
+                            <li>
+                                <strong>Meetup Organization:</strong> We use your email address and phone number to send you RSVP confirmation and updates about the meetup. We use your preferences to ensure a smooth meetup experience, such as arranging catering and transportation.
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <x-ui.text.h2>Information We Share</x-ui.text.h2>
                         <x-ui.text.body class="mt-2">
-                            We use the information we collect to provide, maintain, and improve our services, to communicate with you about events and updates, and to personalize your experience within the Laravel Moris community.
+                            We never share your personal information with sponsors, recruiters, or anyone outside the Laravel Moris organizing team.
+                        </x-ui.text.body>
+                        <x-ui.text.body class="mt-2">
+                            We may share anonymous website usage data with third-party analytics providers to help us understand how the website is used. This does not include any personal information.
                         </x-ui.text.body>
                     </section>
 
                     <section>
-                        <x-ui.text.h3>3. Information Sharing</x-ui.text.h3>
+                        <x-ui.text.h2>Your Choices</x-ui.text.h2>
+                        <ul class="list-disc ml-6 space-y-2 mt-2">
+                            <li>You can control your email preferences for meetup updates at any time by logging into your account or contacting us.</li>
+                            <li>You can delete your account at any time by contacting us.</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <x-ui.text.h2>Data Security</x-ui.text.h2>
                         <x-ui.text.body class="mt-2">
-                            We do not sell, trade, or otherwise transfer your personal information to third parties. We may share information with trusted partners who assist us in operating our website and conducting our meetups.
+                            We take reasonable security measures to protect your personal information from unauthorized access, disclosure, alteration, or destruction. However, please be aware that no website is 100% secure.
                         </x-ui.text.body>
                     </section>
 
                     <section>
-                        <x-ui.text.h3>4. Data Security</x-ui.text.h3>
+                        <x-ui.text.h2>Changes to this Policy</x-ui.text.h2>
                         <x-ui.text.body class="mt-2">
-                            We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.
+                            We may update this Privacy Policy from time to time. We will post any changes on this page, so please review it periodically.
                         </x-ui.text.body>
                     </section>
 
                     <section>
-                        <x-ui.text.h3>5. Your Rights</x-ui.text.h3>
+                        <x-ui.text.h2>Contact Us</x-ui.text.h2>
                         <x-ui.text.body class="mt-2">
-                            You have the right to access, update, or delete your personal information. You can manage your account settings or contact us to exercise these rights.
-                        </x-ui.text.body>
-                    </section>
-
-                    <section>
-                        <x-ui.text.h3>6. Cookies and Tracking</x-ui.text.h3>
-                        <x-ui.text.body class="mt-2">
-                            We use cookies and similar technologies to enhance your experience, analyze usage patterns, and improve our services. You can control cookie settings through your browser preferences.
-                        </x-ui.text.body>
-                    </section>
-
-                    <section>
-                        <x-ui.text.h3>7. Third-Party Services</x-ui.text.h3>
-                        <x-ui.text.body class="mt-2">
-                            Our services may contain links to third-party websites or services. We are not responsible for the privacy practices of these third parties.
-                        </x-ui.text.body>
-                    </section>
-
-                    <section>
-                        <x-ui.text.h3>8. Changes to This Policy</x-ui.text.h3>
-                        <x-ui.text.body class="mt-2">
-                            We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the "Last updated" date.
-                        </x-ui.text.body>
-                    </section>
-
-                    <section>
-                        <x-ui.text.h3>9. Contact Us</x-ui.text.h3>
-                        <x-ui.text.body class="mt-2">
-                            If you have any questions about this Privacy Policy, please contact us through our community channels or at Laravel Moris meetup events.
+                            If you have any questions about this Privacy Policy, please contact us at <a href="mailto:contact@laravelmoris.com" class="text-primary hover:text-primary-hover underline underline-offset-4">contact@laravelmoris.com</a>.
                         </x-ui.text.body>
                     </section>
                 </div>
