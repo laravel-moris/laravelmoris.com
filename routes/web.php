@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\CallbackController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RedirectController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MembersController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,9 @@ Route::view('/login', 'auth.login')->name('login');
 Route::get('/auth/{provider}', RedirectController::class)->name('auth.provider');
 Route::get('/auth/{provider}/callback', CallbackController::class)->name('auth.callback');
 Route::post('/logout', LogoutController::class)->name('logout');
+
+Route::get('/members', [MembersController::class, 'index'])->name('members.index');
+Route::get('/members/{member}', [MembersController::class, 'show'])->name('members.show');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');

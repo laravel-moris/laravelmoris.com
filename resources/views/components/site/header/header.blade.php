@@ -7,7 +7,7 @@
 @php
     $defaultLinks = [
         ['label' => 'Meetups', 'href' => '#meetups'],
-        ['label' => 'Speakers', 'href' => '#speakers'],
+        ['label' => 'Members', 'href' => route('members.index')],
         ['label' => 'Sponsors', 'href' => '#sponsors'],
         ['label' => 'Join Community', 'href' => '#community'],
     ];

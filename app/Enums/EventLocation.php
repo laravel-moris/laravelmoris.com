@@ -8,4 +8,12 @@ enum EventLocation: string
 {
     case Physical = 'physical';
     case Online = 'online';
+
+    public function label(): string
+    {
+        return match ($this) {
+            self::Physical => 'In Person',
+            self::Online => 'Online',
+        };
+    }
 }
