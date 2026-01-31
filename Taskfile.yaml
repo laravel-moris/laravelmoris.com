@@ -1,5 +1,5 @@
 ---
-version: '3'
+version: "3"
 vars:
   REGISTRY: registry.brunobernard.dev
   IMAGE_NAME: laravelmoris.com
@@ -14,7 +14,7 @@ vars:
           | sed 's/^v//' | tr -d '\n'
       fi
 
-  FULL_IMAGE: '{{.REGISTRY}}/{{.IMAGE_NAME}}:{{.TAG}}'
+  FULL_IMAGE: "{{.REGISTRY}}/{{.IMAGE_NAME}}:{{.TAG}}"
 tasks:
   build:
     desc: Build the Docker image
@@ -27,11 +27,12 @@ tasks:
     cmd: docker push {{.FULL_IMAGE}}
   deploy:
     desc: Build, update manifest, push, and deploy to Kubernetes
-    deps: [build, update-manifest, push]
+    deps: [build, update-manifest]
     cmds:
+      - task: push
       - kubectl apply -f kubernetes/
-#      - sleep 3
-#      - task: rollout
+      - sleep 3
+      - task: rollout
   info:
     desc: Show the image tag that will be used for this deployment
     cmd: echo "Image:" "{{.FULL_IMAGE}}"
@@ -51,5 +52,3 @@ tasks:
       - kubectl get ingress -n laravel-moris
       - kubectl describe pod -n laravel-moris laravel-moris-0
       - kubectl logs -n laravel-moris statefulset.apps/laravel-moris
-
-
