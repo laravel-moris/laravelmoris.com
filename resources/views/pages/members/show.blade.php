@@ -91,17 +91,19 @@
                         @if($member->rsvps->count() > 0)
                             <div class="mt-4 space-y-3">
                                 @foreach($member->rsvps as $event)
-                                    <div class="flex items-center justify-between p-3 bg-surface-2 rounded-lg">
-                                        <div>
-                                            <x-ui.text.body class="font-medium">{{ $event->title }}</x-ui.text.body>
-                                            <x-ui.text.muted class="text-sm">
-                                                {{ $event->starts_at->format('M d, Y') }} • {{ $event->type->label() }}
-                                            </x-ui.text.muted>
+                                    <a href="{{ route('events.show', $event) }}" class="block group">
+                                        <div class="flex items-center justify-between p-3 bg-surface-2 rounded-lg transition-all duration-300 hover:border-primary/50 border border-transparent">
+                                            <div>
+                                                <x-ui.text.body class="font-medium group-hover:text-primary transition-colors">{{ $event->title }}</x-ui.text.body>
+                                                <x-ui.text.muted class="text-sm">
+                                                    {{ $event->starts_at->format('M d, Y') }} • {{ $event->type->label() }}
+                                                </x-ui.text.muted>
+                                            </div>
+                                            <x-ui.chip color="{{ $event->starts_at->isPast() ? 'coral' : 'green' }}">
+                                                {{ $event->starts_at->isPast() ? 'Attended' : $event->pivot->status }}
+                                            </x-ui.chip>
                                         </div>
-                                        <x-ui.chip color="{{ $event->starts_at->isPast() ? 'coral' : 'green' }}">
-                                            {{ $event->starts_at->isPast() ? 'Attended' : $event->pivot->status }}
-                                        </x-ui.chip>
-                                    </div>
+                                    </a>
                                 @endforeach
                             </div>
                         @else
