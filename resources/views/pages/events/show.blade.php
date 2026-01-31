@@ -134,7 +134,7 @@
                                     </x-ui.button>
                                 @else
                                     <x-ui.button href="{{ route('papers.create', $event) }}" variant="secondary"
-                                        class="lm-border-beam-gold !text-gold !border-gold/50">
+                                        class="!text-gold !border-gold/50">
                                         Submit a Talk
                                     </x-ui.button>
                                 @endif

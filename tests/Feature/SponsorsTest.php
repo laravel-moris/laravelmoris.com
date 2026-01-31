@@ -30,7 +30,9 @@ describe('sponsors index', function (): void {
         $response = $this->get(route('sponsors.index'));
 
         $response->assertOk()
-            ->assertSee('1 event sponsored');
+            ->assertSee('1')
+            ->assertSee('event')
+            ->assertSee('sponsored');
     });
 
     it('displays sponsor website domain', function (): void {

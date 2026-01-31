@@ -116,7 +116,7 @@
     }
 
     .lm-btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-full font-bold uppercase tracking-[0.12em] transition-[transform, background-color, border-color, color] duration-300 ease-[cubic-bezier(0.16, 1, 0.3, 1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 disabled:pointer-events-none disabled:opacity-50;
+        @apply inline-flex items-center justify-center gap-2 rounded-full font-bold uppercase tracking-[0.12em] duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 disabled:pointer-events-none disabled:opacity-50;
     }
 
     .lm-btn-md {
@@ -136,16 +136,16 @@
     }
 
     .lm-icon-btn {
-        @apply relative grid place-items-center rounded-full bg-surface-2 border border-border/70 text-muted transition-[transform, border-color, color] duration-300 ease-[cubic-bezier(0.16, 1, 0.3, 1)] hover:border-primary hover:text-primary hover:scale-[1.05] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60;
+        @apply relative grid place-items-center rounded-full bg-surface-2 border border-border/70 text-muted duration-300 hover:border-primary hover:text-primary hover:scale-[1.05] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60;
         @apply size-11;
     }
 
     .lm-card {
-        @apply relative overflow-hidden rounded-3xl bg-surface border border-border/70 transition-[transform, border-color] duration-[400ms] ease-[cubic-bezier(0.16, 1, 0.3, 1)];
+        @apply relative overflow-hidden rounded-3xl bg-surface border border-border/70 duration-[400ms];
     }
 
     .lm-card-accent-top {
-        @apply before:content-[''] before:absolute before:inset-x-0 before:top-0 before:h-1 before:origin-left before:scale-x-0 before:transition-transform before:duration-[400ms] before:ease-[cubic-bezier(0.16, 1, 0.3, 1)] group-hover:before:scale-x-100;
+        @apply before:content-[''] before:absolute before:inset-x-0 before:top-0 before:h-1 before:origin-left before:scale-x-0 before:transition-transform before:duration-[400ms] group-hover:before:scale-x-100;
     }
 
     .lm-avatar {

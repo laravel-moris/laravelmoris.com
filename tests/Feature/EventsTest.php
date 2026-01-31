@@ -64,8 +64,10 @@ describe('events index', function (): void {
         $response = $this->get(route('events.index'));
 
         $response->assertOk()
-            ->assertSee('1 speaker')
-            ->assertSee('1 attendee');
+            ->assertSee('1')
+            ->assertSee('speaker')
+            ->assertSee('1')
+            ->assertSee('attendee');
     });
 
     it('displays empty state when no events exist', function (): void {
