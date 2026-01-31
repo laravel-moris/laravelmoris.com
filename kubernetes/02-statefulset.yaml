@@ -23,7 +23,7 @@ spec:
         fsGroup: 82
       containers:
         - name: laravel-moris
-          image: registry.brunobernard.dev/laravelmoris.com:0.1.5
+          image: registry.brunobernard.dev/laravelmoris.com:0.1.12
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
