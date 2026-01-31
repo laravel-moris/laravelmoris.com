@@ -26,13 +26,13 @@ final readonly class PaperSubmissionController
         $user = auth()->user();
 
         if (! $user) {
-            return redirect()->route('login');
+            return to_route('login');
         }
 
         if ($event->starts_at->isPast()) {
             Session::flash('error', 'You cannot submit a talk for past events.');
 
-            return redirect()->route('events.show', $event);
+            return to_route('events.show', $event);
         }
 
         $data = SubmitPaperData::from($request->all());
@@ -41,6 +41,6 @@ final readonly class PaperSubmissionController
 
         Session::flash('success', 'Your talk has been submitted successfully!');
 
-        return redirect()->route('events.show', $event);
+        return to_route('events.show', $event);
     }
 }

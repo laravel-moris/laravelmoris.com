@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Actions\Profile\DownloadAvatar;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
@@ -42,7 +43,7 @@ test('it returns null when request fails', function () {
 
 test('it returns null on connection error', function () {
     Http::fake(function () {
-        throw new \Illuminate\Http\Client\ConnectionException('Connection failed');
+        throw new ConnectionException('Connection failed');
     });
 
     $result = app(DownloadAvatar::class)->execute('https://example.com/avatar.jpg');
@@ -58,8 +59,7 @@ test('it extracts extension from url path', function () {
 
     $result = app(DownloadAvatar::class)->execute('https://example.com/photos/avatar.png');
 
-    expect($result)->not->toBeNull();
-    expect($result)->toContain('.png');
+    expect($result)->not->toBeNull()->toContain('.png');
 });
 
 test('it defaults to jpg when extension not recognized', function () {
@@ -70,8 +70,7 @@ test('it defaults to jpg when extension not recognized', function () {
 
     $result = app(DownloadAvatar::class)->execute('https://example.com/photos/avatar');
 
-    expect($result)->not->toBeNull();
-    expect($result)->toContain('.jpg');
+    expect($result)->not->toBeNull()->toContain('.jpg');
 });
 
 /**

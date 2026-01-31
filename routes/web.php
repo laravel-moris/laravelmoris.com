@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Auth\CallbackController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RedirectController;
+use App\Http\Controllers\Event\RSVPController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JoinController;
@@ -34,7 +35,7 @@ Route::get('/sponsors/{sponsor}', [SponsorsController::class, 'show'])->name('sp
 
 Route::get('/events', [EventsController::class, 'index'])->name('events.index');
 Route::get('/events/{event}', [EventsController::class, 'show'])->name('events.show');
-Route::post('/events/{event}/rsvp', \App\Http\Controllers\Event\RSVPController::class)->name('events.rsvp');
+Route::post('/events/{event}/rsvp', RSVPController::class)->name('events.rsvp');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/events/{event}/submit-paper', [PaperSubmissionController::class, 'create'])->name('papers.create');

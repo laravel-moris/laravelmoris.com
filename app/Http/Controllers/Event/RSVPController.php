@@ -20,13 +20,13 @@ final readonly class RSVPController
         $user = auth()->user();
 
         if (! $user) {
-            return redirect()->route('login');
+            return to_route('login');
         }
 
         if ($event->starts_at->isPast()) {
             Session::flash('error', 'You cannot change your RSVP for past events.');
 
-            return redirect()->route('events.show', $event);
+            return to_route('events.show', $event);
         }
 
         $status = $request->input('status');
@@ -34,6 +34,6 @@ final readonly class RSVPController
 
         $this->rsvpAction->execute($user, $event, $status);
 
-        return redirect()->route('events.show', $event);
+        return to_route('events.show', $event);
     }
 }
