@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: laravel-moris-env
+  namespace: laravel-moris
+  labels:
+    app: laravel-moris
+data:
+  APP_ENV: "production"
+  APP_DEBUG: "false"
+  LOG_CHANNEL: "stderr"
+  DB_CONNECTION: "sqlite"
+  DB_DATABASE: "/data/database.sqlite"
+  APP_URL: "https://laravelmoris.brunobernard.dev"
+  TRUSTED_PROXIES: "*"

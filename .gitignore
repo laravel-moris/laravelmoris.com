@@ -27,3 +27,4 @@ Thumbs.db
 .phpstorm*
 _ide*
 storage/rector
+04-secrets.yaml

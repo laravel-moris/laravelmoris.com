@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: laravel-moris
+  namespace: laravel-moris
+  labels:
+    app: laravel-moris
+spec:
+  serviceName: laravel-moris
+  replicas: 1
+  selector:
+    matchLabels:
+      app: laravel-moris
+  template:
+    metadata:
+      labels:
+        app: laravel-moris
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 82
+        runAsGroup: 82
+        fsGroup: 82
+      containers:
+        - name: laravel-moris
+          image: registry.brunobernard.dev/laravelmoris.com:0.1.5
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: http
+          envFrom:
+            - configMapRef:
+                name: laravel-moris-env
+            - secretRef:
+                name: laravel-moris-secrets
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: storage
+              mountPath: /var/www/html/storage
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "100Mi"
+              cpu: "250m"
+          livenessProbe:
+            httpGet:
+              path: /up
+              port: 8080
+            initialDelaySeconds: 45
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /up
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        labels:
+          app: laravel-moris
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
+    - metadata:
+        name: storage
+        labels:
+          app: laravel-moris
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi

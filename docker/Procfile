@@ -1,0 +1,2 @@
+nginx: /usr/sbin/nginx
+php-fpm: /entrypoint.sh

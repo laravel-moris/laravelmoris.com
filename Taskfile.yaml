@@ -1,0 +1,55 @@
+---
+version: '3'
+vars:
+  REGISTRY: registry.brunobernard.dev
+  IMAGE_NAME: laravelmoris.com
+
+  # Use $TAG if set, otherwise use latest git tag (without leading v) or commit hash
+  TAG:
+    sh: |
+      if [ -n "${TAG}" ]; then
+        echo -n "${TAG}"
+      else
+        (git describe --tags --abbrev=0 2>/dev/null || git rev-parse --short HEAD) \
+          | sed 's/^v//' | tr -d '\n'
+      fi
+
+  FULL_IMAGE: '{{.REGISTRY}}/{{.IMAGE_NAME}}:{{.TAG}}'
+tasks:
+  build:
+    desc: Build the Docker image
+    cmd: docker build -t {{.FULL_IMAGE}} . || true
+  update-manifest:
+    desc: Update Kubernetes StatefulSet with the new image tag
+    cmd: yq e -i '.spec.template.spec.containers[0].image = "{{.FULL_IMAGE}}"' kubernetes/02-statefulset.yaml
+  push:
+    desc: Push the Docker image to the container registry
+    cmd: docker push {{.FULL_IMAGE}}
+  deploy:
+    desc: Build, update manifest, push, and deploy to Kubernetes
+    deps: [build, update-manifest, push]
+    cmds:
+      - kubectl apply -f kubernetes/
+#      - sleep 3
+#      - task: rollout
+  info:
+    desc: Show the image tag that will be used for this deployment
+    cmd: echo "Image:" "{{.FULL_IMAGE}}"
+  destroy:
+    desc: Delete all Kubernetes resources
+    cmd: kubectl delete -f kubernetes/
+  restart:
+    desc: Restart the application pod
+    cmd: kubectl delete pod laravel-moris-0 -n laravel-moris
+  rollout:
+    desc: Rollout the application
+    cmd: kubectl rollout restart statefulset.apps/laravel-moris -n laravel-moris
+  show:
+    desc: Showing what's happening
+    cmds:
+      - kubectl get pods -n laravel-moris
+      - kubectl get ingress -n laravel-moris
+      - kubectl describe pod -n laravel-moris laravel-moris-0
+      - kubectl logs -n laravel-moris statefulset.apps/laravel-moris
+
+

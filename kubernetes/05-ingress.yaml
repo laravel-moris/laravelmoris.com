@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: laravel-moris
+  namespace: laravel-moris
+  labels:
+    app: laravel-moris
+  annotations:
+    cert-manager.io/cluster-issuer: "cluster-issuer-cloudflare-dns01"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - laravelmoris.brunobernard.dev
+      secretName: laravel-moris-tls
+  rules:
+    - host: laravelmoris.brunobernard.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: laravel-moris
+                port:
+                  number: 80

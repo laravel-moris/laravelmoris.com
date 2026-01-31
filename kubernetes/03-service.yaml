@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: laravel-moris
+  namespace: laravel-moris
+  labels:
+    app: laravel-moris
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    app: laravel-moris

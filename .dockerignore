@@ -1,0 +1,59 @@
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+
+# Dependencies - excluded to use fresh install from composer.json/npm ci
+vendor/
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Laravel cache and logs
+storage/logs/*
+storage/framework/cache/*
+storage/framework/views/*
+storage/debugbar/*
+storage/rector/*
+bootstrap/cache/*
+!bootstrap/cache/.gitkeep
+
+# Build artifacts
+public/build/*
+public/storage/*
+public/hot
+storage/app/public/*
+storage/debugbar/*
+
+# IDE and editor files
+.idea
+.vscode
+*.swp
+*.swo
+*~
+.DS_Store
+.phpstorm*
+.opencode
+
+# CI/CD and configs
+.github
+.git*
+!composer.json
+!composer.lock
+!package.json
+!package-lock.json
+!vite.config.js
+
+# Documentation
+*.md
+
+# Kubernetes (keep out of image)
+kubernetes/
+*.yaml
+*.yml
+
+# Other
+*.local
+*.xml
+branding/
