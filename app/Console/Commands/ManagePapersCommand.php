@@ -154,7 +154,7 @@ class ManagePapersCommand extends Command
             rows: [
                 ['ID', (string) $paper->id],
                 ['Title', $paper->title],
-                ['Description', $paper->description ?? 'No description provided.'],
+                ['Description', wordwrap($paper->description ?? 'No description provided.', 80, "\n", true)],
                 ['Contact Number', $paper->speaker->phone ?? 'No contact number provided.'],
                 ['Contact Email', $paper->speaker->email ?? 'No contact email provided.'],
                 ['Speaker', $paper->speaker->name ?? 'N/A'],

@@ -16,6 +16,7 @@ class Paper extends Model
 
     protected $casts = [
         'status' => PaperStatus::class,
+        'description' => 'string',
     ];
 
     /**
