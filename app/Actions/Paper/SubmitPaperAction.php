@@ -23,7 +23,7 @@ final readonly class SubmitPaperAction
             $updateData['secondary_email'] = $data->secondaryEmail;
         }
 
-        if (! empty($updateData)) {
+        if (filled($updateData)) {
             $user->update($updateData);
         }
 
