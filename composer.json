@@ -74,7 +74,8 @@
         ],
         "lint:fix": [
             "pint",
-            "rector process"
+            "rector process",
+            "npx prettier --write resources/**/*.blade.php"
         ],
         "ide": [
             "@php artisan ide-helper:generate",

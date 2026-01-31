@@ -1,7 +1,4 @@
-@props([
-    'href',
-    'active' => false,
-])
+@props(['href', 'active' => false])
 
 @php
     $classes = array_filter([
@@ -12,10 +9,7 @@
     ]);
 @endphp
 
-<a
-    href="{{ $href }}"
-    @if ($active) aria-current="page" @endif
-    {{ $attributes->class($classes) }}
->
+<a href="{{ $href }}" @if ($active) aria-current="page" @endif
+    {{ $attributes->class($classes) }}>
     {{ $slot }}
 </a>

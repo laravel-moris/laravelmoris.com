@@ -13,14 +13,12 @@
     $error = $error ?? ($name ? $errors->first($name) : null);
 
     $preventsAutoValue = in_array($type, ['password', 'file'], true);
-    $shouldSetValueAttribute = (! $preventsAutoValue) || ($value !== null);
+    $shouldSetValueAttribute = !$preventsAutoValue || $value !== null;
 
-    $currentValue = $shouldSetValueAttribute
-        ? ((! $preventsAutoValue && $name) ? old($name, $value) : $value)
-        : null;
+    $currentValue = $shouldSetValueAttribute ? (!$preventsAutoValue && $name ? old($name, $value) : $value) : null;
 
-    $helpId = $id ? $id.'-help' : null;
-    $errorId = $id ? $id.'-error' : null;
+    $helpId = $id ? $id . '-help' : null;
+    $errorId = $id ? $id . '-error' : null;
 
     $describedBy = collect([$help ? $helpId : null, $error ? $errorId : null])
         ->filter()
@@ -36,20 +34,18 @@
 
 <div class="grid gap-2">
     @if ($label)
-        <label @if ($id) for="{{ $id }}" @endif class="text-[12px] font-bold uppercase tracking-[0.14em] text-muted">
+        <label @if ($id) for="{{ $id }}" @endif
+            class="text-[12px] font-bold uppercase tracking-[0.14em] text-muted">
             {{ $label }}
         </label>
     @endif
 
-    <input
-        @if ($id) id="{{ $id }}" @endif
-        @if ($name) name="{{ $name }}" @endif
-        type="{{ $type }}"
+    <input @if ($id) id="{{ $id }}" @endif
+        @if ($name) name="{{ $name }}" @endif type="{{ $type }}"
         @if ($shouldSetValueAttribute) value="{{ $currentValue }}" @endif
         @if ($error) aria-invalid="true" @endif
         @if ($describedBy) aria-describedby="{{ $describedBy }}" @endif
-        {{ $attributes->class($inputClasses) }}
-    >
+        {{ $attributes->class($inputClasses) }}>
 
     @if ($help)
         <p @if ($helpId) id="{{ $helpId }}" @endif class="text-[13px] text-muted">
@@ -58,7 +54,8 @@
     @endif
 
     @if ($error)
-        <p @if ($errorId) id="{{ $errorId }}" @endif class="text-[13px] text-coral font-medium">
+        <p @if ($errorId) id="{{ $errorId }}" @endif
+            class="text-[13px] text-coral font-medium">
             {{ $error }}
         </p>
     @endif

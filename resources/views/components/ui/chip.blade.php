@@ -50,9 +50,7 @@
     $resolvedText = $text;
 
     if ($resolvedText === 'auto') {
-        $resolvedText = $variant === 'solid'
-            ? 'white'
-            : 'foreground';
+        $resolvedText = $variant === 'solid' ? 'white' : 'foreground';
     }
 
     $classes = array_filter([

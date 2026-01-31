@@ -19,11 +19,7 @@
 
     <main>
         <x-ui.section class="pt-10">
-            <x-ui.section-header
-                title="UI"
-                accent="Style Guide"
-                subtitle="Components, tokens, and usage examples"
-            >
+            <x-ui.section-header title="UI" accent="Style Guide" subtitle="Components, tokens, and usage examples">
                 <p class="max-w-2xl text-muted leading-relaxed">
                     This page showcases the existing UI primitives and Blade components used across the site.
                 </p>
@@ -67,60 +63,38 @@
 
                 <x-ui.card id="inputs" title="Form Inputs">
                     <div class="grid gap-8 md:grid-cols-2">
-                        <x-ui.input
-                            name="email"
-                            label="Email"
-                            type="email"
-                            placeholder="you@company.com"
-                            help="We will only use this for account-related emails."
-                        />
+                        <x-ui.input name="email" label="Email" type="email" placeholder="you@company.com"
+                            help="We will only use this for account-related emails." />
 
-                        <x-ui.input
-                            name="password"
-                            label="Password"
-                            type="password"
-                            placeholder="••••••••"
-                            error="Your password must be at least 12 characters."
-                        />
+                        <x-ui.input name="password" label="Password" type="password" placeholder="••••••••"
+                            error="Your password must be at least 12 characters." />
 
-                        <x-ui.input
-                            label="Disabled"
-                            value="Read-only example"
-                            disabled
-                        />
+                        <x-ui.input label="Disabled" value="Read-only example" disabled />
                     </div>
                 </x-ui.card>
 
                 <x-ui.card id="dropdowns" title="Dropdowns">
                     <div class="grid gap-8 md:grid-cols-2">
-                        <x-ui.select
-                            name="role"
-                            label="Role"
-                            placeholder="Select a role"
-                            :options="[
-                                'member' => 'Member',
-                                'speaker' => 'Speaker',
-                                'organizer' => 'Organizer',
-                            ]"
-                            help="Used for access and visibility settings."
-                        />
+                        <x-ui.select name="role" label="Role" placeholder="Select a role" :options="[
+                            'member' => 'Member',
+                            'speaker' => 'Speaker',
+                            'organizer' => 'Organizer',
+                        ]"
+                            help="Used for access and visibility settings." />
 
-                        <x-ui.select
-                            label="With error"
-                            error="Please select an option."
-                            placeholder="Choose one"
+                        <x-ui.select label="With error" error="Please select an option." placeholder="Choose one"
                             :options="[
                                 'one' => 'Option One',
                                 'two' => 'Option Two',
-                            ]"
-                        />
+                            ]" />
                     </div>
                 </x-ui.card>
 
                 <x-ui.card id="cards" title="Cards">
                     <div class="grid gap-7 md:grid-cols-2">
                         <x-ui.card title="Card with title">
-                            <p class="text-muted leading-relaxed">Use <x-ui.code>.lm-card</x-ui.code> for the base container and add padding at the component level when needed.</p>
+                            <p class="text-muted leading-relaxed">Use <x-ui.code>.lm-card</x-ui.code> for the base container
+                                and add padding at the component level when needed.</p>
                             <div class="mt-5 flex gap-3">
                                 <x-ui.button size="sm">Action</x-ui.button>
                                 <x-ui.button size="sm" variant="secondary">Secondary</x-ui.button>
@@ -138,9 +112,10 @@
                                 </div>
                             </x-slot:header>
 
-                                <div class="p-6">
-                                    <p class="text-muted leading-relaxed">Set <x-ui.code>:padded="false"</x-ui.code> when you want full control over internal spacing.</p>
-                                </div>
+                            <div class="p-6">
+                                <p class="text-muted leading-relaxed">Set <x-ui.code>:padded="false"</x-ui.code> when you
+                                    want full control over internal spacing.</p>
+                            </div>
                         </x-ui.card>
                     </div>
                 </x-ui.card>
@@ -148,9 +123,18 @@
                 <x-ui.card id="avatars" title="Avatars">
                     @php
                         $avatarSources = [
-                            'data:image/svg+xml,' . rawurlencode('<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><rect width="120" height="120" rx="60" fill="#48dbfb"/><text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif,system-ui" font-size="44" font-weight="700" fill="#0a0908">A</text></svg>'),
-                            'data:image/svg+xml,' . rawurlencode('<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><rect width="120" height="120" rx="60" fill="#fdcb6e"/><text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif,system-ui" font-size="44" font-weight="700" fill="#0a0908">B</text></svg>'),
-                            'data:image/svg+xml,' . rawurlencode('<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><rect width="120" height="120" rx="60" fill="#ff6b6b"/><text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif,system-ui" font-size="44" font-weight="700" fill="#0a0908">C</text></svg>'),
+                            'data:image/svg+xml,' .
+                            rawurlencode(
+                                '<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><rect width="120" height="120" rx="60" fill="#48dbfb"/><text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif,system-ui" font-size="44" font-weight="700" fill="#0a0908">A</text></svg>',
+                            ),
+                            'data:image/svg+xml,' .
+                            rawurlencode(
+                                '<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><rect width="120" height="120" rx="60" fill="#fdcb6e"/><text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif,system-ui" font-size="44" font-weight="700" fill="#0a0908">B</text></svg>',
+                            ),
+                            'data:image/svg+xml,' .
+                            rawurlencode(
+                                '<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><rect width="120" height="120" rx="60" fill="#ff6b6b"/><text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif,system-ui" font-size="44" font-weight="700" fill="#0a0908">C</text></svg>',
+                            ),
                         ];
 
                         $avatarStack = [
@@ -192,9 +176,12 @@
                         <div class="grid gap-3">
                             <x-ui.text.label>Status pill</x-ui.text.label>
                             <div class="flex flex-wrap items-center gap-3">
-                                <x-ui.chip size="xs" :caps="true" color="coral" variant="solid">Upcoming</x-ui.chip>
-                                <x-ui.chip size="xs" :caps="true" color="coral" variant="soft" text="coral">Upcoming</x-ui.chip>
-                                <x-ui.chip size="xs" :caps="true" color="muted" variant="soft" text="muted">Past</x-ui.chip>
+                                <x-ui.chip size="xs" :caps="true" color="coral"
+                                    variant="solid">Upcoming</x-ui.chip>
+                                <x-ui.chip size="xs" :caps="true" color="coral" variant="soft"
+                                    text="coral">Upcoming</x-ui.chip>
+                                <x-ui.chip size="xs" :caps="true" color="muted" variant="soft"
+                                    text="muted">Past</x-ui.chip>
                             </div>
                         </div>
                     </div>
@@ -286,21 +273,28 @@
                 <x-ui.card id="typography" title="Typography">
                     <div class="grid gap-8">
                         <div class="grid gap-4">
-                            <x-ui.text.h1 class="text-[clamp(32px,5vw,54px)] font-bold tracking-[-0.03em]">Heading 1</x-ui.text.h1>
-                            <x-ui.text.h2 class="text-[clamp(28px,4vw,44px)] font-bold tracking-[-0.02em]">Heading 2</x-ui.text.h2>
+                            <x-ui.text.h1 class="text-[clamp(32px,5vw,54px)] font-bold tracking-[-0.03em]">Heading
+                                1</x-ui.text.h1>
+                            <x-ui.text.h2 class="text-[clamp(28px,4vw,44px)] font-bold tracking-[-0.02em]">Heading
+                                2</x-ui.text.h2>
                             <x-ui.text.h3 class="text-[28px] font-bold tracking-[-0.02em]">Heading 3</x-ui.text.h3>
                             <x-ui.text.h4 class="text-[22px] font-bold tracking-[-0.01em]">Heading 4</x-ui.text.h4>
                             <x-ui.text.h5 class="text-[18px] font-bold">Heading 5</x-ui.text.h5>
-                            <x-ui.text.h6 class="text-[15px] font-bold uppercase tracking-[0.12em] text-muted">Heading 6</x-ui.text.h6>
+                            <x-ui.text.h6 class="text-[15px] font-bold uppercase tracking-[0.12em] text-muted">Heading
+                                6</x-ui.text.h6>
                         </div>
 
                         <div class="grid gap-3">
                             <x-ui.text.body class="text-[16px] leading-relaxed text-foreground">
-                                Body text is readable and token-driven. Use <span class="text-muted">muted</span> for supporting information.
+                                Body text is readable and token-driven. Use <span class="text-muted">muted</span> for
+                                supporting information.
                             </x-ui.text.body>
-                            <x-ui.text.muted class="text-[13px]">Small / muted text for captions, help text, and meta.</x-ui.text.muted>
+                            <x-ui.text.muted class="text-[13px]">Small / muted text for captions, help text, and
+                                meta.</x-ui.text.muted>
                             <p class="text-[15px]">
-                                <a href="#" class="text-primary hover:text-primary-hover underline underline-offset-4">Link style</a>
+                                <a href="#"
+                                    class="text-primary hover:text-primary-hover underline underline-offset-4">Link
+                                    style</a>
                                 for navigation and inline references.
                             </p>
                         </div>

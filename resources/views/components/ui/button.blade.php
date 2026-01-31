@@ -16,12 +16,15 @@
         'secondary' => 'lm-btn-secondary',
     ];
 
-    $classes = implode(' ', array_filter([
-        $base,
-        $sizes[$size] ?? $sizes['md'],
-        $variants[$variant] ?? $variants['primary'],
-        $attributes->get('class'),
-    ]));
+    $classes = implode(
+        ' ',
+        array_filter([
+            $base,
+            $sizes[$size] ?? $sizes['md'],
+            $variants[$variant] ?? $variants['primary'],
+            $attributes->get('class'),
+        ]),
+    );
 @endphp
 
 @if ($href)

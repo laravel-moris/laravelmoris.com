@@ -23,13 +23,10 @@
         <div class="flex items-center gap-3 md:hidden">
             <x-site.header.theme-toggle size="sm" />
 
-            <x-ui.icon-button
-                data-mobile-menu-toggle
-                aria-label="Open menu"
-                aria-expanded="false"
-                aria-controls="mobile-menu"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="size-5">
+            <x-ui.icon-button data-mobile-menu-toggle aria-label="Open menu" aria-expanded="false"
+                aria-controls="mobile-menu">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    stroke-width="2" class="size-5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </x-ui.icon-button>
@@ -37,17 +34,11 @@
 
         <nav class="hidden md:flex items-center gap-10">
             @foreach ($navLinks as $link)
-                <x-site.header.nav-link
-                    :href="$link['href']"
-                    :label="$link['label']"
-                />
+                <x-site.header.nav-link :href="$link['href']" :label="$link['label']" />
             @endforeach
 
             @auth
-                <x-site.header.nav-link
-                    href="{{ route('profile.index') }}"
-                    label="Profile"
-                />
+                <x-site.header.nav-link href="{{ route('profile.index') }}" label="Profile" />
                 <form action="{{ route('logout') }}" method="POST" class="flex items-center">
                     @csrf
                     <x-ui.button type="submit" variant="secondary" size="sm" class="rounded-lg">

@@ -17,46 +17,28 @@
             <x-ui.card class="p-8">
                 <div class="space-y-4">
                     @provider('github')
-                        <x-ui.button
-                            href="{{ route('auth.provider', 'github') }}"
-                            variant="primary"
-                            size="md"
-                            class="w-full h-12 !bg-[#24292e] hover:!bg-[#2f363d] !text-white !border-0 !rounded-lg"
-                        >
+                        <x-ui.button href="{{ route('auth.provider', 'github') }}" variant="primary" size="md"
+                            class="w-full h-12 !bg-[#24292e] hover:!bg-[#2f363d] !text-white !border-0 !rounded-lg">
                             <i class="ci ci-github-light ci-lg"></i>
                             Continue with GitHub
                         </x-ui.button>
                     @else
-                        <x-ui.button
-                            variant="primary"
-                            size="md"
-                            disabled
-                            title="GitHub OAuth is not configured"
-                            class="w-full h-12 !bg-[#24292e]/50 !text-white/70 !border-0 !rounded-lg opacity-50 cursor-not-allowed"
-                        >
+                        <x-ui.button variant="primary" size="md" disabled title="GitHub OAuth is not configured"
+                            class="w-full h-12 !bg-[#24292e]/50 !text-white/70 !border-0 !rounded-lg opacity-50 cursor-not-allowed">
                             <i class="ci ci-github-light ci-lg"></i>
                             GitHub Disabled
                         </x-ui.button>
                     @endprovider
 
                     @provider('google')
-                        <x-ui.button
-                            href="{{ route('auth.provider', 'google') }}"
-                            variant="primary"
-                            size="md"
-                            class="w-full h-12 !bg-white hover:!bg-gray-50 !text-gray-900 !border !border-gray-200 !rounded-lg"
-                        >
+                        <x-ui.button href="{{ route('auth.provider', 'google') }}" variant="primary" size="md"
+                            class="w-full h-12 !bg-white hover:!bg-gray-50 !text-gray-900 !border !border-gray-200 !rounded-lg">
                             <i class="ci ci-google ci-lg"></i>
                             Continue with Google
                         </x-ui.button>
                     @else
-                        <x-ui.button
-                            variant="primary"
-                            size="md"
-                            disabled
-                            title="Google OAuth is not configured"
-                            class="w-full h-12 !bg-gray-100 !text-gray-500 !border !border-gray-200 !rounded-lg opacity-50 cursor-not-allowed"
-                        >
+                        <x-ui.button variant="primary" size="md" disabled title="Google OAuth is not configured"
+                            class="w-full h-12 !bg-gray-100 !text-gray-500 !border !border-gray-200 !rounded-lg opacity-50 cursor-not-allowed">
                             <i class="ci ci-google ci-lg"></i>
                             Google Disabled
                         </x-ui.button>
@@ -65,9 +47,11 @@
 
                 <x-ui.text.muted class="mt-8 text-center">
                     By continuing, you agree to our
-                    <a href="{{ route('terms') }}" class="text-primary hover:text-primary-hover underline underline-offset-4">Terms of Service</a>
+                    <a href="{{ route('terms') }}"
+                        class="text-primary hover:text-primary-hover underline underline-offset-4">Terms of Service</a>
                     and
-                    <a href="{{ route('privacy') }}" class="text-primary hover:text-primary-hover underline underline-offset-4">Privacy Policy</a>
+                    <a href="{{ route('privacy') }}"
+                        class="text-primary hover:text-primary-hover underline underline-offset-4">Privacy Policy</a>
                 </x-ui.text.muted>
             </x-ui.card>
         </div>

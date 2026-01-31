@@ -1,39 +1,49 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="dark">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>@yield('title', 'Laravel Moris')</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <title>@yield('title', 'Laravel Moris')</title>
 
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dheereshag/coloured-icons@1.9.6/app/ci.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Oswald:wght@500;700&display=swap"
+        rel="stylesheet">
 
-        @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-            @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @else
-            <style>
-                :root {
-                    font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
-                    background: #0a0908;
-                    color: #faf9f7;
-                }
-            </style>
-        @endif
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dheereshag/coloured-icons@1.9.6/app/ci.min.css">
 
-        @stack('head')
-    </head>
-    <body class="min-h-dvh bg-background text-foreground font-sans overflow-x-hidden relative transition-colors duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)]">
-        <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 opacity-20 [background-image:radial-gradient(var(--color-primary)_0.8px,transparent_0.8px)] [background-size:12px_12px]"></div>
-        <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 [background:radial-gradient(ellipse_600px_400px_at_15%_30%,var(--color-background)_0%,transparent_70%),radial-gradient(ellipse_500px_350px_at_85%_25%,var(--color-background)_0%,transparent_65%),radial-gradient(ellipse_700px_500px_at_50%_80%,var(--color-background)_0%,transparent_75%)]"></div>
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @else
+        <style>
+            :root {
+                font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+                background: #0a0908;
+                color: #faf9f7;
+            }
+        </style>
+    @endif
 
-        @yield('body')
+    @stack('head')
+</head>
 
-        @stack('scripts')
-    </body>
+<body
+    class="min-h-dvh bg-background text-foreground font-sans overflow-x-hidden relative transition-colors duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)]">
+    <div aria-hidden="true"
+        class="pointer-events-none fixed inset-0 -z-10 opacity-20 [background-image:radial-gradient(var(--color-primary)_0.8px,transparent_0.8px)] [background-size:12px_12px]">
+    </div>
+    <div aria-hidden="true"
+        class="pointer-events-none fixed inset-0 -z-10 [background:radial-gradient(ellipse_600px_400px_at_15%_30%,var(--color-background)_0%,transparent_70%),radial-gradient(ellipse_500px_350px_at_85%_25%,var(--color-background)_0%,transparent_65%),radial-gradient(ellipse_700px_500px_at_50%_80%,var(--color-background)_0%,transparent_75%)]">
+    </div>
+
+    @yield('body')
+
+    @stack('scripts')
+</body>
+
 </html>

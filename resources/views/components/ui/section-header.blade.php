@@ -15,7 +15,7 @@
     @endif
 
     @if ($subtitle)
-            <x-ui.text.muted class="mt-4">{{ $subtitle }}</x-ui.text.muted>
+        <x-ui.text.muted class="mt-4">{{ $subtitle }}</x-ui.text.muted>
     @endif
 
     @if (trim($slot) !== '')

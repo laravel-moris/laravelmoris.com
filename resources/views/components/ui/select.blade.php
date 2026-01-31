@@ -13,8 +13,8 @@
     $id = $id ?? $name;
     $error = $error ?? ($name ? $errors->first($name) : null);
 
-    $helpId = $id ? $id.'-help' : null;
-    $errorId = $id ? $id.'-error' : null;
+    $helpId = $id ? $id . '-help' : null;
+    $errorId = $id ? $id . '-error' : null;
 
     $describedBy = collect([$help ? $helpId : null, $error ? $errorId : null])
         ->filter()
@@ -32,18 +32,17 @@
 
 <div class="grid gap-2">
     @if ($label)
-        <label @if ($id) for="{{ $id }}" @endif class="text-[12px] font-bold uppercase tracking-[0.14em] text-muted">
+        <label @if ($id) for="{{ $id }}" @endif
+            class="text-[12px] font-bold uppercase tracking-[0.14em] text-muted">
             {{ $label }}
         </label>
     @endif
 
-    <select
-        @if ($id) id="{{ $id }}" @endif
+    <select @if ($id) id="{{ $id }}" @endif
         @if ($name) name="{{ $name }}" @endif
         @if ($error) aria-invalid="true" @endif
         @if ($describedBy) aria-describedby="{{ $describedBy }}" @endif
-        {{ $attributes->class($selectClasses) }}
-    >
+        {{ $attributes->class($selectClasses) }}>
         @if ($placeholder)
             <option value="" @selected($current === null || $current === '')>{{ $placeholder }}</option>
         @endif
@@ -64,7 +63,8 @@
     @endif
 
     @if ($error)
-        <p @if ($errorId) id="{{ $errorId }}" @endif class="text-[13px] text-coral font-medium">
+        <p @if ($errorId) id="{{ $errorId }}" @endif
+            class="text-[13px] text-coral font-medium">
             {{ $error }}
         </p>
     @endif

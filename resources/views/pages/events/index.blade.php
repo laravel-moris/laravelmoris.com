@@ -15,11 +15,11 @@
             </div>
 
             {{-- Upcoming Events --}}
-            @if($upcomingEvents->count() > 0)
+            @if ($upcomingEvents->count() > 0)
                 <div class="mb-12">
                     <x-ui.text.h2 class="mb-6">Upcoming Events</x-ui.text.h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        @foreach($upcomingEvents as $event)
+                        @foreach ($upcomingEvents as $event)
                             <a href="{{ route('events.show', $event) }}" class="group block">
                                 <x-ui.card class="p-6 h-full transition-all duration-300 hover:border-primary/50">
                                     <div class="flex items-start justify-between mb-4">
@@ -35,7 +35,7 @@
                                         {{ $event->title }}
                                     </x-ui.text.h3>
 
-                                    @if($event->description)
+                                    @if ($event->description)
                                         <x-ui.text.muted class="text-sm line-clamp-2 mb-4">
                                             {{ $event->description }}
                                         </x-ui.text.muted>
@@ -43,10 +43,12 @@
 
                                     <div class="flex items-center gap-4 text-sm">
                                         <span class="text-gold">
-                                            {{ $event->speakers_count }} {{ Str::plural('speaker', $event->speakers_count) }}
+                                            {{ $event->speakers_count }}
+                                            {{ Str::plural('speaker', $event->speakers_count) }}
                                         </span>
                                         <span class="text-teal">
-                                            {{ $event->attendees_count }} {{ Str::plural('attendee', $event->attendees_count) }}
+                                            {{ $event->attendees_count }}
+                                            {{ Str::plural('attendee', $event->attendees_count) }}
                                         </span>
                                     </div>
                                 </x-ui.card>
@@ -57,13 +59,14 @@
             @endif
 
             {{-- Past Events --}}
-            @if($pastEvents->count() > 0)
+            @if ($pastEvents->count() > 0)
                 <div>
                     <x-ui.text.h2 class="mb-6">Past Events</x-ui.text.h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        @foreach($pastEvents as $event)
+                        @foreach ($pastEvents as $event)
                             <a href="{{ route('events.show', $event) }}" class="group block">
-                                <x-ui.card class="p-6 h-full transition-all duration-300 hover:border-primary/50 opacity-75 hover:opacity-100">
+                                <x-ui.card
+                                    class="p-6 h-full transition-all duration-300 hover:border-primary/50 opacity-75 hover:opacity-100">
                                     <div class="flex items-start justify-between mb-4">
                                         <x-ui.chip color="coral">
                                             {{ $event->type->label() }}
@@ -77,7 +80,7 @@
                                         {{ $event->title }}
                                     </x-ui.text.h3>
 
-                                    @if($event->description)
+                                    @if ($event->description)
                                         <x-ui.text.muted class="text-sm line-clamp-2 mb-4">
                                             {{ $event->description }}
                                         </x-ui.text.muted>
@@ -85,10 +88,12 @@
 
                                     <div class="flex items-center gap-4 text-sm">
                                         <span class="text-gold">
-                                            {{ $event->speakers_count }} {{ Str::plural('speaker', $event->speakers_count) }}
+                                            {{ $event->speakers_count }}
+                                            {{ Str::plural('speaker', $event->speakers_count) }}
                                         </span>
                                         <span class="text-teal">
-                                            {{ $event->attendees_count }} {{ Str::plural('attendee', $event->attendees_count) }}
+                                            {{ $event->attendees_count }}
+                                            {{ Str::plural('attendee', $event->attendees_count) }}
                                         </span>
                                     </div>
                                 </x-ui.card>
@@ -98,7 +103,7 @@
                 </div>
             @endif
 
-            @if($upcomingEvents->count() === 0 && $pastEvents->count() === 0)
+            @if ($upcomingEvents->count() === 0 && $pastEvents->count() === 0)
                 <x-ui.card class="p-12 text-center">
                     <x-ui.text.h3>No Events Yet</x-ui.text.h3>
                     <x-ui.text.muted class="mt-2">

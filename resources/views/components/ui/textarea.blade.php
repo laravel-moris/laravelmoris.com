@@ -12,10 +12,10 @@
     $id = $id ?? $name;
     $error = $error ?? ($name ? $errors->first($name) : null);
 
-    $currentValue = ($name && $value === null) ? old($name, $value) : $value;
+    $currentValue = $name && $value === null ? old($name, $value) : $value;
 
-    $helpId = $id ? $id.'-help' : null;
-    $errorId = $id ? $id.'-error' : null;
+    $helpId = $id ? $id . '-help' : null;
+    $errorId = $id ? $id . '-error' : null;
 
     $describedBy = collect([$help ? $helpId : null, $error ? $errorId : null])
         ->filter()
@@ -31,28 +31,20 @@
 
 <div class="grid gap-2">
     @if ($label)
-        <label @if ($id) for="{{ $id }}" @endif class="text-[12px] font-bold uppercase tracking-[0.14em] text-muted">
+        <label @if ($id) for="{{ $id }}" @endif
+            class="text-[12px] font-bold uppercase tracking-[0.14em] text-muted">
             {{ $label }}
         </label>
     @endif
 
-    <textarea
-        @if ($id) id="{{ $id }}" @endif
-        @if ($name) name="{{ $name }}" @endif
-        rows="{{ $rows }}"
-        @if ($currentValue)>{{ $currentValue }}</textarea>
-        @else {{ $attributes->class($textareaClasses) }}></textarea>
-        @endif
-
-    @if ($help)
-        <p @if ($helpId) id="{{ $helpId }}" @endif class="text-[13px] text-muted">
+    <textarea @if ($id) id="{{ $id }}" @endif
+        @if ($name) name="{{ $name }}" @endif rows="{{ $rows }}"
+        @if ($currentValue) >{{ $currentValue }}</textarea>
+        @else {{ $attributes->class($textareaClasses) }}></textarea> @endif
+        @if ($help) <p ___inline_directive__________________________________________2___ class="text-[13px] text-muted">
             {{ $help }}
-        </p>
-    @endif
-
-    @if ($error)
-        <p @if ($errorId) id="{{ $errorId }}" @endif class="text-[13px] text-coral font-medium">
+        </p> @endif
+        @if ($error) <p ___inline_directive__________________________________________3___ class="text-[13px] text-coral font-medium">
             {{ $error }}
-        </p>
-    @endif
-</div>
+        </p> @endif
+        </div>

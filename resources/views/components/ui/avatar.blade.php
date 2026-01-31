@@ -1,10 +1,4 @@
-@props([
-    'src',
-    'alt' => '',
-    'size' => 'md',
-    'border' => 'none',
-    'loading' => 'lazy',
-])
+@props(['src', 'alt' => '', 'size' => 'md', 'border' => 'none', 'loading' => 'lazy'])
 
 @php
     $sizes = [
@@ -31,10 +25,6 @@
 @endphp
 
 <div {{ $attributes->class($classes) }}>
-    <img
-        src="{{ $src }}"
-        alt="{{ $alt }}"
-        class="h-full w-full object-cover"
-        loading="{{ $loading }}"
-    >
+    <img src="{{ $src }}" alt="{{ $alt }}" class="h-full w-full object-cover"
+        loading="{{ $loading }}">
 </div>
