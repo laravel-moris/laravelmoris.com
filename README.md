@@ -2,6 +2,8 @@
 
 # Laravel Moris
 
+![header image](./branding/header.png)
+
 The official website for the Mauritius Laravel Meetup Community. Built with Laravel 12 and Tailwind CSS.
 
 [![Laravel 12](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel)](https://laravel.com)
