@@ -106,7 +106,6 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-
         .lm-reveal,
         .lm-reveal[data-revealed="true"] {
             opacity: 1;
@@ -128,7 +127,7 @@
     }
 
     .lm-btn-primary {
-        @apply bg-primary text-white hover:bg-primary-hover hover:-translate-y-0.5;
+        @apply bg-primary text-gray-900 hover:bg-primary-hover hover:-translate-y-0.5;
     }
 
     .lm-btn-secondary {
@@ -234,7 +233,6 @@
 }
 
 @keyframes lm-pulse-gold {
-
     0%,
     100% {
         box-shadow: 0 0 20px rgba(253, 203, 110, 0.3);
@@ -267,12 +265,14 @@
     left: 50%;
     width: 250%;
     height: 250%;
-    background: linear-gradient(45deg,
-            transparent 30%,
-            rgba(253, 203, 110, 0.8) 50%,
-            rgba(253, 203, 110, 1) 60%,
-            rgba(253, 203, 110, 0.8) 70%,
-            transparent 90%);
+    background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(253, 203, 110, 0.8) 50%,
+        rgba(253, 203, 110, 1) 60%,
+        rgba(253, 203, 110, 0.8) 70%,
+        transparent 90%
+    );
     transform: translate(-50%, -50%);
     animation: lm-border-spin 3s linear infinite;
     pointer-events: none;
@@ -280,9 +280,7 @@
     border-radius: 9999px;
 }
 
-
 @keyframes lm-pulse-glow {
-
     0%,
     100% {
         box-shadow: 0 0 20px rgba(253, 203, 110, 0.3);
@@ -294,10 +292,12 @@
 }
 
 .lm-shimmer-gold {
-    background: linear-gradient(90deg,
-            transparent 0%,
-            rgba(253, 203, 110, 0.4) 50%,
-            transparent 100%);
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(253, 203, 110, 0.4) 50%,
+        transparent 100%
+    );
     background-size: 200% 100%;
     animation: lm-shimmer 2s infinite linear;
 }

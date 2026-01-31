@@ -4,6 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Mauritius Laravel Meetup Community - Join local Laravel developers for talks, networking, and learning.">
 
     <title>@yield('title', 'Laravel Moris')</title>
 
