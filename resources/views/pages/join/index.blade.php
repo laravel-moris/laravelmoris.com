@@ -27,7 +27,7 @@
                                 <div class="flex flex-col items-center text-center">
                                     <div
                                         class="w-16 h-16 rounded-2xl bg-surface-2 flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
-                                        <i class="ci {{ $link->iconKey }} ci-3x"></i>
+                                        <img src="{{ Vite::asset('resources/images/logos/' . $link->iconKey . '.svg') }}" alt="{{ $link->name }}" class="size-12">
                                     </div>
                                     <x-ui.text.h3 class="text-lg group-hover:text-primary transition-colors">
                                         {{ $link->name }}

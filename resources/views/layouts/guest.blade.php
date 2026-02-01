@@ -11,8 +11,6 @@
 
     <link rel="icon" type="image/png" href="{{ Vite::asset('resources/images/logo.webp') }}">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dheereshag/coloured-icons@master/app/ci.min.css" />
-
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @else

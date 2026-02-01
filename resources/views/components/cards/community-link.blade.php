@@ -5,7 +5,7 @@
     data-reveal>
     <div
         class="mx-auto mb-6 grid size-[90px] place-items-center rounded-full bg-surface-2 border border-border/70 transition duration-300 group-hover:border-green group-hover:scale-[1.05] group-hover:rotate-[-3deg]">
-        <i class="ci {{ $link->iconKey }} ci-3x"></i>
+        <img src="{{ Vite::asset('resources/images/logos/' . $link->iconKey . '.svg') }}" alt="{{ $link->name }}" class="size-12">
     </div>
 
     <x-ui.text.h3 class="text-[20px] font-bold tracking-[-0.01em]">{{ $link->name }}</x-ui.text.h3>

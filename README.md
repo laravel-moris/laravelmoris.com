@@ -31,6 +31,20 @@ Laravel Moris is a community website for the Mauritius Laravel Meetup group. It 
 - **Authentication**: Laravel Socialite (GitHub, Google OAuth)
 - **Package Manager**: Composer
 
+## Icons & Assets
+
+Brand icons are sourced from [coloured-icons](https://github.com/dheereshag/coloured-icons) by @dheereshag.
+
+Icon files are stored in `resources/images/logos/`:
+
+- `discord.svg` - Discord community link
+- `whatsapp.svg` - WhatsApp community link
+- `linkedin.svg` - LinkedIn community link
+- `github-light.svg` - GitHub OAuth login button
+- `google.svg` - Google OAuth login button
+
+Icons are loaded using Laravel's `Vite::asset()` helper and styled with Tailwind CSS `size-*` classes.
+
 ## Features
 
 ### Community Management
@@ -218,7 +232,6 @@ Laravel Moris exposes a RESTful API for programmatic access to meetup data.
 | ------ | ---------------------- | --------------------- |
 | `GET`  | `/api/meetups`         | List all meetups      |
 | `GET`  | `/api/meetups/{event}` | Get a specific meetup |
-
 
 ## Database Schema
 

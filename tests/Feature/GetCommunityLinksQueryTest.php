@@ -12,8 +12,8 @@ test('it returns community links from sushi model', function () {
     expect($links)
         ->toHaveCount(4)
         ->and($iconKeys)
-        ->toContain('ci-discord')
-        ->toContain('ci-whatsapp')
-        ->toContain('ci-linkedin')
-        ->toContain('ci-github-light');
+        ->toContain('discord')
+        ->toContain('whatsapp')
+        ->toContain('linkedin')
+        ->toContain('github-light');
 });

@@ -16,10 +16,10 @@ class CommunityLink extends Model
      * @var array<int, array{icon_key: string, name: string, description: string, url: string}>
      */
     protected array $rows = [
-        ['icon_key' => 'ci-discord', 'name' => 'Discord', 'description' => 'Chat with the community', 'url' => '#'],
-        ['icon_key' => 'ci-whatsapp', 'name' => 'WhatsApp', 'description' => 'Quick discussions', 'url' => '#'],
-        ['icon_key' => 'ci-linkedin', 'name' => 'LinkedIn', 'description' => 'Follow updates', 'url' => '#'],
-        ['icon_key' => 'ci-github-light', 'name' => 'GitHub', 'description' => 'Contribute to open source', 'url' => '#'],
+        ['icon_key' => 'discord', 'name' => 'Discord', 'description' => 'Chat with the community', 'url' => '#'],
+        ['icon_key' => 'whatsapp', 'name' => 'WhatsApp', 'description' => 'Quick discussions', 'url' => '#'],
+        ['icon_key' => 'linkedin', 'name' => 'LinkedIn', 'description' => 'Follow updates', 'url' => '#'],
+        ['icon_key' => 'github-light', 'name' => 'GitHub', 'description' => 'Contribute to open source', 'url' => '#'],
     ];
 
     protected array $schema = [
