@@ -31,8 +31,8 @@ tasks:
     cmds:
       - task: push
       - kubectl apply -f kubernetes/
-      - sleep 3
-      - task: rollout
+      - sleep 10
+      - task: restart
   info:
     desc: Show the image tag that will be used for this deployment
     cmd: echo "Image:" "{{.FULL_IMAGE}}"
