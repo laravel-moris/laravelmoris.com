@@ -11,6 +11,7 @@
         ['label' => 'Avatars', 'href' => '#avatars'],
         ['label' => 'Chips', 'href' => '#chips'],
         ['label' => 'Alerts', 'href' => '#alerts'],
+        ['label' => 'Modals', 'href' => '#modals'],
         ['label' => 'Links', 'href' => '#nav-links'],
         ['label' => 'Tables', 'href' => '#tables'],
         ['label' => 'Palette', 'href' => '#palette'],
@@ -204,6 +205,48 @@
                         <x-ui.alert variant="danger" title="Danger">
                             Something went wrong while saving.
                         </x-ui.alert>
+                    </div>
+                </x-ui.card>
+
+                <x-ui.card id="modals" title="Modals">
+                    <div class="grid gap-7 md:grid-cols-2">
+                        <div class="grid gap-3">
+                            <x-ui.text.label>Basic Modal</x-ui.text.label>
+                            <p class="text-muted text-sm">Use the modal component with title, icon slot, message slot, and
+                                footer slot for actions.</p>
+
+                            <div class="mt-4 p-4 bg-surface-2 rounded-lg border border-border">
+                                <p class="text-sm text-muted mb-3">Preview structure (opens via JS):</p>
+                                <div class="space-y-2">
+                                    <code class="block text-xs text-foreground">
+                                        &lt;x-ui.modal id="confirm-delete" title="Delete Item"&gt;
+                                    </code>
+                                    <code class="block text-xs text-foreground pl-4">
+                                        &lt;x-slot:icon&gt;...&lt;/x-slot:icon&gt;
+                                    </code>
+                                    <code class="block text-xs text-foreground pl-4">
+                                        &lt;x-slot:message&gt;...&lt;/x-slot:message&gt;
+                                    </code>
+                                    <code class="block text-xs text-foreground pl-4">
+                                        &lt;x-slot:footer&gt;...&lt;/x-slot:footer&gt;
+                                    </code>
+                                    <code class="block text-xs text-foreground">
+                                        &lt;/x-ui.modal&gt;
+                                    </code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid gap-3">
+                            <x-ui.text.label>Props & Slots</x-ui.text.label>
+                            <ul class="space-y-2 text-sm text-muted">
+                                <li><x-ui.code>id</x-ui.code> - Unique identifier for the modal</li>
+                                <li><x-ui.code>title</x-ui.code> - Modal header title</li>
+                                <li><x-ui.code>:icon</x-ui.code> - Slot for icon (warning/info)</li>
+                                <li><x-ui.code>:message</x-ui.code> - Slot for modal content</li>
+                                <li><x-ui.code>:footer</x-ui.code> - Slot for action buttons</li>
+                            </ul>
+                        </div>
                     </div>
                 </x-ui.card>
 

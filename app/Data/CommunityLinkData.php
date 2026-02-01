@@ -14,4 +14,12 @@ class CommunityLinkData extends Data
         public string $description,
         public string $url,
     ) {}
+
+    public function isAvailable(): bool
+    {
+        return match ($this->url) {
+            '#', '' => false,
+            default => true,
+        };
+    }
 }

@@ -1,8 +1,10 @@
 import "./bootstrap";
 
-import.meta.glob([
-    '../images/**',
-]);
+import Alpine from "alpinejs";
+window.Alpine = Alpine;
+Alpine.start();
+
+import.meta.glob(["../images/**"]);
 
 const THEME_STORAGE_KEY = "theme";
 

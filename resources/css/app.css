@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "./fonts.css";
 
+[x-cloak] {
+    display: none !important;
+}
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
@@ -128,7 +132,7 @@
     }
 
     .lm-btn-primary {
-        @apply bg-primary text-gray-900 hover:bg-primary-hover hover:-translate-y-0.5;
+        @apply bg-primary text-white hover:bg-primary-hover hover:-translate-y-0.5;
     }
 
     .lm-btn-secondary {
