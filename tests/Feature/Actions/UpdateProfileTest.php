@@ -68,7 +68,7 @@ test('it stores avatar with correct extension', function () {
 
     app(UpdateProfile::class)->execute($user, $data);
 
-    expect($user->refresh()->avatar)->toContain('.png');
+    expect($user->refresh()->avatar)->toContain('.webp');
 });
 
 test('it updates nullable fields', function () {

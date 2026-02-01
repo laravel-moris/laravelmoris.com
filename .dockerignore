@@ -57,3 +57,14 @@ kubernetes/
 *.local
 *.xml
 branding/
+.dockerignore
+.editorconfig
+.prettierrc
+Dockerfile
+_ide_helper.php
+_ide_helper_models.php
+boost.json
+phpstan.neon
+rector.php
+scripts
+tests

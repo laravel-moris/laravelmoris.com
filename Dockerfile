@@ -1,34 +1,49 @@
-FROM docker.io/library/node:20-alpine AS frontend
+############################
+# Frontend build
+############################
+FROM node:20-bookworm AS frontend
 
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
-
 COPY . .
 RUN npm run build
 
-FROM ghcr.io/shyim/wolfi-php/fpm:8.4 AS build
+
+############################
+# Build hivemind (reliable across arch)
+############################
+FROM golang:1.22-bookworm AS hivemind
+WORKDIR /src
+RUN go install github.com/DarthSim/hivemind@v1.1.0
+
+
+############################
+# PHP build stage
+############################
+FROM debian:bookworm AS build
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Base deps + Surý PHP repo
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates curl gnupg lsb-release unzip git \
+ && curl -fsSL https://packages.sury.org/php/apt.gpg \
+    | gpg --dearmor -o /usr/share/keyrings/sury-php.gpg \
+ && echo "deb [signed-by=/usr/share/keyrings/sury-php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" \
+    > /etc/apt/sources.list.d/sury-php.list \
+ && apt-get update
+
+# PHP 8.4 + extensions (Debian packaging-correct set)
+RUN apt-get install -y --no-install-recommends \
+    php8.4 php8.4-fpm \
+    php8.4-curl php8.4-gd php8.4-intl php8.4-mbstring \
+    php8.4-xml php8.4-zip php8.4-sqlite3 \
+    php8.4-opcache \
+    composer \
+ && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-
-RUN apk add --no-cache \
-    php-8.4 \
-    php-8.4-curl \
-    php-8.4-openssl \
-    php-8.4-phar \
-    php-8.4-intl \
-    php-8.4-fileinfo \
-    php-8.4-dom \
-    php-8.4-iconv \
-    php-8.4-xml \
-    php-8.4-xmlreader \
-    php-8.4-mbstring \
-    php-8.4-ctype \
-    php-8.4-zip \
-    php-8.4-pdo \
-    php-8.4-pdo_sqlite \
-    composer \
-    git
 
 COPY composer.json composer.lock ./
 RUN composer install \
@@ -40,52 +55,76 @@ RUN composer install \
 
 COPY . .
 COPY --from=frontend /app/public/build /app/public/build
-
 RUN composer dump-autoload --optimize --no-dev
 
-FROM ghcr.io/shyim/wolfi-php/nginx:8.4 AS production
 
-RUN apk add --no-cache \
-    php-8.4 \
-    php-8.4-curl \
-    php-8.4-openssl \
-    php-8.4-phar \
-    php-8.4-intl \
-    php-8.4-fileinfo \
-    php-8.4-dom \
-    php-8.4-iconv \
-    php-8.4-xml \
-    php-8.4-xmlreader \
-    php-8.4-mbstring \
-    php-8.4-ctype \
-    php-8.4-zip \
-    php-8.4-pdo \
-    php-8.4-pdo_sqlite \
-    php-8.4-mbstring \
+############################
+# Production image
+############################
+FROM debian:bookworm
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# System + Surý repo + nginx + PHP
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates curl gnupg lsb-release nginx passwd \
+ && curl -fsSL https://packages.sury.org/php/apt.gpg \
+    | gpg --dearmor -o /usr/share/keyrings/sury-php.gpg \
+ && echo "deb [signed-by=/usr/share/keyrings/sury-php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" \
+    > /etc/apt/sources.list.d/sury-php.list \
+ && apt-get update \
+ && apt-get install -y --no-install-recommends \
+    php8.4 php8.4-fpm \
+    php8.4-curl php8.4-gd php8.4-intl php8.4-mbstring \
+    php8.4-xml php8.4-zip php8.4-sqlite3 \
+    php8.4-opcache \
     composer \
-    gosu
+ && groupmod -g 82 www-data \
+ && usermod -u 82 -g 82 www-data \
+ && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /var/lib/nginx/logs /var/lib/nginx/body /data \
-    && chown -R www-data:www-data /var/lib/nginx /data
+# Modify PHP-FPM global config
+RUN sed -i 's|^;*error_log =.*|error_log = /dev/stderr|' /etc/php/8.4/fpm/php-fpm.conf \
+ && sed -i 's|^;*daemonize =.*|daemonize = no|' /etc/php/8.4/fpm/php-fpm.conf \
+ && sed -i 's|^;*pid =.*|pid = /tmp/php-fpm.pid|' /etc/php/8.4/fpm/php-fpm.conf
+
+# Hivemind
+COPY --from=hivemind /go/bin/hivemind /usr/local/bin/hivemind
+
+# Directories & permissions
+RUN mkdir -p \
+      /data /data/sessions /data/uploads \
+      /var/lib/nginx/logs /var/lib/nginx/body \
+ && chown -R www-data:www-data /data /var/lib/nginx
 
 WORKDIR /var/www/html
 
+# Configs
 COPY docker/nginx.conf /etc/nginx/nginx.conf
+COPY docker/php-fpm-pool.conf /etc/php/8.4/fpm/pool.d/zz-app.conf
+COPY docker/php-opcache.ini /etc/php/8.4/fpm/conf.d/zz-opcache.ini
+COPY docker/Procfile /etc/Procfile
 
-COPY docker/php-fpm-pool.conf /etc/php/php-fpm.d/zz-app.conf
-
-COPY docker/php-opcache.ini /etc/php/conf.d/zz-opcache.ini
-
+# Entrypoint used by Procfile
 COPY docker/entrypoint-fpm.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-COPY docker/Procfile /etc/Procfile
-
+# App
 COPY --from=build --chown=www-data:www-data /app /var/www/html
 
-# USER www-data
-USER 82
+RUN mkdir -p \
+    /data /data/sessions /data/uploads \
+    /var/www/html/storage/app \
+    /var/www/html/storage/framework/cache \
+    /var/www/html/storage/framework/sessions \
+    /var/www/html/storage/framework/views \
+    /var/www/html/storage/logs \
+    /var/www/html/bootstrap/cache \
+ && chown -R www-data:www-data /var/www/html /data \
+ && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /data \
+ && rm /var/www/html/index.nginx-debian.html
 
+USER 82
 EXPOSE 8080
 
 ENV APP_ENV=production \
@@ -93,3 +132,5 @@ ENV APP_ENV=production \
     LOG_CHANNEL=stderr \
     DB_CONNECTION=sqlite \
     DB_DATABASE=/data/database.sqlite
+
+CMD ["/usr/local/bin/hivemind", "/etc/Procfile"]

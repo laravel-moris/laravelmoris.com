@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Actions\Profile;
 
+use App\Support\WebP;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use RuntimeException;
 
 class StoreAvatar
 {
-    const PATH = 'avatars/%s.%s';
-
     public function execute(?string $content, ?string $extension): ?string
     {
         if (! $this->allowExtension($extension)) {
@@ -21,16 +21,34 @@ class StoreAvatar
             return null;
         }
 
-        $filename = sprintf(self::PATH, Str::random(), $extension);
-
+        $uuid = (string) Str::uuid();
         $disk = Storage::disk('public');
 
-        if (! $disk->put($filename, $content)) {
+        $originalPath = sprintf('avatars/%s/original.%s', $uuid, $extension);
+
+        if (! $disk->put($originalPath, $content)) {
             return null;
         }
 
-        return $filename;
+        if ($extension === 'svg') {
+            return $originalPath;
+        }
 
+        try {
+            $webpContent = WebP::make($content)
+                ->maxWidth(400)
+                ->toBinary();
+        } catch (RuntimeException) {
+            return null;
+        }
+
+        $webpPath = sprintf('avatars/%s/avatar.webp', $uuid);
+
+        if (! $disk->put($webpPath, $webpContent)) {
+            return null;
+        }
+
+        return $webpPath;
     }
 
     private function allowExtension(?string $extension): bool
@@ -39,6 +57,6 @@ class StoreAvatar
             return false;
         }
 
-        return in_array($extension, ['jpg', 'jpeg', 'png'], true);
+        return in_array($extension, ['jpg', 'jpeg', 'png', 'svg'], true);
     }
 }

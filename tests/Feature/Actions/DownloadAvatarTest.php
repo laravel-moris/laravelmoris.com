@@ -59,7 +59,7 @@ test('it extracts extension from url path', function () {
 
     $result = app(DownloadAvatar::class)->execute('https://example.com/photos/avatar.png');
 
-    expect($result)->not->toBeNull()->toContain('.png');
+    expect($result)->not->toBeNull()->toContain('.webp');
 });
 
 test('it defaults to jpg when extension not recognized', function () {
@@ -70,7 +70,7 @@ test('it defaults to jpg when extension not recognized', function () {
 
     $result = app(DownloadAvatar::class)->execute('https://example.com/photos/avatar');
 
-    expect($result)->not->toBeNull()->toContain('.jpg');
+    expect($result)->not->toBeNull()->toContain('.webp');
 });
 
 /**
@@ -78,10 +78,14 @@ test('it defaults to jpg when extension not recognized', function () {
  */
 function fakeImageContent(string $extension): string
 {
-    // Minimal valid image header for the given extension
-    return match ($extension) {
-        'jpg', 'jpeg' => "\xFF\xD8\xFF\xE0\x00\x10JFIF\x00\x01\x01\x00\x00\x01\x00\x01\x00\x00",
-        'png' => "\x89PNG\r\n\x1A\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x02\x00\x00\x00\x90wS\xde",
-        default => 'fake image data',
+    $image = imagecreatetruecolor(10, 10);
+    ob_start();
+    match ($extension) {
+        'png' => imagepng($image),
+        default => imagejpeg($image),
     };
+    $content = ob_get_clean();
+    imagedestroy($image);
+
+    return (string) $content;
 }

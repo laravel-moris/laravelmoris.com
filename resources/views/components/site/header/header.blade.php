@@ -1,6 +1,4 @@
 @props([
-    'logoSrc' => 'https://laravelmoris.com/build/assets/logo-CaoYWjBH.png',
-    'logoAlt' => 'Laravel Moris - Mauritius Laravel Meetup Community',
     'links' => [],
 ])
 
@@ -17,7 +15,7 @@
 <header class="relative z-[100]">
     <div class="lm-container flex items-center justify-between py-6">
         <div class="flex items-center">
-            <x-site.header.logo :src="$logoSrc" :alt="$logoAlt" />
+            <x-site.header.logo />
         </div>
 
         <div class="flex items-center gap-3 md:hidden">

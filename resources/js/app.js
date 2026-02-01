@@ -1,5 +1,9 @@
 import "./bootstrap";
 
+import.meta.glob([
+    '../images/**',
+]);
+
 const THEME_STORAGE_KEY = "theme";
 
 function getPreferredTheme() {
