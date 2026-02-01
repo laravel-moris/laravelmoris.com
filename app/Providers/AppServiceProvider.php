@@ -39,7 +39,9 @@ final class AppServiceProvider extends ServiceProvider
         // Prohibit destructive database commands in production
         DB::prohibitDestructiveCommands(app()->isProduction());
 
-        URL::forceScheme('https');
+        if (app()->isProduction()) {
+            URL::forceScheme('https');
+        }
 
         // for OAuth provider checks
         Blade::if('provider', function (string $provider): bool {
