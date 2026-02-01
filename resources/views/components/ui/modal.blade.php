@@ -33,7 +33,7 @@
         </x-ui.icon-button>
 
         <!-- Icon Slot -->
-        @isset($icon))
+        @isset($icon)
             <div class="flex justify-center pt-6">
                 {{ $icon }}
             </div>
@@ -52,7 +52,7 @@
         </div>
 
         <!-- Footer Slot -->
-        @isset($footer))
+        @isset($footer)
             <div class="px-6 pb-6 mt-6">
                 {{ $footer }}
             </div>
