@@ -14,7 +14,6 @@ mkdir -p \
     storage/framework/views \
     storage/logs
 
-ls -lah /var/www/html
 
 if [ "${DB_CONNECTION:-}" = "sqlite" ] && [ ! -f "${DB_DATABASE:-/data/database.sqlite}" ]; then
     mkdir -p "$(dirname "${DB_DATABASE:-/data/database.sqlite}")"
@@ -31,5 +30,4 @@ php artisan optimize
 echo "Creating storage link..."
 php artisan storage:link 2>/dev/null || true
 
-echo "Starting PHP-FPM..."
-exec /usr/sbin/php-fpm8.4 --nodaemonize
+exec php-fpm --nodaemonize

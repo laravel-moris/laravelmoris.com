@@ -1,8 +1,11 @@
 import "./bootstrap";
 
 import Alpine from "alpinejs";
+import InstantPage from './instant.js'
+
 window.Alpine = Alpine;
 Alpine.start();
+InstantPage();
 
 import.meta.glob(["../images/**"]);
 

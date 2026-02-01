@@ -1,128 +1,111 @@
-############################
-# Frontend build
-############################
-FROM node:20-bookworm AS frontend
-
+FROM node:20-alpine AS frontend
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci
-COPY . .
+RUN --mount=type=cache,target=/root/.npm npm ci
+COPY resources resources
+COPY vite.config.js vite.config.js
 RUN npm run build
 
-
-############################
-# Build hivemind (reliable across arch)
-############################
-FROM golang:1.22-bookworm AS hivemind
+FROM golang:1.22-alpine AS hivemind
 WORKDIR /src
-RUN go install github.com/DarthSim/hivemind@v1.1.0
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    go install github.com/DarthSim/hivemind@v1.1.0
 
+FROM php:8.4-fpm-alpine AS phpbase
 
-############################
-# PHP build stage
-############################
-FROM debian:bookworm AS build
+ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
-ENV DEBIAN_FRONTEND=noninteractive
+RUN apk add --no-cache \
+    nginx \
+    && install-php-extensions curl gd intl mbstring xml zip sqlite3 opcache \
+    && rm -rf /tmp/* /var/cache/apk/* /usr/local/bin/install-php-extensions
 
-# Base deps + Surý PHP repo
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates curl gnupg lsb-release unzip git \
- && curl -fsSL https://packages.sury.org/php/apt.gpg \
-    | gpg --dearmor -o /usr/share/keyrings/sury-php.gpg \
- && echo "deb [signed-by=/usr/share/keyrings/sury-php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" \
-    > /etc/apt/sources.list.d/sury-php.list \
- && apt-get update
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# PHP 8.4 + extensions (Debian packaging-correct set)
-RUN apt-get install -y --no-install-recommends \
-    php8.4 php8.4-fpm \
-    php8.4-curl php8.4-gd php8.4-intl php8.4-mbstring \
-    php8.4-xml php8.4-zip php8.4-sqlite3 \
-    php8.4-opcache \
-    composer \
- && rm -rf /var/lib/apt/lists/*
+FROM phpbase AS build
+
+RUN apk add --no-cache \
+    unzip \
+    git
 
 WORKDIR /app
 
 COPY composer.json composer.lock ./
-RUN composer install \
-    --no-dev \
-    --no-interaction \
-    --no-scripts \
-    --prefer-dist \
-    --optimize-autoloader
+RUN --mount=type=cache,target=/root/.composer/cache \
+    composer install \
+        --no-dev \
+        --no-interaction \
+        --no-scripts \
+        --prefer-dist \
+        --optimize-autoloader
 
 COPY . .
 COPY --from=frontend /app/public/build /app/public/build
-RUN composer dump-autoload --optimize --no-dev
 
+RUN composer dump-autoload --optimize --no-dev \
+    && rm -rf /root/.composer/cache
 
-############################
-# Production image
-############################
-FROM debian:bookworm
+FROM phpbase AS final
 
-ENV DEBIAN_FRONTEND=noninteractive
+RUN apk add --no-cache \
+    nginx \
+    shadow \
+    && rm -rf /var/cache/apk/*
 
-# System + Surý repo + nginx + PHP
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates curl gnupg lsb-release nginx passwd \
- && curl -fsSL https://packages.sury.org/php/apt.gpg \
-    | gpg --dearmor -o /usr/share/keyrings/sury-php.gpg \
- && echo "deb [signed-by=/usr/share/keyrings/sury-php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" \
-    > /etc/apt/sources.list.d/sury-php.list \
- && apt-get update \
- && apt-get install -y --no-install-recommends \
-    php8.4 php8.4-fpm \
-    php8.4-curl php8.4-gd php8.4-intl php8.4-mbstring \
-    php8.4-xml php8.4-zip php8.4-sqlite3 \
-    php8.4-opcache \
-    composer \
- && groupmod -g 82 www-data \
- && usermod -u 82 -g 82 www-data \
- && rm -rf /var/lib/apt/lists/*
+RUN groupmod -g 82 www-data \
+    && usermod -u 82 -g 82 www-data
 
-# Modify PHP-FPM global config
-RUN sed -i 's|^;*error_log =.*|error_log = /dev/stderr|' /etc/php/8.4/fpm/php-fpm.conf \
- && sed -i 's|^;*daemonize =.*|daemonize = no|' /etc/php/8.4/fpm/php-fpm.conf \
- && sed -i 's|^;*pid =.*|pid = /tmp/php-fpm.pid|' /etc/php/8.4/fpm/php-fpm.conf
-
-# Hivemind
 COPY --from=hivemind /go/bin/hivemind /usr/local/bin/hivemind
 
-# Directories & permissions
-RUN mkdir -p \
-      /data /data/sessions /data/uploads \
-      /var/lib/nginx/logs /var/lib/nginx/body \
- && chown -R www-data:www-data /data /var/lib/nginx
-
-WORKDIR /var/www/html
-
-# Configs
+COPY docker/php-fpm.conf /usr/local/etc/php-fpm.conf
+COPY docker/php-fpm-pool.conf /usr/local/etc/php-fpm.d/zz-app.conf
+COPY docker/php-opcache.ini /usr/local/etc/php/conf.d/zz-opcache.ini
 COPY docker/nginx.conf /etc/nginx/nginx.conf
-COPY docker/php-fpm-pool.conf /etc/php/8.4/fpm/pool.d/zz-app.conf
-COPY docker/php-opcache.ini /etc/php/8.4/fpm/conf.d/zz-opcache.ini
 COPY docker/Procfile /etc/Procfile
-
-# Entrypoint used by Procfile
 COPY docker/entrypoint-fpm.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# App
-COPY --from=build --chown=www-data:www-data /app /var/www/html
+WORKDIR /var/www/html
+
+COPY --from=build --chown=www-data:www-data /app/app /var/www/html/app
+COPY --from=build --chown=www-data:www-data /app/bootstrap /var/www/html/bootstrap
+COPY --from=build --chown=www-data:www-data /app/config /var/www/html/config
+COPY --from=build --chown=www-data:www-data /app/database /var/www/html/database
+COPY --from=build --chown=www-data:www-data /app/public /var/www/html/public
+COPY --from=build --chown=www-data:www-data /app/resources /var/www/html/resources
+COPY --from=build --chown=www-data:www-data /app/routes /var/www/html/routes
+COPY --from=build --chown=www-data:www-data /app/storage /var/www/html/storage
+COPY --from=build --chown=www-data:www-data /app/vendor /var/www/html/vendor
+COPY --from=build --chown=www-data:www-data /app/operations /var/www/html/operations
+COPY --from=build --chown=www-data:www-data /app/artisan /var/www/html/artisan
+COPY --from=build --chown=www-data:www-data /app/composer.json /var/www/html/composer.json
+COPY --from=build --chown=www-data:www-data /app/composer.lock /var/www/html/composer.lock
 
 RUN mkdir -p \
-    /data /data/sessions /data/uploads \
-    /var/www/html/storage/app \
-    /var/www/html/storage/framework/cache \
-    /var/www/html/storage/framework/sessions \
-    /var/www/html/storage/framework/views \
-    /var/www/html/storage/logs \
-    /var/www/html/bootstrap/cache \
- && chown -R www-data:www-data /var/www/html /data \
- && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /data \
- && rm /var/www/html/index.nginx-debian.html
+        /data/sessions \
+        /data/uploads \
+        /var/lib/nginx/logs \
+        /var/lib/nginx/body \
+        /var/www/html/storage/framework/cache \
+        /var/www/html/storage/framework/sessions \
+        /var/www/html/storage/framework/views \
+        /var/www/html/storage/logs \
+        /var/www/html/bootstrap/cache \
+    && chown -R www-data:www-data \
+        /data \
+        /var/lib/nginx \
+        /var/www/html/storage \
+        /var/www/html/bootstrap/cache \
+    && chmod -R 775 \
+        /var/www/html/storage \
+        /var/www/html/bootstrap/cache \
+        /data \
+    && rm -f /var/www/html/public/index.nginx-debian.html 2>/dev/null || true \
+    && rm -rf \
+        /usr/share/nginx/html/* \
+        /var/cache/apk/* \
+        /tmp/*
 
 USER 82
 EXPOSE 8080
