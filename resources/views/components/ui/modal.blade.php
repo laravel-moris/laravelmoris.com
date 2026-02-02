@@ -7,13 +7,11 @@
     $uniqueId = $id ?? 'modal-' . uniqid();
 @endphp
 
-<div x-show="showModal" x-cloak x-transition:enter="transition ease-out duration-300"
-    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-    x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0" id="{{ $uniqueId }}-container"
+<div x-show="showModal" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" id="{{ $uniqueId }}-container"
     class="fixed inset-0 z-[100] flex items-center justify-center" role="dialog" aria-modal="true"
-    aria-labelledby="{{ $uniqueId }}-title"
-    {{ $attributes->except(['id', 'title']) }}>
+    aria-labelledby="{{ $uniqueId }}-title" {{ $attributes->except(['id', 'title']) }}>
     <!-- Backdrop -->
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="showModal = false"></div>
 

@@ -3,8 +3,10 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Auth\CallbackController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RedirectController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Event\RSVPController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\HomeController;
@@ -22,7 +24,11 @@ Route::view('/privacy-policy', 'pages.privacy')->name('privacy');
 
 Route::get('/join', [JoinController::class, 'index'])->name('join.index');
 
-Route::view('/login', 'auth.login')->name('login');
+Route::get('/login', [LoginController::class, 'create'])->name('login');
+Route::post('/login', [LoginController::class, 'store'])->name('login.store');
+
+Route::get('/register', [RegisterController::class, 'create'])->name('register.create');
+Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 Route::get('/auth/{provider}', RedirectController::class)->name('auth.provider');
 Route::get('/auth/{provider}/callback', CallbackController::class)->name('auth.callback');
 Route::post('/logout', LogoutController::class)->name('logout');

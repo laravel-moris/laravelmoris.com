@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Socialite\Contracts\User as SocialiteUser;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -210,4 +212,280 @@ it('invalidates session on logout', function () {
     post(route('logout'));
 
     expect(session()->getId())->not->toBe($oldSessionId);
+});
+
+// Email/Password Registration Tests
+
+it('loads the register page successfully', function () {
+    get(route('register.create'))
+        ->assertSuccessful()
+        ->assertViewIs('auth.register');
+});
+
+it('creates a new user with email and password', function () {
+    $data = [
+        'name' => 'New User',
+        'email' => 'newuser@example.com',
+        'password' => 'Password123!',
+        'password_confirmation' => 'Password123!',
+        'title' => 'Developer',
+        'bio' => 'A Laravel developer',
+    ];
+
+    expect(User::query()->where('email', 'newuser@example.com')->exists())->toBeFalse();
+
+    post(route('register.store'), $data)
+        ->assertRedirect(route('home'));
+
+    expect(User::query()->where('email', 'newuser@example.com')->exists())->toBeTrue();
+
+    $user = User::query()->where('email', 'newuser@example.com')->first();
+    expect($user)->not->toBeNull()
+        ->and($user->name)->toBe('New User')
+        ->and($user->email)->toBe('newuser@example.com')
+        ->and($user->title)->toBe('Developer')
+        ->and($user->bio)->toBe('A Laravel developer');
+});
+
+it('validates required fields on registration', function () {
+    post(route('register.store'), [])
+        ->assertSessionHasErrors(['name', 'email', 'password', 'password_confirmation']);
+});
+
+it('validates unique email on registration', function () {
+    User::factory()->create(['email' => 'existing@example.com']);
+
+    $data = [
+        'name' => 'Test User',
+        'email' => 'existing@example.com',
+        'password' => 'Password123!',
+        'password_confirmation' => 'Password123!',
+    ];
+
+    post(route('register.store'), $data)
+        ->assertSessionHasErrors(['email']);
+});
+
+it('validates password confirmation', function () {
+    $data = [
+        'name' => 'Test User',
+        'email' => 'test@example.com',
+        'password' => 'Password123!',
+        'password_confirmation' => 'DifferentPassword!',
+    ];
+
+    post(route('register.store'), $data)
+        ->assertSessionHasErrors(['password']);
+});
+
+it('validates strong password requirements', function () {
+    $data = [
+        'name' => 'Test User',
+        'email' => 'test@example.com',
+        'password' => 'weak',
+        'password_confirmation' => 'weak',
+    ];
+
+    post(route('register.store'), $data)
+        ->assertSessionHasErrors(['password']);
+});
+
+it('logs in user after registration', function () {
+    $data = [
+        'name' => 'Auto Login User',
+        'email' => 'autologin@example.com',
+        'password' => 'Password123!',
+        'password_confirmation' => 'Password123!',
+    ];
+
+    post(route('register.store'), $data)
+        ->assertRedirect(route('home'));
+
+    expect(auth()->check())->toBeTrue()->and(auth()->user()->email)->toBe('autologin@example.com');
+});
+
+it('can upload avatar during registration', function () {
+    Storage::fake('public');
+
+    $file = UploadedFile::fake()->image('avatar.jpg', 400, 400);
+
+    $data = new \App\Data\Auth\RegisterUserData(
+        name: 'Avatar User',
+        email: 'avatar@example.com',
+        password: 'Password123!',
+        password_confirmation: 'Password123!',
+        title: 'Developer',
+        bio: 'A Laravel developer',
+        avatar: $file,
+    );
+
+    $user = app(\App\Actions\Auth\RegisterUser::class)->execute($data);
+
+    expect($user)->not->toBeNull()
+        ->and($user->avatar)->not->toBeNull();
+});
+
+it('handles pdf files during registration', function () {
+    Storage::fake('public');
+
+    $file = UploadedFile::fake()->create('document.pdf', 100, 'application/pdf');
+
+    $data = new \App\Data\Auth\RegisterUserData(
+        name: 'PDF User',
+        email: 'pdf@example.com',
+        password: 'Password123!',
+        password_confirmation: 'Password123!',
+        title: null,
+        bio: null,
+        avatar: $file,
+    );
+
+    $user = app(\App\Actions\Auth\RegisterUser::class)->execute($data);
+
+    expect($user)->not->toBeNull();
+    expect($user->getRawOriginal('avatar'))->toBeEmpty();
+});
+
+it('handles large files during registration', function () {
+    Storage::fake('public');
+
+    $file = UploadedFile::fake()->image('large-avatar.jpg')->size(3000);
+
+    $data = new \App\Data\Auth\RegisterUserData(
+        name: 'Large File User',
+        email: 'largefile@example.com',
+        password: 'Password123!',
+        password_confirmation: 'Password123!',
+        title: null,
+        bio: null,
+        avatar: $file,
+    );
+
+    $user = app(\App\Actions\Auth\RegisterUser::class)->execute($data);
+
+    expect($user)->not->toBeNull();
+    expect($user->getRawOriginal('avatar'))->not->toBeEmpty();
+});
+
+it('stores avatar in public storage', function () {
+    Storage::fake('public');
+
+    $file = UploadedFile::fake()->image('test-avatar.png', 200, 200);
+
+    $data = new \App\Data\Auth\RegisterUserData(
+        name: 'Storage User',
+        email: 'storage@example.com',
+        password: 'Password123!',
+        password_confirmation: 'Password123!',
+        title: null,
+        bio: null,
+        avatar: $file,
+    );
+
+    $user = app(\App\Actions\Auth\RegisterUser::class)->execute($data);
+
+    expect($user)->not->toBeNull();
+    expect($user->avatar)->not->toBeNull();
+
+    $storedPath = str_replace('/storage/', '', $user->avatar);
+    expect(Storage::disk('public')->exists($storedPath))->toBeTrue();
+});
+
+it('stores different avatar formats', function ($extension) {
+    Storage::fake('public');
+
+    $file = UploadedFile::fake()->image("avatar.{$extension}", 300, 300);
+
+    $data = new \App\Data\Auth\RegisterUserData(
+        name: "Format User {$extension}",
+        email: "format{$extension}@example.com",
+        password: 'Password123!',
+        password_confirmation: 'Password123!',
+        title: null,
+        bio: null,
+        avatar: $file,
+    );
+
+    $user = app(\App\Actions\Auth\RegisterUser::class)->execute($data);
+
+    expect($user)->not->toBeNull()
+        ->and($user->avatar)->not->toBeNull();
+})->with(['jpg', 'png']);
+
+// Email/Password Login Tests
+
+it('logs in user with valid credentials', function () {
+    $password = 'Password123!';
+    $user = User::factory()->create([
+        'email' => 'login@example.com',
+        'password' => bcrypt($password),
+    ]);
+
+    expect(auth()->check())->toBeFalse();
+
+    post(route('login.store'), [
+        'email' => 'login@example.com',
+        'password' => $password,
+    ])
+        ->assertRedirect(route('home'));
+
+    expect(auth()->check())->toBeTrue()->and(auth()->user()->id)->toBe($user->id);
+});
+
+it('fails login with invalid credentials', function () {
+    User::factory()->create([
+        'email' => 'fail@example.com',
+        'password' => bcrypt('CorrectPassword123!'),
+    ]);
+
+    post(route('login.store'), [
+        'email' => 'fail@example.com',
+        'password' => 'WrongPassword456!',
+    ])
+        ->assertRedirect()
+        ->assertSessionHasErrors(['email']);
+
+    expect(auth()->check())->toBeFalse();
+});
+
+it('fails login with non-existent email', function () {
+    post(route('login.store'), [
+        'email' => 'nonexistent@example.com',
+        'password' => 'SomePassword123!',
+    ])
+        ->assertRedirect()
+        ->assertSessionHasErrors(['email']);
+
+    expect(auth()->check())->toBeFalse();
+});
+
+it('validates required email on login', function () {
+    post(route('login.store'), [
+        'password' => 'Password123!',
+    ])
+        ->assertSessionHasErrors(['email']);
+});
+
+it('validates required password on login', function () {
+    post(route('login.store'), [
+        'email' => 'test@example.com',
+    ])
+        ->assertSessionHasErrors(['password']);
+});
+
+it('can remember user with remember option', function () {
+    $password = 'Password123!';
+    $user = User::factory()->create([
+        'email' => 'remember@example.com',
+        'password' => bcrypt($password),
+    ]);
+
+    post(route('login.store'), [
+        'email' => 'remember@example.com',
+        'password' => $password,
+        'remember' => true,
+    ])
+        ->assertRedirect(route('home'));
+
+    expect(auth()->check())->toBeTrue();
 });
