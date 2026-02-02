@@ -31,6 +31,6 @@
             <span class="text-border">|</span>
             <a href="{{ route('cookies') }}" class="hover:text-primary transition-colors">Cookie Policy</a>
         </div>
-        <a href="#" class="hover:text-primary transition-colors">About Us</a>
+        <a href="{{ route('about') }}" class="hover:text-primary transition-colors">About Us</a>
     </div>
 </footer>

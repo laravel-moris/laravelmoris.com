@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Auth\CallbackController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\SponsorsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
+Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::view('/styleguide', 'pages.styleguide')->name('styleguide');
 Route::view('/terms', 'pages.terms')->name('terms');
 Route::view('/privacy-policy', 'pages.privacy')->name('privacy');
