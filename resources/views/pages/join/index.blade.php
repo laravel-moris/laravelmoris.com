@@ -61,8 +61,6 @@
             </div>
         </main>
 
-        <x-site.footer />
-
         <x-ui.modal id="link-unavailable-modal" title="Link Not Available">
             <x-slot:icon>
                 <div class="w-16 h-16 rounded-full bg-amber-500/10 flex items-center justify-center">

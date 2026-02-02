@@ -346,6 +346,4 @@
             </div>
         </x-ui.section>
     </main>
-
-    <x-site.footer />
 @endsection

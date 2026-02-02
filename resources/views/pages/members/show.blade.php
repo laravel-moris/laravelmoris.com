@@ -120,6 +120,4 @@
             </div>
         </div>
     </main>
-
-    <x-site.footer />
 @endsection

@@ -37,6 +37,8 @@
 
     @yield('body')
 
+    <x-site.footer />
+
     @stack('scripts')
 </body>
 

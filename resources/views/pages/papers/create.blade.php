@@ -69,6 +69,4 @@
             </x-ui.card>
         </div>
     </main>
-
-    <x-site.footer />
 @endsection

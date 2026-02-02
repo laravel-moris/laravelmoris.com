@@ -15,6 +15,4 @@
         @include('partials.home.community')
         @include('partials.home.sponsors')
     </main>
-
-    <x-site.footer />
 @endsection
