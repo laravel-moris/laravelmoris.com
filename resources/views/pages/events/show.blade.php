@@ -146,7 +146,8 @@
 
             {{-- Row 2: Sponsors (Logos Only Centered) --}}
             @if ($event->sponsors->count() > 0)
-                <x-ui.card class="p-6 mb-6">
+                <x-ui.card class="px-6 pb-6 mb-6">
+                    <x-ui.text.h3 class="mb-4">Sponsors</x-ui.text.h3>
                     <div class="flex items-center justify-center gap-6 flex-wrap">
                         @foreach ($event->sponsors as $sponsor)
                             <a href="{{ route('sponsors.show', $sponsor) }}"
@@ -161,8 +162,8 @@
                 </x-ui.card>
             @endif
 
-            {{-- Row 3: Speakers + Attendees --}}
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {{-- Row 3: Speakers --}}
+            <div class="grid grid-cols-1 gap-6">
                 {{-- Speakers Section --}}
                 <x-ui.card class="p-6">
                     <div class="flex items-center justify-between mb-4">
@@ -203,32 +204,6 @@
                     @endif
                 </x-ui.card>
 
-                {{-- Attendees Section --}}
-                <x-ui.card class="p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <x-ui.text.h3>Attendees</x-ui.text.h3>
-                        <x-ui.chip color="teal">{{ $event->attendees->count() }}</x-ui.chip>
-                    </div>
-
-                    @if ($event->attendees->count() > 0)
-                        <div class="flex flex-wrap gap-2">
-                            @foreach ($event->attendees->take(30) as $attendee)
-                                <div class="flex items-center gap-2 px-3 py-2 bg-surface-2 rounded-lg">
-                                    <img src="{{ $attendee->avatar }}" alt="{{ $attendee->name }}"
-                                        class="w-8 h-8 rounded-full object-cover">
-                                    <span class="text-sm">{{ $attendee->name }}</span>
-                                </div>
-                            @endforeach
-                            @if ($event->attendees->count() > 30)
-                                <div class="px-3 py-2 bg-surface-2 rounded-lg text-sm text-muted">
-                                    +{{ $event->attendees->count() - 30 }} more
-                                </div>
-                            @endif
-                        </div>
-                    @else
-                        <x-ui.text.muted>No attendees yet.</x-ui.text.muted>
-                    @endif
-                </x-ui.card>
             </div>
         </div>
     </main>
