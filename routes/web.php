@@ -21,6 +21,7 @@ Route::get('/', HomeController::class)->name('home');
 Route::view('/styleguide', 'pages.styleguide')->name('styleguide');
 Route::view('/terms', 'pages.terms')->name('terms');
 Route::view('/privacy-policy', 'pages.privacy')->name('privacy');
+Route::view('/cookies', 'pages.cookies')->name('cookies');
 
 Route::get('/join', [JoinController::class, 'index'])->name('join.index');
 

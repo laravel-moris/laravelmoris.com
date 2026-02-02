@@ -22,4 +22,15 @@
         </svg>
         <span>{{ $location }}</span>
     </div>
+
+    <div class="mx-auto mt-6 flex flex-col justify-center items-center gap-3 text-[12px] font-semibold text-muted">
+        <div class="flex items-center gap-3">
+            <a href="{{ route('privacy') }}" class="hover:text-primary transition-colors">Privacy Policy</a>
+            <span class="text-border">|</span>
+            <a href="{{ route('terms') }}" class="hover:text-primary transition-colors">Terms of Service</a>
+            <span class="text-border">|</span>
+            <a href="{{ route('cookies') }}" class="hover:text-primary transition-colors">Cookie Policy</a>
+        </div>
+        <a href="#" class="hover:text-primary transition-colors">About Us</a>
+    </div>
 </footer>
