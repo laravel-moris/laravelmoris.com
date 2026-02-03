@@ -1,15 +1,17 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "laravelmoris/laravelmoris.com",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "The official website for the Mauritius Laravel Meetup Community.",
     "keywords": [
         "laravel",
-        "framework"
+        "mauritius",
+        "meetup",
+        "community"
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
         "calebporzio/sushi": "^2.0",
         "laravel/framework": "^12.0",
         "laravel/socialite": "^5.24",
