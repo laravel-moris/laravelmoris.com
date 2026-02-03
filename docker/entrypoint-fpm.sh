@@ -26,7 +26,10 @@ php artisan filament:upgrade
 php artisan livewire:publish --assets
 
 echo "Running migrations..."
+
 php artisan migrate --force
+
+php -d memory_limit=100M artisan operations:process
 
 echo "Optimizing..."
 php artisan optimize
