@@ -20,8 +20,8 @@
                                 <x-ui.text.muted class="mt-1">{{ $member->title }}</x-ui.text.muted>
                             @endif
 
-                            @if ($member->bio)
-                                <x-ui.text.body class="mt-4 text-left">{{ $member->bio }}</x-ui.text.body>
+                             @if ($member->bio)
+                                <x-ui.text.body class="mt-4 text-center">{{ $member->bio }}</x-ui.text.body>
                             @endif
 
                             <div class="flex items-center gap-4 mt-6 text-sm">

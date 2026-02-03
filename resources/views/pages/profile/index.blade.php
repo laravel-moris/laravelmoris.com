@@ -22,7 +22,7 @@
                             @endif
 
                             @if (auth()->user()->bio)
-                                <x-ui.text.body class="mt-4 text-left">{{ auth()->user()->bio }}</x-ui.text.body>
+                                <x-ui.text.body class="mt-4 text-center">{{ auth()->user()->bio }}</x-ui.text.body>
                             @endif
 
                             <x-ui.button href="{{ route('profile.edit') }}" variant="primary" class="mt-6 w-full">
