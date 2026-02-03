@@ -103,9 +103,8 @@
                             </li>
                             <li>
                                 <strong>Opt-out of Google Analytics:</strong> You can install the
-                                <a href="https://tools.google.com/dlpage/gaoptout"
-                                   target="_blank"
-                                   class="text-primary hover:text-primary-hover underline underline-offset-4">
+                                <a href="https://tools.google.com/dlpage/gaoptout" target="_blank"
+                                    class="text-primary hover:text-primary-hover underline underline-offset-4">
                                     Google Analytics Opt-out Browser Add-on
                                 </a>
                                 to prevent your data from being collected by Google Analytics.
@@ -167,7 +166,7 @@
                         <x-ui.text.body class="mt-2">
                             If you have any questions about our Cookie Policy or how we use cookies, please contact us at
                             <a href="mailto:contact@laravelmoris.com"
-                               class="text-primary hover:text-primary-hover underline underline-offset-4">
+                                class="text-primary hover:text-primary-hover underline underline-offset-4">
                                 contact@laravelmoris.com
                             </a>.
                         </x-ui.text.body>

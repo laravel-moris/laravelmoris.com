@@ -47,7 +47,7 @@
                     @endprovider
                 </div>
 
-            <div class="mt-8 pt-8 border-t border-border/50">
+                <div class="mt-8 pt-8 border-t border-border/50">
                     <x-ui.text.muted class="text-center mb-6">
                         Or sign in with email
                     </x-ui.text.muted>

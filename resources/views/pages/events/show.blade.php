@@ -162,8 +162,8 @@
                 </x-ui.card>
             @endif
 
-            {{-- Row 3: Speakers --}}
-            <div class="grid grid-cols-1 gap-6">
+            {{-- Row 3: Speakers + Attendees --}}
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                 {{-- Speakers Section --}}
                 <x-ui.card class="p-6">
                     <div class="flex items-center justify-between mb-4">
@@ -201,6 +201,38 @@
                         </div>
                     @else
                         <x-ui.text.muted>No speakers yet.</x-ui.text.muted>
+                    @endif
+                </x-ui.card>
+
+                {{-- Attendees Section --}}
+                <x-ui.card class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <x-ui.text.h3>Attendees</x-ui.text.h3>
+                        <x-ui.chip color="teal">{{ $event->attendees->count() }}</x-ui.chip>
+                    </div>
+
+                    @if ($event->attendees->count() > 0)
+                        <div class="space-y-3">
+                            @foreach ($event->attendees as $attendee)
+                                <a href="{{ route('members.show', $attendee) }}" class="block group">
+                                    <div
+                                        class="flex items-center gap-3 p-4 bg-surface-2 rounded-lg transition-all duration-300 hover:border-primary/50 border border-transparent">
+                                        <img src="{{ $attendee->avatar }}" alt="{{ $attendee->name }}"
+                                            class="w-10 h-10 rounded-full object-cover">
+
+                                        <div class="min-w-0">
+                                            <div class="font-medium text-sm truncate">{{ $attendee->name }}</div>
+                                            @if ($attendee->title)
+                                                <x-ui.text.muted
+                                                    class="text-xs truncate">{{ $attendee->title }}</x-ui.text.muted>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+                    @else
+                        <x-ui.text.muted>No attendees yet.</x-ui.text.muted>
                     @endif
                 </x-ui.card>
 
