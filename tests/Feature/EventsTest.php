@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Enums\EventLocation;
+use App\Enums\RsvpStatus;
 use App\Models\Event;
 use App\Models\Sponsor;
 use App\Models\User;
@@ -89,7 +90,7 @@ describe('event show', function (): void {
             ->assertViewHas('event')
             ->assertSee($this->event->title)
             ->assertSee('Speakers')
-            ->assertSee('Attendees');
+            ->assertDontSee('Attendees');
     });
 
     it('shows event speakers', function (): void {
@@ -110,7 +111,7 @@ describe('event show', function (): void {
             ->assertSee('Advanced Eloquent');
     });
 
-    it('shows event attendees', function (): void {
+    it('does not display the attendee list', function (): void {
         $attendee = User::factory()->create([
             'name' => 'John Attendee',
         ]);
@@ -119,7 +120,8 @@ describe('event show', function (): void {
         $response = $this->get(route('events.show', $this->event));
 
         $response->assertOk()
-            ->assertSee('John Attendee');
+            ->assertDontSee('John Attendee')
+            ->assertDontSee('Attendees');
     });
 
     it('shows event sponsors', function (): void {
@@ -143,6 +145,7 @@ describe('event show', function (): void {
 
     it('shows RSVP buttons for authenticated users', function (): void {
         $user = User::factory()->create();
+        $this->event->attendees()->attach($user, ['status' => RsvpStatus::Going->value]);
 
         $response = $this->actingAs($user)->get(route('events.show', $this->event));
 

@@ -30,7 +30,7 @@ final readonly class EventsController
     }
 
     /**
-     * Display an event's details with speakers, attendees, and sponsors.
+     * Display an event's details with speakers and sponsors.
      */
     public function show(Event $event): View
     {

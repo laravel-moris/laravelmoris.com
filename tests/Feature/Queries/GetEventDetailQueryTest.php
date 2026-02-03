@@ -33,7 +33,7 @@ test('it loads speakers ordered by name', function () {
         ->and($result->speakers->last()->name)->toBe('Zoe Speaker');
 });
 
-test('it loads attendees ordered by name', function () {
+test('it does not eager load attendees', function () {
     $event = Event::factory()->create();
     $attendee1 = User::factory()->create(['name' => 'Zoe Attendee']);
     $attendee2 = User::factory()->create(['name' => 'Alice Attendee']);
@@ -42,9 +42,7 @@ test('it loads attendees ordered by name', function () {
 
     $result = app(GetEventDetailQuery::class)->execute($event);
 
-    expect($result->relationLoaded('attendees'))->toBeTrue()
-        ->and($result->attendees->first()->name)->toBe('Alice Attendee')
-        ->and($result->attendees->last()->name)->toBe('Zoe Attendee');
+    expect($result->relationLoaded('attendees'))->toBeFalse();
 });
 
 test('it loads sponsors ordered by name', function () {

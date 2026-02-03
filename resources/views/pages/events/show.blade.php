@@ -95,9 +95,14 @@
                 @if (!$event->starts_at->isPast())
                     <div class="flex items-center gap-3">
                         @auth
-                            @php($currentStatus = $event->attendees->where('id', auth()->id())->first()?->pivot->status)
-                            @php($isGoing = $currentStatus === RsvpStatus::Going->value)
-                            @php($isMaybe = $currentStatus === RsvpStatus::Maybe->value)
+                            @php
+                                $currentStatus = $event
+                                    ->attendees()
+                                    ->whereKey(auth()->id())
+                                    ->first()?->pivot->status;
+                                $isGoing = $currentStatus === RsvpStatus::Going->value;
+                                $isMaybe = $currentStatus === RsvpStatus::Maybe->value;
+                            @endphp
                             <form action="{{ route('events.rsvp', $event) }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="status" value="{{ RsvpStatus::Going->value }}">
@@ -162,81 +167,45 @@
                 </x-ui.card>
             @endif
 
-            {{-- Row 3: Speakers + Attendees --}}
-            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-                {{-- Speakers Section --}}
-                <x-ui.card class="p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <x-ui.text.h3>Speakers</x-ui.text.h3>
-                        <x-ui.chip color="gold">{{ $event->speakers->count() }}</x-ui.chip>
-                    </div>
+            {{-- Row 3: Speakers --}}
+            <x-ui.card class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <x-ui.text.h3>Speakers</x-ui.text.h3>
+                    <x-ui.chip color="gold">{{ $event->speakers->count() }}</x-ui.chip>
+                </div>
 
-                    @if ($event->speakers->count() > 0)
-                        <div class="space-y-3">
-                            @foreach ($event->speakers as $speaker)
-                                <a href="{{ route('members.show', $speaker) }}" class="block group">
-                                    <div
-                                        class="p-4 bg-surface-2 rounded-lg transition-all duration-300 hover:border-primary/50 border border-transparent">
-                                        {{-- Talk Title - Main Focus --}}
-                                        <x-ui.text.body
-                                            class="font-semibold text-lg mb-3 group-hover:text-primary transition-colors">
-                                            {{ $speaker->pivot->title ?? 'Untitled Talk' }}
-                                        </x-ui.text.body>
+                @if ($event->speakers->count() > 0)
+                    <div class="space-y-3">
+                        @foreach ($event->speakers as $speaker)
+                            <a href="{{ route('members.show', $speaker) }}" class="block group">
+                                <div
+                                    class="p-4 bg-surface-2 rounded-lg transition-all duration-300 hover:border-primary/50 border border-transparent">
+                                    {{-- Talk Title - Main Focus --}}
+                                    <x-ui.text.body
+                                        class="font-semibold text-lg mb-3 group-hover:text-primary transition-colors">
+                                        {{ $speaker->pivot->title ?? 'Untitled Talk' }}
+                                    </x-ui.text.body>
 
-                                        {{-- Speaker Info - Secondary --}}
-                                        <div class="flex items-center gap-3">
-                                            <img src="{{ $speaker->avatar }}" alt="{{ $speaker->name }}"
-                                                class="w-10 h-10 rounded-full object-cover">
-                                            <div class="min-w-0">
-                                                <div class="font-medium text-sm truncate">{{ $speaker->name }}</div>
-                                                @if ($speaker->title)
-                                                    <x-ui.text.muted
-                                                        class="text-xs truncate">{{ $speaker->title }}</x-ui.text.muted>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            @endforeach
-                        </div>
-                    @else
-                        <x-ui.text.muted>No speakers yet.</x-ui.text.muted>
-                    @endif
-                </x-ui.card>
-
-                {{-- Attendees Section --}}
-                <x-ui.card class="p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <x-ui.text.h3>Attendees</x-ui.text.h3>
-                        <x-ui.chip color="teal">{{ $event->attendees->count() }}</x-ui.chip>
-                    </div>
-
-                    @if ($event->attendees->count() > 0)
-                        <div class="space-y-3">
-                            @foreach ($event->attendees as $attendee)
-                                <a href="{{ route('members.show', $attendee) }}" class="block group">
-                                    <div
-                                        class="flex items-center gap-3 p-4 bg-surface-2 rounded-lg transition-all duration-300 hover:border-primary/50 border border-transparent">
-                                        <img src="{{ $attendee->avatar }}" alt="{{ $attendee->name }}"
+                                    {{-- Speaker Info - Secondary --}}
+                                    <div class="flex items-center gap-3">
+                                        <img src="{{ $speaker->avatar }}" alt="{{ $speaker->name }}"
                                             class="w-10 h-10 rounded-full object-cover">
-
                                         <div class="min-w-0">
-                                            <div class="font-medium text-sm truncate">{{ $attendee->name }}</div>
-                                            @if ($attendee->title)
+                                            <div class="font-medium text-sm truncate">{{ $speaker->name }}</div>
+                                            @if ($speaker->title)
                                                 <x-ui.text.muted
-                                                    class="text-xs truncate">{{ $attendee->title }}</x-ui.text.muted>
+                                                    class="text-xs truncate">{{ $speaker->title }}</x-ui.text.muted>
                                             @endif
                                         </div>
                                     </div>
-                                </a>
-                            @endforeach
-                        </div>
-                    @else
-                        <x-ui.text.muted>No attendees yet.</x-ui.text.muted>
-                    @endif
-                </x-ui.card>
-
-            </div>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                @else
+                    <x-ui.text.muted>No speakers yet.</x-ui.text.muted>
+                @endif
+            </x-ui.card>
         </div>
     </main>
 @endsection
