@@ -155,19 +155,17 @@ Icons are loaded using Laravel's `Vite::asset()` helper and styled with Tailwind
     php artisan db:seed --class=HomepageSeeder
     ```
 
-6. **Build assets**
+6. **Start the development server**
 
     ```bash
-    npm run dev
-    ```
-
-7. **Start the development server**
-
-    ```bash
-    php artisan serve
+    composer dev
     ```
 
     Or with Laravel Herd, the site is automatically available at `https://laravelmoris.com.test`
+
+    ```bash
+    herd init
+    ```
 
 ### Testing
 
@@ -176,7 +174,9 @@ Icons are loaded using Laravel's `Vite::asset()` helper and styled with Tailwind
 php artisan test
 
 # Run with coverage (requires Xdebug or PCOV)
-./vendor/bin/pest --coverage
+php artisan test --coverage
+# Or with herd
+herd coverage vendor/bin/pest --coverage
 ```
 
 ### Code Quality
@@ -215,7 +215,7 @@ app/
 ## Routes
 
 | Path                        | Description                               |
-| --------------------------- | ----------------------------------------- |
+|-----------------------------|-------------------------------------------|
 | `/`                         | Home page with upcoming events            |
 | `/events`                   | All events (upcoming & past)              |
 | `/events/{id}`              | Event details with RSVP                   |
@@ -240,7 +240,7 @@ Laravel Moris exposes a RESTful API for programmatic access to meetup data.
 ### Endpoints
 
 | Method | Endpoint               | Description           |
-| ------ | ---------------------- | --------------------- |
+|--------|------------------------|-----------------------|
 | `GET`  | `/api/meetups`         | List all meetups      |
 | `GET`  | `/api/meetups/{event}` | Get a specific meetup |
 
