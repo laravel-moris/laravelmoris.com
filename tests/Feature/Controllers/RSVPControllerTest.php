@@ -90,3 +90,21 @@ test('it defaults to going when no status provided', function () {
     $response->assertRedirect(route('events.show', $event));
     expect($user->rsvps()->where('event_id', $event->id)->first()->pivot->status)->toBe('going');
 });
+
+test('it validates RSVP status', function () {
+    /** @var TestCase $this */
+    $user = User::factory()->create();
+    $event = Event::factory()->create([
+        'starts_at' => now()->addWeek(),
+        'ends_at' => now()->addWeek()->addHours(4),
+    ]);
+
+    $response = $this
+        ->actingAs($user)
+        ->from(route('events.show', $event))
+        ->post(route('events.rsvp', $event), ['status' => 'invalid']);
+
+    $response
+        ->assertRedirect(route('events.show', $event))
+        ->assertSessionHasErrors('status');
+});

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Actions\Auth\RegisterUser;
+use App\Data\Auth\RegisterUserData;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -309,7 +311,7 @@ it('can upload avatar during registration', function () {
 
     $file = UploadedFile::fake()->image('avatar.jpg', 400, 400);
 
-    $data = new \App\Data\Auth\RegisterUserData(
+    $data = new RegisterUserData(
         name: 'Avatar User',
         email: 'avatar@example.com',
         password: 'Password123!',
@@ -319,7 +321,7 @@ it('can upload avatar during registration', function () {
         avatar: $file,
     );
 
-    $user = app(\App\Actions\Auth\RegisterUser::class)->execute($data);
+    $user = app(RegisterUser::class)->execute($data);
 
     expect($user)->not->toBeNull()
         ->and($user->avatar)->not->toBeNull();
@@ -330,7 +332,7 @@ it('handles pdf files during registration', function () {
 
     $file = UploadedFile::fake()->create('document.pdf', 100, 'application/pdf');
 
-    $data = new \App\Data\Auth\RegisterUserData(
+    $data = new RegisterUserData(
         name: 'PDF User',
         email: 'pdf@example.com',
         password: 'Password123!',
@@ -340,10 +342,9 @@ it('handles pdf files during registration', function () {
         avatar: $file,
     );
 
-    $user = app(\App\Actions\Auth\RegisterUser::class)->execute($data);
+    $user = app(RegisterUser::class)->execute($data);
 
-    expect($user)->not->toBeNull();
-    expect($user->getRawOriginal('avatar'))->toBeEmpty();
+    expect($user)->not->toBeNull()->and($user->getRawOriginal('avatar'))->toBeEmpty();
 });
 
 it('handles large files during registration', function () {
@@ -351,7 +352,7 @@ it('handles large files during registration', function () {
 
     $file = UploadedFile::fake()->image('large-avatar.jpg')->size(3000);
 
-    $data = new \App\Data\Auth\RegisterUserData(
+    $data = new RegisterUserData(
         name: 'Large File User',
         email: 'largefile@example.com',
         password: 'Password123!',
@@ -361,10 +362,9 @@ it('handles large files during registration', function () {
         avatar: $file,
     );
 
-    $user = app(\App\Actions\Auth\RegisterUser::class)->execute($data);
+    $user = app(RegisterUser::class)->execute($data);
 
-    expect($user)->not->toBeNull();
-    expect($user->getRawOriginal('avatar'))->not->toBeEmpty();
+    expect($user)->not->toBeNull()->and($user->getRawOriginal('avatar'))->not->toBeEmpty();
 });
 
 it('stores avatar in public storage', function () {
@@ -372,7 +372,7 @@ it('stores avatar in public storage', function () {
 
     $file = UploadedFile::fake()->image('test-avatar.png', 200, 200);
 
-    $data = new \App\Data\Auth\RegisterUserData(
+    $data = new RegisterUserData(
         name: 'Storage User',
         email: 'storage@example.com',
         password: 'Password123!',
@@ -382,10 +382,9 @@ it('stores avatar in public storage', function () {
         avatar: $file,
     );
 
-    $user = app(\App\Actions\Auth\RegisterUser::class)->execute($data);
+    $user = app(RegisterUser::class)->execute($data);
 
-    expect($user)->not->toBeNull();
-    expect($user->avatar)->not->toBeNull();
+    expect($user)->not->toBeNull()->and($user->avatar)->not->toBeNull();
 
     $storedPath = str_replace('/storage/', '', $user->avatar);
     expect(Storage::disk('public')->exists($storedPath))->toBeTrue();
@@ -396,7 +395,7 @@ it('stores different avatar formats', function ($extension) {
 
     $file = UploadedFile::fake()->image("avatar.{$extension}", 300, 300);
 
-    $data = new \App\Data\Auth\RegisterUserData(
+    $data = new RegisterUserData(
         name: "Format User {$extension}",
         email: "format{$extension}@example.com",
         password: 'Password123!',
@@ -406,7 +405,7 @@ it('stores different avatar formats', function ($extension) {
         avatar: $file,
     );
 
-    $user = app(\App\Actions\Auth\RegisterUser::class)->execute($data);
+    $user = app(RegisterUser::class)->execute($data);
 
     expect($user)->not->toBeNull()
         ->and($user->avatar)->not->toBeNull();

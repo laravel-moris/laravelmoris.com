@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Event;
 
 use App\Actions\Event\RSVPAction;
+use App\Data\Event\RsvpData;
 use App\Enums\RsvpStatus;
 use App\Models\Event;
 use Illuminate\Http\RedirectResponse;
@@ -29,8 +30,8 @@ final readonly class RSVPController
             return to_route('events.show', $event);
         }
 
-        $status = $request->input('status');
-        $status = $status ? RsvpStatus::from($status) : null;
+        $data = RsvpData::validateAndCreate($request->all());
+        $status = $data->status ? RsvpStatus::from($data->status) : null;
 
         $this->rsvpAction->execute($user, $event, $status);
 

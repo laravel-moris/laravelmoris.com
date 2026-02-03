@@ -10,7 +10,7 @@ test('it returns community links from sushi model', function () {
     $iconKeys = $links->toCollection()->pluck('iconKey')->all();
 
     expect($links)
-        ->toHaveCount(4)
+        ->toHaveCount(8)
         ->and($iconKeys)
         ->toContain('discord')
         ->toContain('whatsapp')

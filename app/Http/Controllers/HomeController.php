@@ -20,14 +20,15 @@ class HomeController
         GetCommunityLinksQuery $getCommunityLinksQuery,
         GetPastSponsorsQuery $getPastSponsorsQuery,
     ): View {
+        $meetups = $getUpcomingMeetupsQuery->execute();
 
         return view('pages.home', [
             'happeningNow' => $getHappeningNowQuery->execute(),
-            'meetups' => $getUpcomingMeetupsQuery->execute(),
+            'meetups' => $meetups,
             'speakers' => $getFeaturedSpeakersQuery->execute(),
             'communityLinks' => $getCommunityLinksQuery->execute(),
             'sponsors' => $getPastSponsorsQuery->execute(),
-            'nextMeetupId' => $getUpcomingMeetupsQuery->execute(1)->first()?->id,
+            'nextMeetupId' => $meetups->toCollection()->firstWhere('featured', true)?->id,
         ]);
     }
 }
