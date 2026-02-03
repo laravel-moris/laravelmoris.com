@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Filament\Resources\Events\Pages\ViewEvent;
 use App\Filament\Resources\Events\RelationManagers\SponsorsRelationManager;
 use App\Filament\Resources\Sponsors\Pages\CreateSponsor;
 use App\Filament\Resources\Sponsors\Pages\EditSponsor;
@@ -160,7 +161,7 @@ it('renders the sponsors relation manager table on events', function () {
 
     Livewire::test(SponsorsRelationManager::class, [
         'ownerRecord' => $event,
-        'pageClass' => \App\Filament\Resources\Events\Pages\ViewEvent::class,
+        'pageClass' => ViewEvent::class,
     ])
         ->assertCanSeeTableRecords([$sponsor])
         ->searchTable('Event Sponsor')

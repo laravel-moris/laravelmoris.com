@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Enums\Roles;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
@@ -28,6 +30,11 @@ final class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Super Admin access
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole(Roles::SuperAdmin->value) ? true : null;
+        });
+
         // Unguard models (no $fillable needed on models)
         Model::unguard();
 

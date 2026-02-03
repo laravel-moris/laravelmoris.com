@@ -20,7 +20,7 @@
                                 <x-ui.text.muted class="mt-1">{{ $member->title }}</x-ui.text.muted>
                             @endif
 
-                             @if ($member->bio)
+                            @if ($member->bio)
                                 <x-ui.text.body class="mt-4 text-center">{{ $member->bio }}</x-ui.text.body>
                             @endif
 
