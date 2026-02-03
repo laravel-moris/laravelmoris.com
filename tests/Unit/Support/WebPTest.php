@@ -54,3 +54,16 @@ test('it preserves transparency', function () {
     expect($colorInfo['alpha'])->toBe(127);
     imagedestroy($resultImage);
 });
+
+test('it supports changing quality', function () {
+    $image = imagecreatetruecolor(100, 100);
+    ob_start();
+    imagepng($image);
+    $content = (string) ob_get_clean();
+    imagedestroy($image);
+
+    $webp = WebP::make($content)->quality(40)->toBinary();
+
+    $info = getimagesizefromstring($webp);
+    expect($info['mime'])->toBe('image/webp');
+});

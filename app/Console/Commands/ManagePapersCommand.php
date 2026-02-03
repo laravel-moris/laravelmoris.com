@@ -307,6 +307,10 @@ class ManagePapersCommand extends Command
      */
     private function clearScreen(): void
     {
+        if (app()->runningUnitTests()) {
+            return;
+        }
+
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             system('cls');
         } else {

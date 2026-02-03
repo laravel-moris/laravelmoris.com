@@ -10,6 +10,9 @@ use App\Enums\EventLocation;
 use App\Models\Event;
 use App\Models\OnlineLocation;
 use App\Models\PhysicalLocation;
+use App\Models\User;
+use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Collection;
 use Spatie\LaravelData\DataCollection;
 
 readonly class GetUpcomingMeetupsQuery
@@ -21,38 +24,86 @@ readonly class GetUpcomingMeetupsQuery
 
     public function execute(int $limit = 6): DataCollection
     {
-        $now = now('Indian/Mauritius')->utc()->toImmutable();
-        $happeningNow = $this->getHappeningNowQuery->execute();
-        $excludeIds = $happeningNow ? [$happeningNow->id] : [];
+        $nowUtc = $this->nowUtc();
+        $excludeEventIds = $this->excludeEventIds();
 
-        $upcoming = Event::query()
-            ->with(['location', 'speakers'])
-            ->when(
-                filled($excludeIds),
-                fn ($q) => $q->whereKeyNot($excludeIds),
-            )
-            ->where('starts_at', '>=', $now)
-            ->oldest('starts_at')
-            ->limit($limit)
-            ->get();
+        $upcomingEvents = $this->getUpcomingEvents(nowUtc: $nowUtc, limit: $limit, excludeEventIds: $excludeEventIds);
+        $pastEvents = $this->getPastFillEvents(
+            nowUtc: $nowUtc,
+            limit: $limit,
+            upcomingCount: $upcomingEvents->count(),
+            excludeEventIds: $excludeEventIds,
+        );
 
-        $remaining = $limit - $upcoming->count();
-
-        $past = collect();
-
-        if ($remaining > 0) {
-            $past = $this->getPastMeetupsQuery->execute($now, $remaining, $excludeIds);
-        }
-
-        $events = $upcoming->concat($past);
-        $featuredEventId = $events
-            ->first(fn (Event $event) => $event->starts_at?->isFuture() === true)
-            ?->id;
+        $events = $upcomingEvents->concat($pastEvents);
+        $featuredEventId = $this->featuredEventId($events);
 
         return MeetupCardData::collect(
             $events->map(fn (Event $event) => $this->toMeetupCard($event, $featuredEventId)),
             DataCollection::class,
         );
+    }
+
+    private function nowUtc(): CarbonImmutable
+    {
+        return now('Indian/Mauritius')->utc()->toImmutable();
+    }
+
+    /**
+     * @return array<int, int>
+     */
+    private function excludeEventIds(): array
+    {
+        $happeningNow = $this->getHappeningNowQuery->execute();
+
+        if (! $happeningNow) {
+            return [];
+        }
+
+        return [$happeningNow->id];
+    }
+
+    /**
+     * @param  array<int, int>  $excludeEventIds
+     * @return Collection<int, Event>
+     */
+    private function getUpcomingEvents(CarbonImmutable $nowUtc, int $limit, array $excludeEventIds): Collection
+    {
+        return Event::query()
+            ->with(['location', 'speakers'])
+            ->when(
+                filled($excludeEventIds),
+                fn ($query) => $query->whereKeyNot($excludeEventIds),
+            )
+            ->where('starts_at', '>=', $nowUtc)
+            ->oldest('starts_at')
+            ->limit($limit)
+            ->get();
+    }
+
+    /**
+     * @param  array<int, int>  $excludeEventIds
+     * @return Collection<int, Event>
+     */
+    private function getPastFillEvents(CarbonImmutable $nowUtc, int $limit, int $upcomingCount, array $excludeEventIds): Collection
+    {
+        $remaining = $limit - $upcomingCount;
+
+        if ($remaining <= 0) {
+            return new Collection;
+        }
+
+        return $this->getPastMeetupsQuery->execute($nowUtc, $remaining, $excludeEventIds);
+    }
+
+    /**
+     * @param  Collection<int, Event>  $events
+     */
+    private function featuredEventId(Collection $events): ?int
+    {
+        return $events
+            ->first(fn (Event $event) => $event->starts_at?->isFuture() === true)
+            ?->id;
     }
 
     private function toMeetupCard(Event $event, ?int $featuredEventId): MeetupCardData
@@ -63,16 +114,24 @@ readonly class GetUpcomingMeetupsQuery
             startsAt: $event->starts_at->toImmutable(),
             endsAt: $event->ends_at?->toImmutable(),
             featured: $featuredEventId === $event->id,
-            speakers: SpeakerAvatarData::collect(
-                $event->speakers
-                    ->take(3)
-                    ->map(fn ($speaker) => new SpeakerAvatarData(
-                        name: (string) $speaker->name,
-                        avatarUrl: (string) $speaker->avatar,
-                    )),
-                DataCollection::class,
-            ),
+            speakers: $this->speakerAvatars($event),
             ctaUrl: $this->locationUrl($event),
+        );
+    }
+
+    /**
+     * @return DataCollection<int, SpeakerAvatarData>
+     */
+    private function speakerAvatars(Event $event): DataCollection
+    {
+        return SpeakerAvatarData::collect(
+            $event->speakers
+                ->take(3)
+                ->map(fn (User $speaker) => new SpeakerAvatarData(
+                    name: (string) $speaker->name,
+                    avatarUrl: (string) $speaker->avatar,
+                )),
+            DataCollection::class,
         );
     }
 

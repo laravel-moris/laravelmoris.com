@@ -21,11 +21,7 @@ final class LoginController
     {
         $data = LoginData::validateAndCreate($request->all());
 
-        $authenticate = app(Authenticate::class);
-
-        if (! $authenticate->execute($data)) {
-            return back()->withErrors(['email' => __('auth.failed')]);
-        }
+        app(Authenticate::class)->execute($data);
 
         return to_route('home')->with('status', 'Welcome back!');
     }
