@@ -62,11 +62,12 @@ return new class extends Migration
         });
 
         Schema::create('event_user', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('user_id')->constrained()->cascadeDelete();
             $table->foreignId('event_id')->constrained()->cascadeDelete();
             $table->string('status')->default('maybe');
             $table->timestamps();
-            $table->primary(['user_id', 'event_id']);
+            $table->unique(['user_id', 'event_id']);
         });
 
         Schema::create('event_sponsor', function (Blueprint $table) {
