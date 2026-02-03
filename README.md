@@ -26,9 +26,9 @@ Laravel Moris is a community website for the Mauritius Laravel Meetup group. It 
 
 - **Framework**: Laravel 12 (PHP 8.4)
 - **Styling**: Tailwind CSS v4
-- **Database**: SQLite (development) / MySQL (production)
+- **Database**: SQLite (development) / PostgreSQL (production)
 - **Testing**: Pest 4
-- **Authentication**: Laravel Socialite (GitHub, Google OAuth)
+- **Authentication**: Laravel Socialite (GitHub, Google OAuth) + Email/Password
 - **Package Manager**: Composer
 
 ## Icons & Assets
@@ -42,6 +42,10 @@ Icon files are stored in `resources/images/logos/`:
 - `linkedin.svg` - LinkedIn community link
 - `github-light.svg` - GitHub OAuth login button
 - `google.svg` - Google OAuth login button
+- `youtube.svg` - YouTube channel link
+- `twitter.svg` - X (Twitter) social link
+- `bluesky.svg` - Blue Sky social link
+- `facebook.svg` - Facebook community link
 
 Icons are loaded using Laravel's `Vite::asset()` helper and styled with Tailwind CSS `size-*` classes.
 
@@ -91,7 +95,7 @@ Icons are loaded using Laravel's `Vite::asset()` helper and styled with Tailwind
 >
 > - All-in-one
 > - Includes PHP, Nginx, databases*, and mail interface*
-> - Free tier works great, use `compose.yaml` or DBngin (MacOS) for MySQL as complementary
+> - Free tier works great, uses SQLite by default. PostgreSQL available for production.
 > - [Download Herd](https://herd.laravel.com/)
 >
 > **Know PHP but new to Laravel?**
@@ -99,7 +103,7 @@ Icons are loaded using Laravel's `Vite::asset()` helper and styled with Tailwind
 > **Option 3: Compose**
 >
 > - Use your existing PHP installation
-> - Provides MySQL 8.5 and Mailpit for email testing (TODO)
+> - Provides PostgreSQL and Mailpit for email testing (TODO)
 > - Run: `docker compose up -d` (TODO)
 >
 > **Experienced Laravel Developer?**
@@ -112,7 +116,7 @@ Icons are loaded using Laravel's `Vite::asset()` helper and styled with Tailwind
 > **Option 5: Valet+ (Linux)**
 >
 > - Valet for Ubuntu/Debian users
-> - Same lightweight approach as Valet with MYSQL included
+> - Same lightweight approach as Valet with PostgreSQL included
 > - [Valet+ Documentation](https://valetlinux.plus)
 
 ### Installation
@@ -146,6 +150,7 @@ Icons are loaded using Laravel's `Vite::asset()` helper and styled with Tailwind
 5. **Setup database**
 
     ```bash
+    # SQLite database is used by default (no additional setup needed)
     php artisan migrate
     php artisan db:seed --class=HomepageSeeder
     ```
@@ -170,8 +175,8 @@ Icons are loaded using Laravel's `Vite::asset()` helper and styled with Tailwind
 # Run all tests
 php artisan test
 
-# Run with coverage
-herd coverage ./vendor/bin/pest --coverage
+# Run with coverage (requires Xdebug or PCOV)
+./vendor/bin/pest --coverage
 ```
 
 ### Code Quality
@@ -221,6 +226,12 @@ app/
 | `/join`                     | Community links (Discord, WhatsApp, etc.) |
 | `/profile`                  | User profile (auth required)              |
 | `/events/{id}/submit-paper` | Talk submission (auth required)           |
+| `/about`                    | About us page with team info              |
+| `/login`                    | Login page (OAuth + email/password)       |
+| `/register`                 | Registration page                         |
+| `/terms`                    | Terms of Service page                     |
+| `/privacy-policy`           | Privacy Policy page                       |
+| `/cookies`                  | Cookie Policy page                        |
 
 ## API
 
