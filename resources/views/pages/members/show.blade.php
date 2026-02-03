@@ -70,7 +70,7 @@
                                         <div
                                             class="p-3 bg-surface-2 rounded-lg transition-all duration-300 hover:border-primary/50 border border-transparent">
                                             <x-ui.text.body
-                                                class="font-medium group-hover:text-primary transition-colors">{{ $event->pivot->title ?? 'Untitled Talk' }}</x-ui.text.body>
+                                                class="font-medium group-hover:text-primary transition-colors">{{ $event->paper->title ?? 'Untitled Talk' }}</x-ui.text.body>
                                             <x-ui.text.muted class="text-sm mt-1">
                                                 {{ $event->title }} • {{ $event->starts_at->format('M d, Y') }}
                                             </x-ui.text.muted>
@@ -104,7 +104,7 @@
                                                 </x-ui.text.muted>
                                             </div>
                                             <x-ui.chip color="{{ $event->starts_at->isPast() ? 'coral' : 'green' }}">
-                                                {{ $event->starts_at->isPast() ? 'Attended' : $event->pivot->status }}
+                                                {{ $event->starts_at->isPast() ? 'Attended' : $event->rsvp->status }}
                                             </x-ui.chip>
                                         </div>
                                     </a>

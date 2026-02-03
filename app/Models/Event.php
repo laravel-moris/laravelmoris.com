@@ -36,6 +36,7 @@ class Event extends Model
     public function attendees(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'event_user')
+            ->as('rsvp')
             ->withPivot('status')
             ->withTimestamps();
     }
@@ -55,6 +56,7 @@ class Event extends Model
     {
         return $this->belongsToMany(User::class, 'papers')
             ->where('papers.status', 'approved')
+            ->as('paper')
             ->withPivot('title', 'description')
             ->withTimestamps();
     }

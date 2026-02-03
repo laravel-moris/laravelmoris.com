@@ -21,6 +21,10 @@ if [ "${DB_CONNECTION:-}" = "sqlite" ] && [ ! -f "${DB_DATABASE:-/data/database.
     echo "Created SQLite database"
 fi
 
+echo "Filament assets..."
+php artisan filament:upgrade
+php artisan livewire:publish --assets
+
 echo "Running migrations..."
 php artisan migrate --force
 

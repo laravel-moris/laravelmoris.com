@@ -14,7 +14,7 @@ test('it RSVPs a user as going', function () {
     app(RSVPAction::class)->execute($user, $event, RsvpStatus::Going);
 
     expect($user->rsvps()->where('event_id', $event->id)->exists())->toBeTrue()
-        ->and($user->rsvps()->where('event_id', $event->id)->first()->pivot->status)->toBe('going');
+        ->and($user->rsvps()->where('event_id', $event->id)->first()->rsvp->status)->toBe('going');
 });
 
 test('it RSVPs a user as maybe', function () {
@@ -24,7 +24,7 @@ test('it RSVPs a user as maybe', function () {
     app(RSVPAction::class)->execute($user, $event, RsvpStatus::Maybe);
 
     expect($user->rsvps()->where('event_id', $event->id)->exists())->toBeTrue()
-        ->and($user->rsvps()->where('event_id', $event->id)->first()->pivot->status)->toBe('maybe');
+        ->and($user->rsvps()->where('event_id', $event->id)->first()->rsvp->status)->toBe('maybe');
 });
 
 test('it removes RSVP when not going', function () {
@@ -45,7 +45,7 @@ test('it defaults to going when no status provided', function () {
     app(RSVPAction::class)->execute($user, $event);
 
     expect($user->rsvps()->where('event_id', $event->id)->exists())->toBeTrue()
-        ->and($user->rsvps()->where('event_id', $event->id)->first()->pivot->status)->toBe('going');
+        ->and($user->rsvps()->where('event_id', $event->id)->first()->rsvp->status)->toBe('going');
 });
 
 test('it updates existing RSVP without detaching', function () {
@@ -58,5 +58,5 @@ test('it updates existing RSVP without detaching', function () {
 
     expect($user->rsvps()->where('event_id', $event->id)->exists())->toBeTrue()
         ->and($user->rsvps()->count())->toBe(1)
-        ->and($user->rsvps()->where('event_id', $event->id)->first()->pivot->status)->toBe('maybe');
+        ->and($user->rsvps()->where('event_id', $event->id)->first()->rsvp->status)->toBe('maybe');
 });

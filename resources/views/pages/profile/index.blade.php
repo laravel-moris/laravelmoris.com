@@ -52,8 +52,8 @@
                                                 </x-ui.text.muted>
                                             </div>
                                             @php
-                                                $status = $event->pivot->status
-                                                    ? RsvpStatus::from($event->pivot->status)
+                                                $status = $event->rsvp->status
+                                                    ? RsvpStatus::from($event->rsvp->status)
                                                     : RsvpStatus::Maybe;
                                             @endphp
                                             <x-ui.chip color="{{ $status->color() }}">

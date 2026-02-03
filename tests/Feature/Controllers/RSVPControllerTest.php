@@ -44,7 +44,7 @@ test('it RSVPs user as going', function () {
 
     $response->assertRedirect(route('events.show', $event));
     expect($user->rsvps()->where('event_id', $event->id)->exists())->toBeTrue()
-        ->and($user->rsvps()->where('event_id', $event->id)->first()->pivot->status)->toBe('going');
+        ->and($user->rsvps()->where('event_id', $event->id)->first()->rsvp->status)->toBe('going');
 });
 
 test('it RSVPs user as maybe', function () {
@@ -58,7 +58,7 @@ test('it RSVPs user as maybe', function () {
     $response = $this->actingAs($user)->post(route('events.rsvp', $event), ['status' => 'maybe']);
 
     $response->assertRedirect(route('events.show', $event));
-    expect($user->rsvps()->where('event_id', $event->id)->first()->pivot->status)->toBe('maybe');
+    expect($user->rsvps()->where('event_id', $event->id)->first()->rsvp->status)->toBe('maybe');
 });
 
 test('it removes RSVP when not going', function () {
@@ -88,7 +88,7 @@ test('it defaults to going when no status provided', function () {
     $response = $this->actingAs($user)->post(route('events.rsvp', $event));
 
     $response->assertRedirect(route('events.show', $event));
-    expect($user->rsvps()->where('event_id', $event->id)->first()->pivot->status)->toBe('going');
+    expect($user->rsvps()->where('event_id', $event->id)->first()->rsvp->status)->toBe('going');
 });
 
 test('it validates RSVP status', function () {

@@ -99,7 +99,7 @@
                                 $currentStatus = $event
                                     ->attendees()
                                     ->whereKey(auth()->id())
-                                    ->first()?->pivot->status;
+                                    ->first()?->rsvp->status;
                                 $isGoing = $currentStatus === RsvpStatus::Going->value;
                                 $isMaybe = $currentStatus === RsvpStatus::Maybe->value;
                             @endphp
@@ -183,7 +183,7 @@
                                     {{-- Talk Title - Main Focus --}}
                                     <x-ui.text.body
                                         class="font-semibold text-lg mb-3 group-hover:text-primary transition-colors">
-                                        {{ $speaker->pivot->title ?? 'Untitled Talk' }}
+                                        {{ $speaker->paper->title ?? 'Untitled Talk' }}
                                     </x-ui.text.body>
 
                                     {{-- Speaker Info - Secondary --}}

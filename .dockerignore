@@ -68,3 +68,5 @@ phpstan.neon
 rector.php
 scripts
 tests
+public/*/filament/*
+public/vendor/livewire/
