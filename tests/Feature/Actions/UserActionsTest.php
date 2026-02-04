@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use Illuminate\Support\Facades\Hash;
 use App\Actions\User\CreateUser;
 use App\Actions\User\UpdateUser;
 use App\Data\User\CreateUserData;
 use App\Data\User\UpdateUserData;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 use function Pest\Laravel\assertDatabaseHas;

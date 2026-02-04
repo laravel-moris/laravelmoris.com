@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Illuminate\Http\UploadedFile;
 use App\Filament\Resources\User\Pages\CreateUser;
 use App\Filament\Resources\User\Pages\EditUser;
 use App\Filament\Resources\User\Pages\ListUsers;
@@ -10,6 +9,7 @@ use App\Filament\Resources\User\Pages\ViewUser;
 use App\Models\User;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\Testing\TestAction;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
