@@ -34,11 +34,10 @@ final readonly class SponsorsController
     public function show(Sponsor $sponsor): View
     {
         $sponsor = $this->getSponsorProfileQuery->execute($sponsor);
-        $logoUrl = $this->getSponsorProfileQuery->getLogoUrl($sponsor);
 
         return view('pages.sponsors.show', [
             'sponsor' => $sponsor,
-            'logoUrl' => $logoUrl,
+            'logoUrl' => $sponsor->logo,
         ]);
     }
 }

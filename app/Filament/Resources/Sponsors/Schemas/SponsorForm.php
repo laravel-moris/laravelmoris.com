@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Sponsors\Schemas;
 
-use App\Actions\Sponsor\StoreSponsorLogo;
+use Illuminate\Support\Facades\Storage;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Facades\Storage;
 
 class SponsorForm
 {
@@ -30,21 +29,8 @@ class SponsorForm
                     ->imageEditor()
                     ->maxSize(2048)
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/svg+xml'])
-                    ->saveUploadedFileUsing(function ($file, StoreSponsorLogo $storeSponsorLogo) {
-                        $content = $file->getContent();
-                        $extension = $file->getClientOriginalExtension();
-
-                        $path = $storeSponsorLogo->execute($content, $extension);
-
-                        if ($path === null) {
-                            return null;
-                        }
-
-                        // Clean up temp file
-                        Storage::disk('public')->deleteDirectory('sponsors-logos-temp');
-
-                        return $path;
-                    })
+                    ->storeFiles(false)
+                    ->dehydrated(false)
                     ->deleteUploadedFileUsing(function ($file) {
                         if ($file !== null) {
                             Storage::disk('public')->delete($file);

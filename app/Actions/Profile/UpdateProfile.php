@@ -10,8 +10,6 @@ use Illuminate\Http\UploadedFile;
 
 final readonly class UpdateProfile
 {
-    public function __construct(private StoreAvatar $storeAvatar) {}
-
     public function execute(User $user, UpdateProfileData $data): User
     {
         $updateData = [
@@ -21,18 +19,16 @@ final readonly class UpdateProfile
         ];
 
         if ($data->avatar instanceof UploadedFile) {
-            $updateData['avatar'] = $this->storeAvatarFile($data->avatar);
+            // Delete existing avatar from media library
+            $user->clearMediaCollection('avatar');
+
+            // Add new avatar to media library
+            $user->addMedia($data->avatar)
+                ->toMediaCollection('avatar');
         }
 
         $user->update($updateData);
 
         return $user;
-    }
-
-    private function storeAvatarFile(UploadedFile $file): string
-    {
-        $extension = $file->getClientOriginalExtension();
-
-        return $this->storeAvatar->execute($file->getContent(), $extension);
     }
 }

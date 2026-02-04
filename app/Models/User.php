@@ -16,13 +16,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements FilamentUser, MustVerifyEmail
+class User extends Authenticatable implements FilamentUser, HasMedia, MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, HasRoles, Notifiable;
+    use HasFactory, HasRoles, InteractsWithMedia, Notifiable;
 
     /**
      * The attributes that should be hidden for serialization.
@@ -86,10 +88,37 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
     protected function avatar(): Attribute
     {
         return Attribute::make(
-            get: function (?string $value): ?string {
-                return filled($value) ? Storage::url($value) : sprintf('https://avatars.laravel.cloud/%s', urlencode($this->name));
+            get: function (mixed $value): string {
+                $mediaUrl = $this->getFirstMediaUrl('avatar', 'webp');
+
+                if (filled($mediaUrl)) {
+                    return $mediaUrl;
+                }
+
+                return sprintf('https://avatars.laravel.cloud/%s', urlencode($this->name));
             },
         );
+    }
+
+    /**
+     * Register the media collections.
+     */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('avatar')
+            ->singleFile()
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml']);
+    }
+
+    /**
+     * Register the media conversions.
+     */
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('webp')
+            ->format('webp')
+            ->quality(80)
+            ->nonQueued();
     }
 
     /**

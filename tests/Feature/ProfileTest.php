@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
@@ -154,8 +155,12 @@ it('allows nullable title and bio fields', function () {
 
 it('preserves existing avatar when no file uploaded', function () {
     $user = User::factory()->create([
-        'avatar' => 'avatars/existing-avatar.jpg',
+        'name' => 'Test User',
     ]);
+
+    // Add an avatar to media library
+    $file = UploadedFile::fake()->image('avatar.jpg', 100, 100);
+    $user->addMedia($file)->toMediaCollection('avatar');
 
     actingAs($user);
 
@@ -166,5 +171,6 @@ it('preserves existing avatar when no file uploaded', function () {
 
     $user->refresh();
 
-    expect(DB::table('users')->where('id', $user->id)->value('avatar'))->toBe('avatars/existing-avatar.jpg');
+    // Avatar should still be in media library
+    expect($user->getFirstMedia('avatar'))->not->toBeNull();
 });

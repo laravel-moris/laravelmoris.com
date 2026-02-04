@@ -18,7 +18,7 @@ ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/relea
 
 RUN apk add --no-cache \
     nginx \
-    && install-php-extensions curl gd intl mbstring xml zip sqlite3 opcache \
+    && install-php-extensions curl gd intl mbstring xml zip sqlite3 opcache exif \
     && rm -rf /tmp/* /var/cache/apk/* /usr/local/bin/install-php-extensions
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

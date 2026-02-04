@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Actions\Auth;
 
-use App\Actions\Profile\StoreAvatar;
 use App\Data\Auth\RegisterUserData;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
@@ -13,8 +12,6 @@ use Throwable;
 
 final readonly class RegisterUser
 {
-    public function __construct(private StoreAvatar $storeAvatar) {}
-
     /**
      * @throws Throwable
      */
@@ -30,18 +27,11 @@ final readonly class RegisterUser
             ]);
 
             if ($data->avatar instanceof UploadedFile) {
-                $user->avatar = $this->storeAvatarFile($data->avatar);
-                $user->save();
+                $user->addMedia($data->avatar)
+                    ->toMediaCollection('avatar');
             }
 
             return $user;
         });
-    }
-
-    private function storeAvatarFile(UploadedFile $file): string
-    {
-        $extension = $file->getClientOriginalExtension();
-
-        return $this->storeAvatar->execute($file->getContent(), $extension) ?? '';
     }
 }

@@ -132,7 +132,13 @@
 
                         @auth
                             @if (!$event->starts_at->isPast())
-                                @php($hasSubmittedPaper = auth()->user()->papers()->where('event_id', $event->id)->exists())
+                                @php
+                                    $hasSubmittedPaper = auth()
+                                        ->user()
+                                        ->papers()
+                                        ->where('event_id', $event->id)
+                                        ->exists();
+                                @endphp
                                 @if ($hasSubmittedPaper)
                                     <x-ui.button variant="secondary" disabled class="opacity-50">
                                         Talk Submitted
@@ -157,10 +163,12 @@
                         @foreach ($event->sponsors as $sponsor)
                             <a href="{{ route('sponsors.show', $sponsor) }}"
                                 class="block transition-opacity hover:opacity-80 p-3 bg-surface-2 rounded-lg">
-                                @if ($sponsor->logo)
-                                    <img src="{{ Storage::disk('public')->url($sponsor->logo) }}"
-                                        alt="{{ $sponsor->name }}" class="h-20 w-auto max-w-40 object-contain">
-                                @endif
+                                @php
+                                    $logoUrl =
+                                        $sponsor->getFirstMediaUrl('logo', 'webp') ?: asset('sponsors/placeholder.png');
+                                @endphp
+                                <img src="{{ $logoUrl }}" alt="{{ $sponsor->name }}"
+                                    class="h-20 w-auto max-w-40 object-contain">
                             </a>
                         @endforeach
                     </div>

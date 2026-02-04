@@ -30,3 +30,4 @@ storage/rector
 04-secrets.yaml
 public/*/filament/*
 public/vendor/livewire/
+.grepai/

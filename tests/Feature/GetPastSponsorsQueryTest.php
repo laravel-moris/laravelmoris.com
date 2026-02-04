@@ -6,13 +6,13 @@ use App\Enums\EventLocation;
 use App\Models\Event;
 use App\Models\Sponsor;
 use App\Queries\GetPastSponsorsQuery;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 
 test('it returns sponsors for past events with logo url fallback', function () {
     Storage::fake('public');
     Storage::disk('public')->put('sponsors/placeholder.png', 'x');
-    Storage::disk('public')->put('sponsors/acme.png', 'x');
 
     $now = now('UTC')->toImmutable();
     Date::setTestNow($now);
@@ -23,14 +23,12 @@ test('it returns sponsors for past events with logo url fallback', function () {
         'type' => EventLocation::Online,
     ]);
 
-    $withLogo = Sponsor::factory()->create([
-        'name' => 'Acme',
-        'logo' => 'sponsors/acme.png',
-    ]);
-    $withoutLogo = Sponsor::factory()->create([
-        'name' => 'NoLogo',
-        'logo' => null,
-    ]);
+    $withLogo = Sponsor::factory()->create(['name' => 'Acme']);
+    $withoutLogo = Sponsor::factory()->create(['name' => 'NoLogo']);
+
+    // Add logo to media library for $withLogo
+    $file = UploadedFile::fake()->image('logo.png', 100, 100);
+    $withLogo->addMedia($file)->toMediaCollection('logo');
 
     $pastEvent->sponsors()->attach([$withLogo->id, $withoutLogo->id]);
 

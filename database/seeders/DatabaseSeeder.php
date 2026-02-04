@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Actions\Profile\DownloadAvatar;
 use App\Enums\EventLocation;
 use App\Enums\PaperStatus;
 use App\Models\Event;
@@ -14,11 +15,8 @@ use App\Models\User;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Seeder;
 use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Http\Client\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use RuntimeException;
 
@@ -31,6 +29,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $timezone = 'Indian/Mauritius';
+        $downloadAvatar = app(DownloadAvatar::class);
 
         $owner = User::factory()->create([
             'name' => 'John Doe',
@@ -119,7 +118,8 @@ class DatabaseSeeder extends Seeder
             $timezone,
             $attendeesByEventId,
             &$attendeeCounter,
-            $usersByName
+            $usersByName,
+            $downloadAvatar
         ) {
             $event = Event::create([
                 'title' => $payload['title'],
@@ -151,26 +151,22 @@ class DatabaseSeeder extends Seeder
 
             $pivotRows = collect($attendeesByEventId->get($eventId, []))
                 ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)
-                ->mapWithKeys(/**
-                 * @throws ConnectionException
-                 */ function (array $attendee) use ($timezone, &$attendeeCounter, $usersByName) {
+                ->mapWithKeys(function (array $attendee) use ($timezone, &$attendeeCounter, $usersByName, $downloadAvatar) {
                     $name = $attendee['name'];
-
-                    $avatarPath = $this->storeAvatarFromUrl($attendee['avatar'] ?? null);
 
                     /** @var User $user */
                     $user = $usersByName->get($name) ?? User::firstOrCreate(
                         ['name' => $name],
                         [
                             'email' => sprintf('attendee-%04d@meetup.com', $attendeeCounter++),
-                            'avatar' => $avatarPath ?? null,
                             'timezone' => $timezone,
                             'password' => 'password',
                         ]
                     );
 
-                    if (blank($user->avatar) && filled($avatarPath ?? null)) {
-                        $user->forceFill(['avatar' => $avatarPath])->save();
+                    // Add avatar to media library
+                    if (filled($attendee['avatar'] ?? null)) {
+                        $downloadAvatar->execute($user, $attendee['avatar']);
                     }
 
                     $usersByName->put($name, $user);
@@ -245,32 +241,5 @@ class DatabaseSeeder extends Seeder
                 'name' => $r['name'],
                 'avatar' => $r['avatar'],
             ])->values()->all());
-    }
-
-    /**
-     * @throws ConnectionException
-     */
-    private function storeAvatarFromUrl(?string $url): ?string
-    {
-        if (blank($url)) {
-            return null;
-        }
-
-        $disk = Storage::disk('public');
-
-        /** @var Response $response */
-        $response = Http::timeout(10)->retry(2, 200)->get($url);
-
-        if (! $response->successful()) {
-            return null;
-        }
-
-        $path = 'avatars/'.sha1($url).'.jpeg';
-
-        if (! $disk->exists($path)) {
-            $disk->put($path, $response->body());
-        }
-
-        return $path;
     }
 }

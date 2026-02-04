@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Queries;
 
 use App\Models\Sponsor;
-use Illuminate\Support\Facades\Storage;
 
 readonly class GetSponsorsQuery
 {
@@ -16,8 +15,6 @@ readonly class GetSponsorsQuery
      */
     public function execute(): array
     {
-        $disk = Storage::disk('public');
-        $placeholderLogoUrl = $disk->url('sponsors/placeholder.png');
 
         return Sponsor::query()
             ->withCount('events')
@@ -26,7 +23,7 @@ readonly class GetSponsorsQuery
             ->map(fn (Sponsor $sponsor) => [
                 'id' => $sponsor->id,
                 'name' => $sponsor->name,
-                'logoUrl' => filled($sponsor->logo) ? $disk->url($sponsor->logo) : $placeholderLogoUrl,
+                'logoUrl' => (string) $sponsor->logo,
                 'website' => $sponsor->website,
                 'eventsCount' => $sponsor->events_count,
             ])

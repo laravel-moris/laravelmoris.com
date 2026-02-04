@@ -6,7 +6,6 @@ use App\Actions\Profile\UpdateProfile;
 use App\Data\Profile\UpdateProfileData;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 
 test('it updates user profile without avatar', function () {
     $user = User::factory()->create([
@@ -30,12 +29,10 @@ test('it updates user profile without avatar', function () {
 });
 
 test('it updates user profile with avatar', function () {
-    Storage::fake('public');
     $user = User::factory()->create([
         'name' => 'Old Name',
         'title' => null,
         'bio' => null,
-        'avatar' => null,
     ]);
 
     $file = UploadedFile::fake()->image('avatar.jpg', 100, 100);
@@ -51,24 +48,7 @@ test('it updates user profile with avatar', function () {
     expect($result->name)->toBe('New Name')
         ->and($result->title)->toBe('Developer')
         ->and($result->bio)->toBe('Bio')
-        ->and($result->avatar)->not->toBeNull();
-});
-
-test('it stores avatar with correct extension', function () {
-    Storage::fake('public');
-    $user = User::factory()->create();
-
-    $file = UploadedFile::fake()->image('avatar.png', 100, 100);
-    $data = new UpdateProfileData(
-        name: 'Name',
-        title: null,
-        bio: null,
-        avatar: $file,
-    );
-
-    app(UpdateProfile::class)->execute($user, $data);
-
-    expect($user->refresh()->avatar)->toContain('.webp');
+        ->and($user->refresh()->getFirstMedia('avatar'))->not->toBeNull();
 });
 
 test('it updates nullable fields', function () {

@@ -21,7 +21,6 @@ class SponsorFactory extends Factory
     {
         return [
             'name' => fake()->company(),
-            'logo' => null,
             'website' => fake()->optional()->url(),
         ];
     }

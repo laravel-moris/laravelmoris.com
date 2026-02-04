@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
 use App\Actions\Auth\RegisterUser;
 use App\Data\Auth\RegisterUserData;
 use App\Models\User;
@@ -324,7 +325,7 @@ it('can upload avatar during registration', function () {
     $user = app(RegisterUser::class)->execute($data);
 
     expect($user)->not->toBeNull()
-        ->and($user->avatar)->not->toBeNull();
+        ->and($user->getFirstMedia('avatar'))->not->toBeNull();
 });
 
 it('handles pdf files during registration', function () {
@@ -342,9 +343,9 @@ it('handles pdf files during registration', function () {
         avatar: $file,
     );
 
-    $user = app(RegisterUser::class)->execute($data);
-
-    expect($user)->not->toBeNull()->and($user->getRawOriginal('avatar'))->toBeEmpty();
+    // PDF files should be rejected by media library
+    expect(fn () => app(RegisterUser::class)->execute($data))
+        ->toThrow(FileUnacceptableForCollection::class);
 });
 
 it('handles large files during registration', function () {
@@ -364,7 +365,7 @@ it('handles large files during registration', function () {
 
     $user = app(RegisterUser::class)->execute($data);
 
-    expect($user)->not->toBeNull()->and($user->getRawOriginal('avatar'))->not->toBeEmpty();
+    expect($user)->not->toBeNull()->and($user->getFirstMedia('avatar'))->not->toBeNull();
 });
 
 it('stores avatar in public storage', function () {
@@ -384,10 +385,7 @@ it('stores avatar in public storage', function () {
 
     $user = app(RegisterUser::class)->execute($data);
 
-    expect($user)->not->toBeNull()->and($user->avatar)->not->toBeNull();
-
-    $storedPath = str_replace('/storage/', '', $user->avatar);
-    expect(Storage::disk('public')->exists($storedPath))->toBeTrue();
+    expect($user)->not->toBeNull()->and($user->getFirstMedia('avatar'))->not->toBeNull();
 });
 
 it('stores different avatar formats', function ($extension) {
@@ -408,7 +406,7 @@ it('stores different avatar formats', function ($extension) {
     $user = app(RegisterUser::class)->execute($data);
 
     expect($user)->not->toBeNull()
-        ->and($user->avatar)->not->toBeNull();
+        ->and($user->getFirstMedia('avatar'))->not->toBeNull();
 })->with(['jpg', 'png']);
 
 // Email/Password Login Tests

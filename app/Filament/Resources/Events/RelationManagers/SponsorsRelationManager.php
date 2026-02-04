@@ -42,7 +42,7 @@ class SponsorsRelationManager extends RelationManager
                 CreateAction::make()
                     ->label('Create Sponsor')
                     ->modalHeading('Create New Sponsor')
-                    ->mutateFormDataUsing(function (array $data, RelationManager $livewire): array {
+                    ->mutateDataUsing(function (array $data, RelationManager $livewire): array {
                         $data['event_id'] = $livewire->ownerRecord->id;
 
                         return $data;

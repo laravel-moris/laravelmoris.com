@@ -25,13 +25,19 @@ final readonly class CreateUserFromOAuth
             return $user;
         }
 
-        return User::query()->create([
+        $newUser = User::query()->create([
             'provider' => $data->provider,
             'provider_id' => $data->providerId,
             'name' => $data->name,
             'email' => $data->email ?? "{$data->providerId}@laravelmoris.com",
-            'avatar' => $this->downloadAvatar->execute($data->avatar),
             'password' => Str::random(),
         ]);
+
+        // Download and store avatar
+        if (filled($data->avatar)) {
+            $this->downloadAvatar->execute($newUser, $data->avatar);
+        }
+
+        return $newUser;
     }
 }

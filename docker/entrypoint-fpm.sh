@@ -27,6 +27,8 @@ php artisan livewire:publish --assets
 
 echo "Running migrations..."
 
+php -d memory_limit=100M artisan operations:process --tag=before-migrations
+
 php artisan migrate --force
 
 php -d memory_limit=100M artisan operations:process

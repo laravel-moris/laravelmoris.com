@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Models\Event;
 use App\Models\Sponsor;
 use App\Queries\GetSponsorProfileQuery;
+use Illuminate\Http\UploadedFile;
 
 test('it loads events ordered by date descending', function () {
     $sponsor = Sponsor::factory()->create();
@@ -27,19 +28,22 @@ test('it loads events ordered by date descending', function () {
 });
 
 test('it returns placeholder logo when no logo set', function () {
-    $sponsor = Sponsor::factory()->create(['logo' => null]);
+    $sponsor = Sponsor::factory()->create();
 
-    $url = app(GetSponsorProfileQuery::class)->getLogoUrl($sponsor);
 
-    expect($url)->toContain('placeholder.png');
+    expect($sponsor->logo)->toContain('placeholder.png');
 });
 
 test('it returns logo URL when logo is set', function () {
-    $sponsor = Sponsor::factory()->create(['logo' => 'sponsors/custom.png']);
+    $sponsor = Sponsor::factory()->create();
 
-    $url = app(GetSponsorProfileQuery::class)->getLogoUrl($sponsor);
+    // Add a logo to the media library
+    $file = UploadedFile::fake()->image('logo.png', 100, 100);
+    $sponsor->addMedia($file)->toMediaCollection('logo');
 
-    expect($url)->toContain('sponsors/custom.png');
+
+    // The URL should contain the conversion path
+    expect($sponsor->logo)->toContain('/conversions/');
 });
 
 test('it returns the same sponsor instance with relations loaded', function () {

@@ -243,9 +243,14 @@ class HomePageSeeder extends Seeder
 
             $sponsors[$config['name']] = Sponsor::create([
                 'name' => $config['name'],
-                'logo' => $logoPath,
                 'website' => $config['website'],
             ]);
+
+            // Add logo to media library if file exists
+            if ($logoPath !== null) {
+                $sponsors[$config['name']]->addMedia(storage_path("app/public/{$logoPath}"))
+                    ->toMediaCollection('logo');
+            }
         }
 
         $november = $pastEvents->firstWhere('title', 'Laravel Moris November 2025 Meetup');
