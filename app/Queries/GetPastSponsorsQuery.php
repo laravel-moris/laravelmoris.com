@@ -6,7 +6,6 @@ namespace App\Queries;
 
 use App\Data\SponsorCardData;
 use App\Models\Sponsor;
-use Illuminate\Support\Facades\Storage;
 use Spatie\LaravelData\DataCollection;
 
 readonly class GetPastSponsorsQuery

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-use Spatie\Permission\PermissionRegistrar;
 use App\Enums\Permissions;
-use Spatie\Permission\Models\Permission;
 use App\Enums\Roles;
-use Spatie\Permission\Models\Role;
 use App\Models\User;
 use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
 
 use function Pest\Laravel\actingAs;

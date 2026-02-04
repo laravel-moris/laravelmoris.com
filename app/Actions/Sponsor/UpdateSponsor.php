@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Actions\Sponsor;
 
-use Illuminate\Http\UploadedFile;
 use App\Data\Sponsor\UpdateSponsorData;
 use App\Models\Sponsor;
+use Illuminate\Http\UploadedFile;
 
 final readonly class UpdateSponsor
 {

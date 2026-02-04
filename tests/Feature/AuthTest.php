@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
 use App\Actions\Auth\RegisterUser;
 use App\Data\Auth\RegisterUserData;
 use App\Models\User;
@@ -10,6 +9,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Socialite\Contracts\User as SocialiteUser;
 use Laravel\Socialite\Facades\Socialite;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;

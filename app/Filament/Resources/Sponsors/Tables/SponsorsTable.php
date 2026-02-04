@@ -20,9 +20,7 @@ class SponsorsTable
         return $table
             ->columns([
                 ImageColumn::make('logo')
-                    ->disk('public')
                     ->square()
-                    ->defaultImageUrl(fn () => asset('images/default-sponsor.png'))
                     ->imageSize(50),
                 TextColumn::make('name')
                     ->searchable()

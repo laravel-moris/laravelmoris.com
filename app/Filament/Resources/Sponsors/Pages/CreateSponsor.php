@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Sponsors\Pages;
 
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use App\Actions\Sponsor\CreateSponsor as CreateSponsorAction;
 use App\Data\Sponsor\CreateSponsorData;
 use App\Filament\Resources\Sponsors\SponsorResource;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
 
 class CreateSponsor extends CreateRecord
 {
@@ -20,33 +20,17 @@ class CreateSponsor extends CreateRecord
         return $this->getResource()::getUrl('index');
     }
 
-    protected function mutateFormDataBeforeCreate(array $data): array
+    protected function handleRecordCreation(array $data): Model
     {
-        return $data;
-    }
 
-    protected function afterCreate(): void
-    {
-        $record = $this->getRecord();
-        $data = $this->data;
-
-        // Handle logo - can be array, null, or TemporaryUploadedFile
-        $logo = null;
-        if (is_array($data['logo'] ?? null)) {
-            $logo = $data['logo'][0] ?? null;
-        } elseif ($data['logo'] instanceof UploadedFile) {
-            $logo = $data['logo'];
-        }
+        $hasUploaded = $data['logo'] instanceof UploadedFile;
 
         $createData = new CreateSponsorData(
             name: $data['name'],
             website: $data['website'],
-            logo: $logo,
+            logo: $hasUploaded ? $data['logo'] : null,
         );
 
-        app(CreateSponsorAction::class)->execute($createData);
-
-        // Clean up temp directory
-        Storage::disk('public')->deleteDirectory('sponsors-logos-temp');
+        return app(CreateSponsorAction::class)->execute($createData);
     }
 }

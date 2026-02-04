@@ -8,12 +8,8 @@ use App\Models\Sponsor;
 use App\Queries\GetPastSponsorsQuery;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\Storage;
 
 test('it returns sponsors for past events with logo url fallback', function () {
-    Storage::fake('public');
-    Storage::disk('public')->put('sponsors/placeholder.png', 'x');
-
     $now = now('UTC')->toImmutable();
     Date::setTestNow($now);
 
@@ -37,9 +33,11 @@ test('it returns sponsors for past events with logo url fallback', function () {
 
     expect($sponsors)->toHaveCount(2);
 
-    $placeholderUrl = Storage::disk('public')->url('sponsors/placeholder.png');
     $noLogoCard = $sponsors->toCollection()->firstWhere('name', 'NoLogo');
-    expect($noLogoCard->logoUrl)->toBe($placeholderUrl);
+    expect($noLogoCard->logoUrl)->toBe('https://avatars.laravel.cloud/NoLogo');
+
+    $withLogoCard = $sponsors->toCollection()->firstWhere('name', 'Acme');
+    expect($withLogoCard->logoUrl)->not->toBe('https://avatars.laravel.cloud/Acme');
 
     Date::setTestNow();
 });

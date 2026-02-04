@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Sponsors\Pages;
 
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use App\Actions\Sponsor\UpdateSponsor as UpdateSponsorAction;
 use App\Data\Sponsor\UpdateSponsorData;
 use App\Filament\Resources\Sponsors\SponsorResource;
+use App\Models\Sponsor;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
 
 class EditSponsor extends EditRecord
 {
@@ -28,31 +29,22 @@ class EditSponsor extends EditRecord
         return $this->getResource()::getUrl('index');
     }
 
-    protected function afterSave(): void
+    /**
+     * @param  Sponsor  $record
+     */
+    protected function handleRecordUpdate(Model $record, array $data): Model
     {
-        $data = $this->data;
-        $record = $this->getRecord();
 
-        // Handle logo - can be array, null, or TemporaryUploadedFile
-        $logo = null;
-        if (is_array($data['logo'] ?? null)) {
-            $logo = $data['logo'][0] ?? null;
-        } elseif ($data['logo'] instanceof UploadedFile) {
-            $logo = $data['logo'];
-        }
-
-        $deleteLogo = isset($data['logo']) && $data['logo'] === null;
+        $hasUploaded = $data['logo'] instanceof UploadedFile;
 
         $updateData = new UpdateSponsorData(
             name: $data['name'],
             website: $data['website'],
-            logo: $logo,
-            deleteLogo: $deleteLogo,
+            logo: $data['logo'],
+            deleteLogo: $hasUploaded,
         );
-
         app(UpdateSponsorAction::class)->execute($record, $updateData);
 
-        // Clean up temp directory
-        Storage::disk('public')->deleteDirectory('sponsors-logos-temp');
+        return $record;
     }
 }

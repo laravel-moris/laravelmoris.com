@@ -163,11 +163,7 @@
                         @foreach ($event->sponsors as $sponsor)
                             <a href="{{ route('sponsors.show', $sponsor) }}"
                                 class="block transition-opacity hover:opacity-80 p-3 bg-surface-2 rounded-lg">
-                                @php
-                                    $logoUrl =
-                                        $sponsor->getFirstMediaUrl('logo', 'webp') ?: asset('sponsors/placeholder.png');
-                                @endphp
-                                <img src="{{ $logoUrl }}" alt="{{ $sponsor->name }}"
+                                <img src="{{ $sponsor->logo }}" alt="{{ $sponsor->name }}"
                                     class="h-20 w-auto max-w-40 object-contain">
                             </a>
                         @endforeach
