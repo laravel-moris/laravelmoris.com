@@ -13,7 +13,7 @@
                     <x-card class="p-6">
                         <div class="flex flex-col items-center text-center">
                             <div
-                                class="w-full h-48 rounded-xl bg-white/5 border border-border/70 overflow-hidden mb-4 flex items-center justify-center p-6">
+                                class="w-full h-48 rounded-xl bg-white overflow-hidden mb-4 flex items-center justify-center p-6">
                                 <img src="{{ $logoUrl }}" alt="{{ $sponsor->name }}"
                                     class="max-w-full max-h-full object-contain">
                             </div>

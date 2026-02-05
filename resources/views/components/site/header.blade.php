@@ -1,3 +1,5 @@
+@use('App\Enums\Permissions')
+
 @props([
     'links' => [],
 ])
@@ -58,9 +60,9 @@
             @endforeach
 
             @auth
-                @if (auth()->user()->hasRole([\App\Enums\Roles::SuperAdmin->value, \App\Enums\Roles::Organizer->value]))
+                @can(Permissions::AccessAdminPanel->value)
                     <x-rainbow-nav-link href="{{ route('filament.admin.pages.dashboard') }}" text="Admin" />
-                @endif
+                @endcan
                 <a href="{{ route('profile.index') }}"
                     class="relative text-muted text-sm font-semibold uppercase tracking-wide py-1 transition-colors hover:text-foreground after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 after:bg-primary after:transition-[width] after:duration-300 hover:after:w-full">
                     Profile
@@ -124,11 +126,11 @@
 
                     <div class="mt-6 pt-6 border-t border-border/70">
                         @auth
-                            @if (auth()->user()->hasRole([\App\Enums\Roles::SuperAdmin->value, \App\Enums\Roles::Organizer->value]))
+                            @can(Permissions::AccessAdminPanel->value)
                                 <x-rainbow-nav-link href="{{ route('filament.admin.pages.dashboard') }}" text="Admin"
                                     class="flex items-center gap-3 px-4 py-3 rounded-xl border border-transparent hover:border-border/70 hover:bg-surface-2 transition"
                                     data-mobile-menu-close />
-                            @endif
+                            @endcan
                             <a href="{{ route('profile.index') }}"
                                 class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-snug text-foreground border border-transparent hover:border-border/70 hover:bg-surface-2 transition"
                                 data-mobile-menu-close>

@@ -157,7 +157,7 @@
                     <div class="flex items-center justify-center gap-6 flex-wrap">
                         @foreach ($event->sponsors as $sponsor)
                             <a href="{{ route('sponsors.show', $sponsor) }}"
-                                class="block transition-opacity hover:opacity-80 p-3 bg-surface-2 rounded-lg">
+                                class="block transition-opacity hover:opacity-80 p-3 bg-white rounded-lg">
                                 <img src="{{ $sponsor->logo }}" alt="{{ $sponsor->name }}"
                                     class="h-20 w-auto max-w-40 object-contain">
                             </a>
