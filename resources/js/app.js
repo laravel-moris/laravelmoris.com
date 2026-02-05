@@ -1,7 +1,74 @@
 import "./bootstrap";
 
 import Alpine from "alpinejs";
-import InstantPage from './instant.js'
+import InstantPage from "./instant.js";
+
+// Register Alpine data for avatar upload
+Alpine.data("avatarUpload", (config = {}) => ({
+    fileName: null,
+    originalSrc: null,
+    maxFileSize: config.maxFileSize || "2MB",
+
+    init() {
+        this.originalSrc = this.$refs.preview?.src;
+    },
+
+    handleFileSelect(event) {
+        const file = event.target.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        // Validate file type
+        if (!file.type.startsWith("image/")) {
+            alert("Please select an image file.");
+            this.clearFile();
+            return;
+        }
+
+        // Validate file size
+        const maxBytes = this.parseFileSize(this.maxFileSize);
+        if (file.size > maxBytes) {
+            alert(`File size must be less than ${this.maxFileSize}.`);
+            this.clearFile();
+            return;
+        }
+
+        this.fileName = file.name;
+
+        // Show preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            if (this.$refs.preview) {
+                this.$refs.preview.src = e.target.result;
+            }
+        };
+        reader.readAsDataURL(file);
+    },
+
+    clearFile() {
+        this.fileName = null;
+        if (this.$refs.input) {
+            this.$refs.input.value = "";
+        }
+        if (this.$refs.preview && this.originalSrc) {
+            this.$refs.preview.src = this.originalSrc;
+        }
+    },
+
+    parseFileSize(sizeStr) {
+        const units = {
+            B: 1,
+            KB: 1024,
+            MB: 1024 * 1024,
+            GB: 1024 * 1024 * 1024,
+        };
+        const match = sizeStr.match(/^(\d+(?:\.\d+)?)\s*(B|KB|MB|GB)$/i);
+        if (!match) return 2 * 1024 * 1024; // Default 2MB
+        return parseFloat(match[1]) * (units[match[2].toUpperCase()] || 1);
+    },
+}));
 
 window.Alpine = Alpine;
 Alpine.start();

@@ -7,24 +7,24 @@
 
     <main class="px-6 py-12">
         <div class="max-w-3xl mx-auto">
-            <x-ui.card class="p-8">
-                <x-ui.text.h1>Privacy Policy</x-ui.text.h1>
-                <x-ui.text.muted class="mt-4">
+            <x-card class="p-8">
+                <x-heading level="1">Privacy Policy</x-heading>
+                <x-text variant="muted" class="mt-4">
                     Last updated: {{ now()->format('F d, Y') }}
-                </x-ui.text.muted>
+                </x-text>
 
                 <div class="mt-8 space-y-8">
                     <section>
-                        <x-ui.text.body>
+                        <x-text size="md">
                             Welcome to Laravel Moris, a community for developers in Mauritius who connect through regular
                             physical meetups. We value your privacy and are committed to protecting your personal
                             information. This Privacy Policy explains what information we collect, how we use it, and who we
                             share it with.
-                        </x-ui.text.body>
+                        </x-text>
                     </section>
 
                     <section>
-                        <x-ui.text.h2>Information We Collect</x-ui.text.h2>
+                        <x-heading level="2">Information We Collect</x-heading>
                         <ul class="list-disc ml-6 space-y-2 mt-2">
                             <li>
                                 <strong>Personal Information:</strong> During RSVP and login, we collect your email address,
@@ -40,7 +40,7 @@
                     </section>
 
                     <section>
-                        <x-ui.text.h2>How We Use Your Information</x-ui.text.h2>
+                        <x-heading level="2">How We Use Your Information</x-heading>
                         <ul class="list-disc ml-6 space-y-2 mt-2">
                             <li>
                                 <strong>Meetup Organization:</strong> We use your email address and phone number to send you
@@ -51,19 +51,19 @@
                     </section>
 
                     <section>
-                        <x-ui.text.h2>Information We Share</x-ui.text.h2>
-                        <x-ui.text.body class="mt-2">
+                        <x-heading level="2">Information We Share</x-heading>
+                        <x-text size="md" class="mt-2">
                             We never share your personal information with sponsors, recruiters, or anyone outside the
                             Laravel Moris organizing team.
-                        </x-ui.text.body>
-                        <x-ui.text.body class="mt-2">
+                        </x-text>
+                        <x-text size="md" class="mt-2">
                             We may share anonymous website usage data with third-party analytics providers to help us
                             understand how the website is used. This does not include any personal information.
-                        </x-ui.text.body>
+                        </x-text>
                     </section>
 
                     <section>
-                        <x-ui.text.h2>Your Choices</x-ui.text.h2>
+                        <x-heading level="2">Your Choices</x-heading>
                         <ul class="list-disc ml-6 space-y-2 mt-2">
                             <li>You can control your email preferences for meetup updates at any time by logging into your
                                 account or contacting us.</li>
@@ -72,29 +72,29 @@
                     </section>
 
                     <section>
-                        <x-ui.text.h2>Data Security</x-ui.text.h2>
-                        <x-ui.text.body class="mt-2">
+                        <x-heading level="2">Data Security</x-heading>
+                        <x-text size="md" class="mt-2">
                             We take reasonable security measures to protect your personal information from unauthorized
                             access, disclosure, alteration, or destruction. However, please be aware that no website is 100%
                             secure.
-                        </x-ui.text.body>
+                        </x-text>
                     </section>
 
                     <section>
-                        <x-ui.text.h2>Changes to this Policy</x-ui.text.h2>
-                        <x-ui.text.body class="mt-2">
+                        <x-heading level="2">Changes to this Policy</x-heading>
+                        <x-text size="md" class="mt-2">
                             We may update this Privacy Policy from time to time. We will post any changes on this page, so
                             please review it periodically.
-                        </x-ui.text.body>
+                        </x-text>
                     </section>
 
                     <section>
-                        <x-ui.text.h2>Contact Us</x-ui.text.h2>
-                        <x-ui.text.body class="mt-2">
+                        <x-heading level="2">Contact Us</x-heading>
+                        <x-text size="md" class="mt-2">
                             If you have any questions about this Privacy Policy, please contact us at <a
                                 href="mailto:contact@laravelmoris.com"
                                 class="text-primary hover:text-primary-hover underline underline-offset-4">contact@laravelmoris.com</a>.
-                        </x-ui.text.body>
+                        </x-text>
                     </section>
                 </div>
 
@@ -104,7 +104,7 @@
                         ← Back to Login
                     </a>
                 </div>
-            </x-ui.card>
+            </x-card>
         </div>
     </main>
 @endsection

@@ -11,21 +11,21 @@
         {{ $title }} <span class="text-coral inline-block">{{ $highlight }}</span>
     </h1>
 
-    <x-ui.text.subtitle
+    <x-text variant="subtitle"
         class="relative mt-6 max-w-[500px] opacity-0 animate-hero-subtitle [animation-delay:400ms] before:content-[''] before:absolute before:top-1/2 before:right-[calc(100%+24px)] before:h-px before:w-[60px] before:bg-border/70 before:opacity-70 after:content-[''] after:absolute after:top-1/2 after:left-[calc(100%+24px)] after:h-px after:w-[60px] after:bg-border/70 after:opacity-70 max-md:before:hidden max-md:after:hidden">
         {{ $subtitle }}
-    </x-ui.text.subtitle>
+    </x-text>
 
     <div
         class="mt-12 flex flex-wrap justify-center gap-5 opacity-0 animate-hero-cta [animation-delay:600ms] max-md:w-full max-md:max-w-[320px] max-md:flex-col">
         @if ($nextMeetupId)
-            <x-ui.button href="{{ route('events.show', $nextMeetupId) }}" variant="primary">Join Next Meetup</x-ui.button>
-            <x-ui.button href="{{ route('papers.create', $nextMeetupId) }}" variant="secondary">Become a
-                Speaker</x-ui.button>
+            <x-button href="{{ route('events.show', $nextMeetupId) }}" variant="primary">Join Next Meetup</x-button>
+            <x-button href="{{ route('papers.create', $nextMeetupId) }}" variant="secondary">Become a
+                Speaker</x-button>
         @else
-            <x-ui.button href="{{ route('events.index') }}" variant="primary">Join Next Meetup</x-ui.button>
-            <x-ui.button href="{{ route('events.index') }}" variant="secondary">Become a Speaker</x-ui.button>
+            <x-button href="{{ route('events.index') }}" variant="primary">Join Next Meetup</x-button>
+            <x-button href="{{ route('events.index') }}" variant="secondary">Become a Speaker</x-button>
         @endif
-        <x-ui.button href="mailto:contact@laravelmoris.com" variant="secondary">Become a Sponsor</x-ui.button>
+        <x-button href="mailto:contact@laravelmoris.com" variant="secondary">Become a Sponsor</x-button>
     </div>
 </section>

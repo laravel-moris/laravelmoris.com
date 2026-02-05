@@ -20,7 +20,7 @@ uses()->group('auth');
 it('loads the login page successfully', function () {
     get(route('login'))
         ->assertSuccessful()
-        ->assertViewIs('auth.login');
+        ->assertViewIs('pages.auth.login');
 });
 
 it('redirects to github oauth provider', function () {
@@ -222,7 +222,7 @@ it('invalidates session on logout', function () {
 it('loads the register page successfully', function () {
     get(route('register.create'))
         ->assertSuccessful()
-        ->assertViewIs('auth.register');
+        ->assertViewIs('pages.auth.register');
 });
 
 it('creates a new user with email and password', function () {

@@ -7,28 +7,28 @@
 
     <main class="px-6 py-12">
         <div class="max-w-3xl mx-auto">
-            <x-ui.card class="p-8">
-                <x-ui.text.h1>Cookie Policy</x-ui.text.h1>
-                <x-ui.text.muted class="mt-4">
+            <x-card class="p-8">
+                <x-heading level="1">Cookie Policy</x-heading>
+                <x-text variant="muted" class="mt-4">
                     Last updated: {{ now()->format('F d, Y') }}
-                </x-ui.text.muted>
+                </x-text>
 
                 <div class="mt-8 space-y-8">
                     <section>
-                        <x-ui.text.h2>What Are Cookies</x-ui.text.h2>
-                        <x-ui.text.body class="mt-2">
+                        <x-heading level="2">What Are Cookies</x-heading>
+                        <x-text size="md" class="mt-2">
                             Cookies are small text files that are stored on your device (computer, tablet, or mobile phone)
                             when you visit a website. They are widely used to make websites work more efficiently and
                             provide information to the owners of the site. Cookies help us recognize your device, remember
                             your preferences, and improve your experience on our website.
-                        </x-ui.text.body>
+                        </x-text>
                     </section>
 
                     <section>
-                        <x-ui.text.h2>How We Use Cookies</x-ui.text.h2>
-                        <x-ui.text.body class="mt-2">
+                        <x-heading level="2">How We Use Cookies</x-heading>
+                        <x-text size="md" class="mt-2">
                             Laravel Moris uses cookies for several purposes to enhance your experience on our website:
-                        </x-ui.text.body>
+                        </x-text>
                         <ul class="list-disc ml-6 space-y-2 mt-2">
                             <li>
                                 <strong>Session Management:</strong> We use cookies to keep you logged in as you navigate
@@ -49,51 +49,51 @@
                     </section>
 
                     <section>
-                        <x-ui.text.h2>Types of Cookies We Use</x-ui.text.h2>
+                        <x-heading level="2">Types of Cookies We Use</x-heading>
 
                         <div class="space-y-6 mt-2">
                             <div>
-                                <x-ui.text.body class="font-semibold">
+                                <x-text size="md" class="font-semibold">
                                     1. Essential Cookies
-                                </x-ui.text.body>
-                                <x-ui.text.body class="mt-1">
+                                </x-text>
+                                <x-text size="md" class="mt-1">
                                     These cookies are necessary for the website to function properly. They enable core
                                     functionality such as security, network management, and accessibility. You cannot
                                     switch these off as they are essential for the website to work correctly.
-                                </x-ui.text.body>
+                                </x-text>
                             </div>
 
                             <div>
-                                <x-ui.text.body class="font-semibold">
+                                <x-text size="md" class="font-semibold">
                                     2. Functional Cookies
-                                </x-ui.text.body>
-                                <x-ui.text.body class="mt-1">
+                                </x-text>
+                                <x-text size="md" class="mt-1">
                                     These cookies allow us to remember choices you make (such as your language
                                     preference or region) and provide enhanced, more personal features. They may also
                                     be used to remember your preferences for meetup RSVPs and profile settings.
-                                </x-ui.text.body>
+                                </x-text>
                             </div>
 
                             <div>
-                                <x-ui.text.body class="font-semibold">
+                                <x-text size="md" class="font-semibold">
                                     3. Analytics Cookies
-                                </x-ui.text.body>
-                                <x-ui.text.body class="mt-1">
+                                </x-text>
+                                <x-text size="md" class="mt-1">
                                     We use Google Analytics to understand how visitors engage with our website. These
                                     cookies collect information such as which pages you visit, how long you stay on
                                     each page, and how you found our website. This data is anonymous and helps us
                                     improve our website for the community.
-                                </x-ui.text.body>
+                                </x-text>
                             </div>
                         </div>
                     </section>
 
                     <section>
-                        <x-ui.text.h2>Managing and Deleting Cookies</x-ui.text.h2>
-                        <x-ui.text.body class="mt-2">
+                        <x-heading level="2">Managing and Deleting Cookies</x-heading>
+                        <x-text size="md" class="mt-2">
                             You have the right to accept, refuse, or delete cookies at any time. Here are the options
                             available to you:
-                        </x-ui.text.body>
+                        </x-text>
                         <ul class="list-disc ml-6 space-y-2 mt-2">
                             <li>
                                 <strong>Browser Settings:</strong> Most web browsers allow you to control cookies through
@@ -115,17 +115,17 @@
                                 you were using and reset your preferences.
                             </li>
                         </ul>
-                        <x-ui.text.body class="mt-4">
+                        <x-text size="md" class="mt-4">
                             Please note that blocking or deleting cookies may affect your experience on our website and
                             may prevent you from using certain features, such as staying logged in or RSVPing for meetups.
-                        </x-ui.text.body>
+                        </x-text>
                     </section>
 
                     <section>
-                        <x-ui.text.h2>Cookies We Use</x-ui.text.h2>
-                        <x-ui.text.body class="mt-2">
+                        <x-heading level="2">Cookies We Use</x-heading>
+                        <x-text size="md" class="mt-2">
                             Below is a summary of the main cookies used by Laravel Moris:
-                        </x-ui.text.body>
+                        </x-text>
                         <div class="mt-4 overflow-x-auto">
                             <table class="w-full text-sm border-collapse">
                                 <thead>
@@ -162,14 +162,14 @@
                     </section>
 
                     <section>
-                        <x-ui.text.h2>Contact Us</x-ui.text.h2>
-                        <x-ui.text.body class="mt-2">
+                        <x-heading level="2">Contact Us</x-heading>
+                        <x-text size="md" class="mt-2">
                             If you have any questions about our Cookie Policy or how we use cookies, please contact us at
                             <a href="mailto:contact@laravelmoris.com"
                                 class="text-primary hover:text-primary-hover underline underline-offset-4">
                                 contact@laravelmoris.com
                             </a>.
-                        </x-ui.text.body>
+                        </x-text>
                     </section>
                 </div>
 
@@ -179,7 +179,7 @@
                         ← Back to Login
                     </a>
                 </div>
-            </x-ui.card>
+            </x-card>
         </div>
     </main>
 @endsection

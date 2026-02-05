@@ -9,11 +9,11 @@
         <main class="px-6 py-12">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-12">
-                    <x-ui.text.h1>Join Our Community</x-ui.text.h1>
-                    <x-ui.text.muted class="mt-2 max-w-2xl mx-auto">
+                    <x-heading level="1">Join Our Community</x-heading>
+                    <x-text variant="muted" class="mt-2 max-w-2xl mx-auto">
                         Connect with fellow Laravel developers in Mauritius. Join our community channels to stay updated and
                         collaborate.
-                    </x-ui.text.muted>
+                    </x-text>
                 </div>
 
                 @if ($communityLinks->count() > 0)
@@ -23,19 +23,20 @@
                                 @if ($link->isAvailable()) target="_blank" rel="noopener noreferrer" @endif
                                 class="group block"
                                 @if (!$link->isAvailable()) @click.prevent="showModal = true" @endif>
-                                <x-ui.card class="p-6 transition-all duration-300 hover:border-primary/50 h-full">
+                                <x-card class="p-6 transition-all duration-300 hover:border-primary/50 h-full">
                                     <div class="flex flex-col items-center text-center">
                                         <div
                                             class="w-16 h-16 rounded-2xl bg-surface-2 flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
                                             <img src="{{ Vite::asset('resources/images/logos/' . $link->iconKey . '.svg') }}"
                                                 alt="{{ $link->name }}" class="size-12">
                                         </div>
-                                        <x-ui.text.h3 class="text-lg group-hover:text-primary transition-colors">
+                                        <x-heading level="3"
+                                            class="text-lg group-hover:text-primary transition-colors">
                                             {{ $link->name }}
-                                        </x-ui.text.h3>
-                                        <x-ui.text.muted class="mt-2 text-sm leading-relaxed">
+                                        </x-heading>
+                                        <x-text variant="muted" class="mt-2 text-sm leading-relaxed">
                                             {{ $link->description }}
-                                        </x-ui.text.muted>
+                                        </x-text>
                                         <div
                                             class="mt-4 flex items-center gap-2 text-primary text-sm font-semibold group-hover:translate-x-1 transition-transform">
                                             <span>Join Now</span>
@@ -46,22 +47,26 @@
                                             </svg>
                                         </div>
                                     </div>
-                                </x-ui.card>
+                                </x-card>
                             </a>
                         @endforeach
                     </div>
                 @else
-                    <x-ui.card class="p-12 text-center">
-                        <x-ui.text.h3>No Community Links Available</x-ui.text.h3>
-                        <x-ui.text.muted class="mt-2">
+                    <x-card class="p-12 text-center">
+                        <x-heading level="3">No Community Links Available</x-heading>
+                        <x-text variant="muted" class="mt-2">
                             Check back soon for community links!
-                        </x-ui.text.muted>
-                    </x-ui.card>
+                        </x-text>
+                    </x-card>
                 @endif
             </div>
         </main>
 
-        <x-ui.modal id="link-unavailable-modal" title="Link Not Available">
+        <x-modal id="link-unavailable-modal">
+            <x-slot:header>
+                <x-heading level="3">Link Not Available</x-heading>
+            </x-slot:header>
+
             <x-slot:icon>
                 <div class="w-16 h-16 rounded-full bg-amber-500/10 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -80,11 +85,11 @@
 
             <x-slot:footer>
                 <div class="flex justify-center">
-                    <x-ui.button variant="primary" size="lg" @click="showModal = false">
+                    <x-button variant="primary" size="lg" @click="showModal = false">
                         Got it
-                    </x-ui.button>
+                    </x-button>
                 </div>
             </x-slot:footer>
-        </x-ui.modal>
+        </x-modal>
     </div>
 @endsection

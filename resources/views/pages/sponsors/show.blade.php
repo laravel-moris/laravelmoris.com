@@ -10,7 +10,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {{-- Left Column: Sponsor Info --}}
                 <div class="lg:col-span-1">
-                    <x-ui.card class="p-6">
+                    <x-card class="p-6">
                         <div class="flex flex-col items-center text-center">
                             <div
                                 class="w-full h-48 rounded-xl bg-white/5 border border-border/70 overflow-hidden mb-4 flex items-center justify-center p-6">
@@ -18,33 +18,33 @@
                                     class="max-w-full max-h-full object-contain">
                             </div>
 
-                            <x-ui.text.h2>{{ $sponsor->name }}</x-ui.text.h2>
+                            <x-heading level="2">{{ $sponsor->name }}</x-heading>
 
                             @if ($sponsor->events->count() > 0)
-                                <x-ui.text.muted class="mt-2">
+                                <x-text variant="muted" class="mt-2">
                                     {{ $sponsor->events->count() }} {{ Str::plural('event', $sponsor->events->count()) }}
                                     sponsored
-                                </x-ui.text.muted>
+                                </x-text>
                             @endif
 
                             @if ($sponsor->website)
-                                <x-ui.button href="{{ $sponsor->website }}" variant="primary" class="mt-6 w-full"
+                                <x-button href="{{ $sponsor->website }}" variant="primary" class="mt-6 w-full"
                                     target="_blank" rel="noopener noreferrer">
                                     Visit Website
-                                </x-ui.button>
+                                </x-button>
                             @endif
 
-                            <x-ui.button href="{{ route('sponsors.index') }}" variant="secondary" class="mt-3 w-full">
+                            <x-button href="{{ route('sponsors.index') }}" variant="secondary" class="mt-3 w-full">
                                 ← Back to Sponsors
-                            </x-ui.button>
+                            </x-button>
                         </div>
-                    </x-ui.card>
+                    </x-card>
                 </div>
 
                 {{-- Right Column: Events Sponsored --}}
                 <div class="lg:col-span-2">
-                    <x-ui.card class="p-6">
-                        <x-ui.text.h3>Events Sponsored</x-ui.text.h3>
+                    <x-card class="p-6">
+                        <x-heading level="3">Events Sponsored</x-heading>
 
                         @if ($sponsor->events->count() > 0)
                             <div class="mt-4 space-y-3">
@@ -53,25 +53,25 @@
                                         <div
                                             class="flex items-center justify-between p-4 bg-surface-2 rounded-lg transition-all duration-300 group-hover:border-primary/50 border border-transparent">
                                             <div>
-                                                <x-ui.text.body
-                                                    class="font-medium group-hover:text-primary transition-colors">{{ $event->title }}</x-ui.text.body>
-                                                <x-ui.text.muted class="text-sm">
+                                                <x-text size="md"
+                                                    class="font-medium group-hover:text-primary transition-colors">{{ $event->title }}</x-text>
+                                                <x-text variant="muted" class="text-sm">
                                                     {{ $event->starts_at->format('M d, Y') }} • {{ $event->type->label() }}
-                                                </x-ui.text.muted>
+                                                </x-text>
                                             </div>
-                                            <x-ui.chip color="{{ $event->starts_at->isPast() ? 'coral' : 'green' }}">
+                                            <x-badge color="{{ $event->starts_at->isPast() ? 'coral' : 'green' }}">
                                                 {{ $event->starts_at->isPast() ? 'Past' : 'Upcoming' }}
-                                            </x-ui.chip>
+                                            </x-badge>
                                         </div>
                                     </a>
                                 @endforeach
                             </div>
                         @else
-                            <x-ui.text.muted class="mt-4">
+                            <x-text variant="muted" class="mt-4">
                                 {{ $sponsor->name }} hasn't sponsored any events yet.
-                            </x-ui.text.muted>
+                            </x-text>
                         @endif
-                    </x-ui.card>
+                    </x-card>
                 </div>
             </div>
         </div>

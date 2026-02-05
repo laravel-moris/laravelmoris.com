@@ -8,35 +8,35 @@
     <main class="px-6 py-12">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-12">
-                <x-ui.text.h1>Our Community Members</x-ui.text.h1>
-                <x-ui.text.muted class="mt-2 max-w-2xl mx-auto">
+                <x-heading level="1">Our Community Members</x-heading>
+                <x-text variant="muted" class="mt-2 max-w-2xl mx-auto">
                     Meet the passionate developers who make up the Laravel Moris community.
-                </x-ui.text.muted>
+                </x-text>
             </div>
 
             @if ($members->count() > 0)
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                     @foreach ($members as $member)
                         <a href="{{ route('members.show', $member) }}" class="group block">
-                            <x-ui.card class="p-5 transition-all duration-300 hover:border-primary/50 h-full">
+                            <x-card class="p-5 transition-all duration-300 hover:border-primary/50 h-full">
                                 <div class="flex flex-col items-center text-center">
                                     <img src="{{ $member->avatar }}" alt="{{ $member->name }}"
                                         class="w-20 h-20 rounded-full object-cover mb-3">
-                                    <x-ui.text.h3 class="text-lg group-hover:text-primary transition-colors">
+                                    <x-heading level="3" class="text-lg group-hover:text-primary transition-colors">
                                         {{ $member->name }}
-                                    </x-ui.text.h3>
+                                    </x-heading>
 
                                     @if ($member->title)
-                                        <x-ui.text.muted
+                                        <x-text variant="muted"
                                             class="mt-1 font-semibold uppercase tracking-widest text-teal text-xs">
                                             {{ $member->title }}
-                                        </x-ui.text.muted>
+                                        </x-text>
                                     @endif
 
                                     @if ($member->bio)
-                                        <x-ui.text.muted class="mt-2 text-sm leading-relaxed line-clamp-2">
+                                        <x-text variant="muted" class="mt-2 text-sm leading-relaxed line-clamp-2">
                                             {{ $member->bio }}
-                                        </x-ui.text.muted>
+                                        </x-text>
                                     @endif
 
                                     <div class="flex items-center gap-4 mt-3 text-sm">
@@ -65,7 +65,7 @@
                                         @endif
                                     </div>
                                 </div>
-                            </x-ui.card>
+                            </x-card>
                         </a>
                     @endforeach
                 </div>
@@ -74,15 +74,15 @@
                     {{ $members->links() }}
                 </div>
             @else
-                <x-ui.card class="p-12 text-center">
-                    <x-ui.text.h3>No Members Yet</x-ui.text.h3>
-                    <x-ui.text.muted class="mt-2">
+                <x-card class="p-12 text-center">
+                    <x-heading level="3">No Members Yet</x-heading>
+                    <x-text variant="muted" class="mt-2">
                         Be the first to join our community!
-                    </x-ui.text.muted>
-                    <x-ui.button href="{{ route('login') }}" variant="primary" class="mt-6">
+                    </x-text>
+                    <x-button href="{{ route('login') }}" variant="primary" class="mt-6">
                         Join Community
-                    </x-ui.button>
-                </x-ui.card>
+                    </x-button>
+                </x-card>
             @endif
         </div>
     </main>

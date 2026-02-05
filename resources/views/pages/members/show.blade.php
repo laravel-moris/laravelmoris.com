@@ -10,18 +10,18 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {{-- Left Column: Profile Info --}}
                 <div class="lg:col-span-1">
-                    <x-ui.card class="p-6">
+                    <x-card class="p-6">
                         <div class="flex flex-col items-center text-center">
                             <img src="{{ $member->avatar }}" alt="{{ $member->name }}"
                                 class="w-32 h-32 rounded-full object-cover mb-4">
-                            <x-ui.text.h2>{{ $member->name }}</x-ui.text.h2>
+                            <x-heading level="2">{{ $member->name }}</x-heading>
 
                             @if ($member->title)
-                                <x-ui.text.muted class="mt-1">{{ $member->title }}</x-ui.text.muted>
+                                <x-text variant="muted" class="mt-1">{{ $member->title }}</x-text>
                             @endif
 
                             @if ($member->bio)
-                                <x-ui.text.body class="mt-4 text-center">{{ $member->bio }}</x-ui.text.body>
+                                <x-text size="md" class="mt-4 text-center">{{ $member->bio }}</x-text>
                             @endif
 
                             <div class="flex items-center gap-4 mt-6 text-sm">
@@ -50,18 +50,18 @@
                                 @endif
                             </div>
 
-                            <x-ui.button href="{{ route('members.index') }}" variant="secondary" class="mt-6 w-full">
+                            <x-button href="{{ route('members.index') }}" variant="secondary" class="mt-6 w-full">
                                 ← Back to Members
-                            </x-ui.button>
+                            </x-button>
                         </div>
-                    </x-ui.card>
+                    </x-card>
                 </div>
 
                 {{-- Right Column: Activity --}}
                 <div class="lg:col-span-2 space-y-6">
                     {{-- Speaking History Section --}}
-                    <x-ui.card class="p-6">
-                        <x-ui.text.h3>Speaking History</x-ui.text.h3>
+                    <x-card class="p-6">
+                        <x-heading level="3">Speaking History</x-heading>
 
                         @if ($member->speakingEvents->count() > 0)
                             <div class="mt-4 space-y-3">
@@ -69,25 +69,25 @@
                                     <a href="{{ route('events.show', $event) }}" class="block group">
                                         <div
                                             class="p-3 bg-surface-2 rounded-lg transition-all duration-300 hover:border-primary/50 border border-transparent">
-                                            <x-ui.text.body
-                                                class="font-medium group-hover:text-primary transition-colors">{{ $event->paper->title ?? 'Untitled Talk' }}</x-ui.text.body>
-                                            <x-ui.text.muted class="text-sm mt-1">
+                                            <x-text size="md"
+                                                class="font-medium group-hover:text-primary transition-colors">{{ $event->paper->title ?? 'Untitled Talk' }}</x-text>
+                                            <x-text variant="muted" class="text-sm mt-1">
                                                 {{ $event->title }} • {{ $event->starts_at->format('M d, Y') }}
-                                            </x-ui.text.muted>
+                                            </x-text>
                                         </div>
                                     </a>
                                 @endforeach
                             </div>
                         @else
-                            <x-ui.text.muted class="mt-4">
+                            <x-text variant="muted" class="mt-4">
                                 {{ $member->name }} hasn't spoken at any events yet.
-                            </x-ui.text.muted>
+                            </x-text>
                         @endif
-                    </x-ui.card>
+                    </x-card>
 
                     {{-- Attendance History Section --}}
-                    <x-ui.card class="p-6">
-                        <x-ui.text.h3>Attendance History</x-ui.text.h3>
+                    <x-card class="p-6">
+                        <x-heading level="3">Attendance History</x-heading>
 
                         @if ($member->rsvps->count() > 0)
                             <div class="mt-4 space-y-3">
@@ -96,26 +96,26 @@
                                         <div
                                             class="flex items-center justify-between p-3 bg-surface-2 rounded-lg transition-all duration-300 hover:border-primary/50 border border-transparent">
                                             <div>
-                                                <x-ui.text.body
-                                                    class="font-medium group-hover:text-primary transition-colors">{{ $event->title }}</x-ui.text.body>
-                                                <x-ui.text.muted class="text-sm">
+                                                <x-text size="md"
+                                                    class="font-medium group-hover:text-primary transition-colors">{{ $event->title }}</x-text>
+                                                <x-text variant="muted" class="text-sm">
                                                     {{ $event->starts_at->format('M d, Y') }} •
                                                     {{ $event->type->label() }}
-                                                </x-ui.text.muted>
+                                                </x-text>
                                             </div>
-                                            <x-ui.chip color="{{ $event->starts_at->isPast() ? 'coral' : 'green' }}">
+                                            <x-badge color="{{ $event->starts_at->isPast() ? 'coral' : 'green' }}">
                                                 {{ $event->starts_at->isPast() ? 'Attended' : $event->rsvp->status }}
-                                            </x-ui.chip>
+                                            </x-badge>
                                         </div>
                                     </a>
                                 @endforeach
                             </div>
                         @else
-                            <x-ui.text.muted class="mt-4">
+                            <x-text variant="muted" class="mt-4">
                                 {{ $member->name }} hasn't attended any events yet.
-                            </x-ui.text.muted>
+                            </x-text>
                         @endif
-                    </x-ui.card>
+                    </x-card>
                 </div>
             </div>
         </div>

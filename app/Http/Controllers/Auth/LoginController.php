@@ -14,7 +14,7 @@ final class LoginController
 {
     public function create(): View
     {
-        return view('auth.login');
+        return view('pages.auth.login');
     }
 
     public function store(Request $request): RedirectResponse

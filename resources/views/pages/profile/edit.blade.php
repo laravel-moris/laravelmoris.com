@@ -7,43 +7,29 @@
 
     <main class="px-6 py-12">
         <div class="max-w-2xl mx-auto">
-            <x-ui.card class="p-8">
-                <x-ui.text.h2>Edit Profile</x-ui.text.h2>
+            <x-card class="p-8">
+                <x-heading level="2">Edit Profile</x-heading>
 
                 <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data"
                     class="mt-6 space-y-6">
                     @csrf
                     @method('PATCH')
 
-                    <x-ui.input name="name" label="Name" value="{{ old('name', auth()->user()->name) }}" required />
+                    <x-input name="name" label="Name" value="{{ old('name', auth()->user()->name) }}" required />
 
-                    <x-ui.input name="title" label="Title" value="{{ old('title', auth()->user()->title) }}" />
+                    <x-input name="title" label="Title" value="{{ old('title', auth()->user()->title) }}" />
 
-                    <div>
-                        <label for="bio" class="text-label uppercase text-muted">Bio</label>
-                        <textarea id="bio" name="bio" rows="4"
-                            class="w-full rounded-2xl bg-surface-2 border border-border/70 px-4 py-3 text-base text-foreground placeholder:text-muted/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:border-primary/60">{{ old('bio', auth()->user()->bio) }}</textarea>
-                        @error('bio')
-                            <x-ui.text.muted class="text-red-500">{{ $message }}</x-ui.text.muted>
-                        @enderror
-                    </div>
+                    <x-textarea name="bio" label="Bio" rows="4" :value="old('bio', auth()->user()->bio)" />
 
-                    <div>
-                        <label for="avatar" class="text-label uppercase text-muted">Avatar</label>
-                        <input type="file" id="avatar" name="avatar" accept="image/*"
-                            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary-hover">
-                        <x-ui.text.muted class="mt-1">Upload a photo from your device (max 2MB)</x-ui.text.muted>
-                        @error('avatar')
-                            <x-ui.text.muted class="text-red-500">{{ $message }}</x-ui.text.muted>
-                        @enderror
-                    </div>
+                    <x-avatar-upload name="avatar" label="Avatar" :currentAvatar="auth()->user()->avatar"
+                        help="Upload a new photo from your device (max 2MB)" />
 
                     <div class="flex gap-4">
-                        <x-ui.button type="submit" variant="primary">Save Changes</x-ui.button>
-                        <x-ui.button href="{{ route('profile.index') }}" variant="secondary">Cancel</x-ui.button>
+                        <x-button type="submit" variant="primary">Save Changes</x-button>
+                        <x-button href="{{ route('profile.index') }}" variant="secondary">Cancel</x-button>
                     </div>
                 </form>
-            </x-ui.card>
+            </x-card>
         </div>
     </main>
 @endsection

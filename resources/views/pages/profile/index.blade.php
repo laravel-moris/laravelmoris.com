@@ -11,32 +11,31 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {{-- Left Column: Profile Info --}}
                 <div class="lg:col-span-1">
-                    <x-ui.card class="p-6">
+                    <x-card class="p-6">
                         <div class="flex flex-col items-center text-center">
-                            <img src="{{ auth()->user()->avatar }}" alt="{{ auth()->user()->name }}"
-                                class="w-32 h-32 rounded-full object-cover mb-4">
-                            <x-ui.text.h2>{{ auth()->user()->name }}</x-ui.text.h2>
+                            <x-avatar :src="auth()->user()->avatar" :alt="auth()->user()->name" size="2xl" class="mb-4" />
+                            <x-heading level="2">{{ auth()->user()->name }}</x-heading>
 
                             @if (auth()->user()->title)
-                                <x-ui.text.muted class="mt-1">{{ auth()->user()->title }}</x-ui.text.muted>
+                                <x-text variant="muted" class="mt-1">{{ auth()->user()->title }}</x-text>
                             @endif
 
                             @if (auth()->user()->bio)
-                                <x-ui.text.body class="mt-4 text-center">{{ auth()->user()->bio }}</x-ui.text.body>
+                                <x-text size="md" class="mt-4 text-center">{{ auth()->user()->bio }}</x-text>
                             @endif
 
-                            <x-ui.button href="{{ route('profile.edit') }}" variant="primary" class="mt-6 w-full">
+                            <x-button href="{{ route('profile.edit') }}" variant="primary" class="mt-6 w-full">
                                 Edit Profile
-                            </x-ui.button>
+                            </x-button>
                         </div>
-                    </x-ui.card>
+                    </x-card>
                 </div>
 
                 {{-- Right Column: Activity --}}
                 <div class="lg:col-span-2 space-y-6">
                     {{-- My RSVPs Section --}}
-                    <x-ui.card class="p-6">
-                        <x-ui.text.h3>My RSVPs</x-ui.text.h3>
+                    <x-card class="p-6">
+                        <x-heading level="3">My RSVPs</x-heading>
 
                         @if (auth()->user()->rsvps->count() > 0)
                             <div class="mt-4 space-y-3">
@@ -45,34 +44,34 @@
                                         <div
                                             class="flex items-center justify-between p-3 bg-surface-2 rounded-lg group-hover:border-primary/50 border border-transparent transition-all">
                                             <div>
-                                                <x-ui.text.body
-                                                    class="font-medium group-hover:text-primary transition-colors">{{ $event->title }}</x-ui.text.body>
-                                                <x-ui.text.muted class="text-sm">
+                                                <x-text size="md"
+                                                    class="font-medium group-hover:text-primary transition-colors">{{ $event->title }}</x-text>
+                                                <x-text variant="muted" class="text-sm">
                                                     {{ $event->starts_at->format('M d, Y') }}
-                                                </x-ui.text.muted>
+                                                </x-text>
                                             </div>
                                             @php
                                                 $status = $event->rsvp->status
                                                     ? RsvpStatus::from($event->rsvp->status)
                                                     : RsvpStatus::Maybe;
                                             @endphp
-                                            <x-ui.chip color="{{ $status->color() }}">
+                                            <x-badge color="{{ $status->color() }}">
                                                 {{ $status->label() }}
-                                            </x-ui.chip>
+                                            </x-badge>
                                         </div>
                                     </a>
                                 @endforeach
                             </div>
                         @else
-                            <x-ui.text.muted class="mt-4">
+                            <x-text variant="muted" class="mt-4">
                                 You haven't RSVP'd to any events yet.
-                            </x-ui.text.muted>
+                            </x-text>
                         @endif
-                    </x-ui.card>
+                    </x-card>
 
                     {{-- My Talks Section --}}
-                    <x-ui.card class="p-6">
-                        <x-ui.text.h3>My Talks</x-ui.text.h3>
+                    <x-card class="p-6">
+                        <x-heading level="3">My Talks</x-heading>
 
                         @if (auth()->user()->papers->count() > 0)
                             <div class="mt-4 space-y-3">
@@ -83,12 +82,12 @@
                                             class="p-3 bg-surface-2 rounded-lg group-hover:border-primary/50 border border-transparent transition-all">
                                             <div class="flex items-start justify-between gap-3">
                                                 <div class="flex-1 min-w-0">
-                                                    <x-ui.text.body
-                                                        class="font-medium group-hover:text-primary transition-colors truncate">{{ $paper->title }}</x-ui.text.body>
+                                                    <x-text size="md"
+                                                        class="font-medium group-hover:text-primary transition-colors truncate">{{ $paper->title }}</x-text>
                                                     <div class="flex items-center gap-2 mt-1">
-                                                        <x-ui.text.muted class="text-sm truncate">
+                                                        <x-text variant="muted" class="text-sm truncate">
                                                             {{ $paper->event->title ?? 'Unknown Event' }}
-                                                        </x-ui.text.muted>
+                                                        </x-text>
                                                     </div>
                                                 </div>
                                                 @php
@@ -98,20 +97,20 @@
                                                         default => 'gold',
                                                     };
                                                 @endphp
-                                                <x-ui.chip color="{{ $paperColor }}" class="shrink-0 self-center">
+                                                <x-badge color="{{ $paperColor }}" class="shrink-0 self-center">
                                                     {{ $paper->status->value }}
-                                                </x-ui.chip>
+                                                </x-badge>
                                             </div>
                                         </div>
                                     </a>
                                 @endforeach
                             </div>
                         @else
-                            <x-ui.text.muted class="mt-4">
+                            <x-text variant="muted" class="mt-4">
                                 You haven't submitted any talks yet.
-                            </x-ui.text.muted>
+                            </x-text>
                         @endif
-                    </x-ui.card>
+                    </x-card>
                 </div>
             </div>
         </div>

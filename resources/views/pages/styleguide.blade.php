@@ -3,126 +3,146 @@
 @section('title', 'Style Guide | Laravel Moris')
 
 @section('body')
-    <x-site.header :links="[
-        ['label' => 'Buttons', 'href' => '#buttons'],
-        ['label' => 'Inputs', 'href' => '#inputs'],
-        ['label' => 'Dropdowns', 'href' => '#dropdowns'],
-        ['label' => 'Cards', 'href' => '#cards'],
-        ['label' => 'Avatars', 'href' => '#avatars'],
-        ['label' => 'Chips', 'href' => '#chips'],
-        ['label' => 'Alerts', 'href' => '#alerts'],
-        ['label' => 'Modals', 'href' => '#modals'],
-        ['label' => 'Links', 'href' => '#nav-links'],
-        ['label' => 'Tables', 'href' => '#tables'],
-        ['label' => 'Palette', 'href' => '#palette'],
-        ['label' => 'Type', 'href' => '#typography'],
-    ]" />
+    <x-site.header />
 
     <main>
-        <x-ui.section class="pt-10">
-            <x-ui.section-header title="UI" accent="Style Guide" subtitle="Components, tokens, and usage examples">
+        <x-section class="pt-10">
+            <x-section-header title="UI" accent="Style Guide" subtitle="Components, tokens, and usage examples">
                 <p class="max-w-2xl text-muted leading-relaxed">
                     This page showcases the existing UI primitives and Blade components used across the site.
                 </p>
-            </x-ui.section-header>
+            </x-section-header>
 
             <div class="grid gap-7">
-                <x-ui.card id="buttons" title="Buttons">
+                <x-card title="Table of Contents">
+                    <nav class="grid gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        <a href="#buttons" class="text-sm text-muted hover:text-foreground transition-colors">Buttons</a>
+                        <a href="#inputs" class="text-sm text-muted hover:text-foreground transition-colors">Form Inputs</a>
+                        <a href="#textareas"
+                            class="text-sm text-muted hover:text-foreground transition-colors">Textareas</a>
+                        <a href="#dropdowns"
+                            class="text-sm text-muted hover:text-foreground transition-colors">Dropdowns</a>
+                        <a href="#cards" class="text-sm text-muted hover:text-foreground transition-colors">Cards</a>
+                        <a href="#avatars" class="text-sm text-muted hover:text-foreground transition-colors">Avatars</a>
+                        <a href="#badges" class="text-sm text-muted hover:text-foreground transition-colors">Badges</a>
+                        <a href="#alerts" class="text-sm text-muted hover:text-foreground transition-colors">Alerts</a>
+                        <a href="#modals" class="text-sm text-muted hover:text-foreground transition-colors">Modals</a>
+                        <a href="#nav-links" class="text-sm text-muted hover:text-foreground transition-colors">Navigation
+                            Links</a>
+                        <a href="#tables" class="text-sm text-muted hover:text-foreground transition-colors">Tables</a>
+                        <a href="#palette" class="text-sm text-muted hover:text-foreground transition-colors">Color
+                            Palette</a>
+                        <a href="#typography"
+                            class="text-sm text-muted hover:text-foreground transition-colors">Typography</a>
+                    </nav>
+                </x-card>
+
+                <x-card id="buttons" title="Buttons">
                     <div class="grid gap-8">
                         <div class="grid gap-3">
-                            <x-ui.text.label>Variants</x-ui.text.label>
+                            <x-label>Variants</x-label>
                             <div class="flex flex-wrap gap-3">
-                                <x-ui.button variant="primary">Primary</x-ui.button>
-                                <x-ui.button variant="secondary">Secondary</x-ui.button>
-                                <x-ui.button variant="outline">Outline</x-ui.button>
-                                <x-ui.button variant="ghost">Ghost</x-ui.button>
-                                <x-ui.button variant="danger">Danger</x-ui.button>
+                                <x-button variant="primary">Primary</x-button>
+                                <x-button variant="secondary">Secondary</x-button>
+                                <x-button variant="outline">Outline</x-button>
+                                <x-button variant="ghost">Ghost</x-button>
+                                <x-button variant="danger">Danger</x-button>
                             </div>
                         </div>
 
                         <div class="grid gap-3">
-                            <p class="text-label uppercase text-muted">Sizes</p>
+                            <x-label>Sizes</x-label>
                             <div class="flex flex-wrap items-center gap-3">
-                                <x-ui.button size="sm">Small</x-ui.button>
-                                <x-ui.button size="md">Medium</x-ui.button>
-                                <x-ui.button size="lg">Large</x-ui.button>
+                                <x-button size="sm">Small</x-button>
+                                <x-button size="md">Medium</x-button>
+                                <x-button size="lg">Large</x-button>
                             </div>
                         </div>
 
                         <div class="grid gap-3">
-                            <x-ui.text.label>Disabled</x-ui.text.label>
+                            <x-label>Disabled</x-label>
                             <div class="flex flex-wrap gap-3">
-                                <x-ui.button disabled>Primary</x-ui.button>
-                                <x-ui.button variant="secondary" disabled>Secondary</x-ui.button>
-                                <x-ui.button variant="outline" disabled>Outline</x-ui.button>
-                                <x-ui.button variant="ghost" disabled>Ghost</x-ui.button>
-                                <x-ui.button variant="danger" disabled>Danger</x-ui.button>
+                                <x-button disabled>Primary</x-button>
+                                <x-button variant="secondary" disabled>Secondary</x-button>
+                                <x-button variant="outline" disabled>Outline</x-button>
+                                <x-button variant="ghost" disabled>Ghost</x-button>
+                                <x-button variant="danger" disabled>Danger</x-button>
                             </div>
                         </div>
                     </div>
-                </x-ui.card>
+                </x-card>
 
-                <x-ui.card id="inputs" title="Form Inputs">
+                <x-card id="inputs" title="Form Inputs">
                     <div class="grid gap-8 md:grid-cols-2">
-                        <x-ui.input name="email" label="Email" type="email" placeholder="you@company.com"
+                        <x-input name="email" label="Email" type="email" placeholder="you@company.com"
                             help="We will only use this for account-related emails." />
 
-                        <x-ui.input name="password" label="Password" type="password" placeholder="••••••••"
+                        <x-input name="password" label="Password" type="password" placeholder="••••••••"
                             error="Your password must be at least 12 characters." />
 
-                        <x-ui.input label="Disabled" value="Read-only example" disabled />
+                        <x-input label="Disabled" value="Read-only example" disabled />
                     </div>
-                </x-ui.card>
+                </x-card>
 
-                <x-ui.card id="dropdowns" title="Dropdowns">
+                <x-card id="dropdowns" title="Dropdowns">
                     <div class="grid gap-8 md:grid-cols-2">
-                        <x-ui.select name="role" label="Role" placeholder="Select a role" :options="[
+                        <x-select name="role" label="Role" placeholder="Select a role" :options="[
                             'member' => 'Member',
                             'speaker' => 'Speaker',
                             'organizer' => 'Organizer',
                         ]"
                             help="Used for access and visibility settings." />
 
-                        <x-ui.select label="With error" error="Please select an option." placeholder="Choose one"
+                        <x-select label="With error" error="Please select an option." placeholder="Choose one"
                             :options="[
                                 'one' => 'Option One',
                                 'two' => 'Option Two',
                             ]" />
                     </div>
-                </x-ui.card>
+                </x-card>
 
-                <x-ui.card id="cards" title="Cards">
+                <x-card id="textareas" title="Textareas">
+                    <div class="grid gap-8 md:grid-cols-2">
+                        <x-textarea name="bio" label="Bio" rows="3" placeholder="Tell us about yourself..."
+                            help="Max 500 characters." />
+
+                        <x-textarea name="feedback" label="Feedback" rows="3"
+                            error="Feedback must be at least 10 characters." />
+                    </div>
+                </x-card>
+
+                <x-card id="cards" title="Cards">
                     <div class="grid gap-7 md:grid-cols-2">
-                        <x-ui.card title="Card with title">
-                            <p class="text-muted leading-relaxed">Use <x-ui.code>&lt;x-ui.card&gt;</x-ui.code> for the base
+                        <x-card title="Card with title">
+                            <p class="text-muted leading-relaxed">Use <x-code>&lt;x-card&gt;</x-code> for the base
                                 container
                                 and add padding at the component level when needed.</p>
                             <div class="mt-5 flex gap-3">
-                                <x-ui.button size="sm">Action</x-ui.button>
-                                <x-ui.button size="sm" variant="secondary">Secondary</x-ui.button>
+                                <x-button size="sm">Action</x-button>
+                                <x-button size="sm" variant="secondary">Secondary</x-button>
                             </div>
-                        </x-ui.card>
+                        </x-card>
 
-                        <x-ui.card :padded="false">
+                        <x-card :padded="false">
                             <x-slot:header>
                                 <div class="flex items-start justify-between gap-4">
                                     <div>
                                         <div class="text-md font-bold tracking-snug">Custom header slot</div>
                                         <div class="mt-1 text-sm text-muted">Optional header content with actions.</div>
                                     </div>
-                                    <x-ui.button size="sm" variant="outline">Manage</x-ui.button>
+                                    <x-button size="sm" variant="outline">Manage</x-button>
                                 </div>
                             </x-slot:header>
 
                             <div class="p-6">
-                                <p class="text-muted leading-relaxed">Set <x-ui.code>:padded="false"</x-ui.code> when you
+                                <p class="text-muted leading-relaxed">Set <x-code>:padded="false"</x-code> when you
                                     want full control over internal spacing.</p>
                             </div>
-                        </x-ui.card>
+                        </x-card>
                     </div>
-                </x-ui.card>
+                </x-card>
 
-                <x-ui.card id="avatars" title="Avatars">
+                <x-card id="avatars" title="Avatars">
                     @php
                         $avatarSources = [
                             'data:image/svg+xml,' .
@@ -148,119 +168,161 @@
 
                     <div class="grid gap-7">
                         <div class="grid gap-3">
-                            <x-ui.text.label>Sizes</x-ui.text.label>
+                            <x-label>Sizes</x-label>
                             <div class="flex flex-wrap items-center gap-4">
-                                <x-ui.avatar :src="$avatarSources[0]" alt="Avatar" size="xs" border="subtle" />
-                                <x-ui.avatar :src="$avatarSources[1]" alt="Avatar" size="sm" border="subtle" />
-                                <x-ui.avatar :src="$avatarSources[2]" alt="Avatar" size="md" border="subtle" />
+                                <x-avatar :src="$avatarSources[0]" alt="Avatar" size="xs" border="subtle" />
+                                <x-avatar :src="$avatarSources[1]" alt="Avatar" size="sm" border="subtle" />
+                                <x-avatar :src="$avatarSources[2]" alt="Avatar" size="md" border="subtle" />
                             </div>
                         </div>
 
                         <div class="grid gap-3">
-                            <x-ui.text.label>Stack</x-ui.text.label>
-                            <x-ui.avatar-stack :items="$avatarStack" />
+                            <x-label>Stack</x-label>
+                            <x-avatar-stack :items="$avatarStack" />
                         </div>
                     </div>
-                </x-ui.card>
+                </x-card>
 
-                <x-ui.card id="chips" title="Chips">
+                <x-card id="badges" title="Badges">
                     <div class="grid gap-7">
                         <div class="grid gap-3">
-                            <x-ui.text.label>Soft</x-ui.text.label>
+                            <x-label>Soft</x-label>
                             <div class="flex flex-wrap items-center gap-3">
-                                <x-ui.chip color="green">Confirmed</x-ui.chip>
-                                <x-ui.chip color="gold">Pending</x-ui.chip>
-                                <x-ui.chip color="coral">Invited</x-ui.chip>
-                                <x-ui.chip color="muted">Disabled</x-ui.chip>
+                                <x-badge color="green">Confirmed</x-badge>
+                                <x-badge color="gold">Pending</x-badge>
+                                <x-badge color="coral">Invited</x-badge>
+                                <x-badge color="muted">Disabled</x-badge>
                             </div>
                         </div>
 
                         <div class="grid gap-3">
-                            <x-ui.text.label>Status pill</x-ui.text.label>
+                            <x-label>Solid</x-label>
                             <div class="flex flex-wrap items-center gap-3">
-                                <x-ui.chip size="xs" :caps="true" color="coral"
-                                    variant="solid">Upcoming</x-ui.chip>
-                                <x-ui.chip size="xs" :caps="true" color="coral" variant="soft"
-                                    text="coral">Upcoming</x-ui.chip>
-                                <x-ui.chip size="xs" :caps="true" color="muted" variant="soft"
-                                    text="muted">Past</x-ui.chip>
+                                <x-badge size="xs" :caps="true" color="coral"
+                                    variant="solid">Upcoming</x-badge>
+                                <x-badge size="xs" :caps="true" color="green" variant="solid">Active</x-badge>
+                                <x-badge size="xs" :caps="true" color="muted" variant="solid">Past</x-badge>
                             </div>
                         </div>
                     </div>
-                </x-ui.card>
+                </x-card>
 
-                <x-ui.card id="alerts" title="Alerts">
+                <x-card id="alerts" title="Alerts">
                     <div class="grid gap-4">
-                        <x-ui.alert variant="success" title="Success">
+                        <x-alert variant="success" title="Success">
                             Your profile has been updated.
-                        </x-ui.alert>
+                        </x-alert>
 
-                        <x-ui.alert variant="info" title="Info" dismissible>
+                        <x-alert variant="info" title="Info" dismissible>
                             A new meetup is announced. Check the schedule for details.
-                        </x-ui.alert>
+                        </x-alert>
 
-                        <x-ui.alert variant="warning" title="Warning" dismissible>
+                        <x-alert variant="warning" title="Warning" dismissible>
                             This action cannot be undone.
-                        </x-ui.alert>
+                        </x-alert>
 
-                        <x-ui.alert variant="danger" title="Danger">
+                        <x-alert variant="danger" title="Danger">
                             Something went wrong while saving.
-                        </x-ui.alert>
+                        </x-alert>
                     </div>
-                </x-ui.card>
+                </x-card>
 
-                <x-ui.card id="modals" title="Modals">
-                    <div class="grid gap-7 md:grid-cols-2">
+                <x-card id="modals" title="Modals">
+                    <div class="grid gap-7">
                         <div class="grid gap-3">
-                            <x-ui.text.label>Basic Modal</x-ui.text.label>
-                            <p class="text-muted text-sm">Use the modal component with title, icon slot, message slot, and
-                                footer slot for actions.</p>
+                            <x-label>Interactive Demo</x-label>
+                            <x-text variant="muted">Click the buttons to open different modal styles.</x-text>
 
-                            <div class="mt-4 p-4 bg-surface-2 rounded-lg border border-border">
-                                <p class="text-sm text-muted mb-3">Preview structure (opens via JS):</p>
-                                <div class="space-y-2">
-                                    <code class="block text-xs text-foreground">
-                                        &lt;x-ui.modal id="confirm-delete" title="Delete Item"&gt;
-                                    </code>
-                                    <code class="block text-xs text-foreground pl-4">
-                                        &lt;x-slot:icon&gt;...&lt;/x-slot:icon&gt;
-                                    </code>
-                                    <code class="block text-xs text-foreground pl-4">
-                                        &lt;x-slot:message&gt;...&lt;/x-slot:message&gt;
-                                    </code>
-                                    <code class="block text-xs text-foreground pl-4">
-                                        &lt;x-slot:footer&gt;...&lt;/x-slot:footer&gt;
-                                    </code>
-                                    <code class="block text-xs text-foreground">
-                                        &lt;/x-ui.modal&gt;
-                                    </code>
+                            <div class="flex flex-wrap gap-3 mt-2">
+                                <div x-data="{ showModal: false }">
+                                    <x-button size="sm" variant="outline" @click="showModal = true">Info
+                                        Modal</x-button>
+                                    <x-modal id="demo-info-modal">
+                                        <x-slot:icon>
+                                            <div
+                                                class="w-16 h-16 rounded-full bg-teal/10 flex items-center justify-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                                                    class="w-8 h-8 text-teal">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                            </div>
+                                        </x-slot:icon>
+                                        <x-slot:header>
+                                            <x-heading level="3">Information</x-heading>
+                                        </x-slot:header>
+                                        <x-slot:message>
+                                            <x-text variant="muted" class="text-center">This is an informational modal.
+                                                Use it for helpful tips or confirmations.</x-text>
+                                        </x-slot:message>
+                                        <x-slot:footer>
+                                            <div class="flex justify-center">
+                                                <x-button variant="primary" size="sm" @click="showModal = false">Got
+                                                    it</x-button>
+                                            </div>
+                                        </x-slot:footer>
+                                    </x-modal>
+                                </div>
+
+                                <div x-data="{ showModal: false }">
+                                    <x-button size="sm" variant="danger" @click="showModal = true">Danger
+                                        Modal</x-button>
+                                    <x-modal id="demo-danger-modal">
+                                        <x-slot:icon>
+                                            <div
+                                                class="w-16 h-16 rounded-full bg-coral/10 flex items-center justify-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                                                    class="w-8 h-8 text-coral">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                                </svg>
+                                            </div>
+                                        </x-slot:icon>
+                                        <x-slot:header>
+                                            <x-heading level="3">Delete Item?</x-heading>
+                                        </x-slot:header>
+                                        <x-slot:message>
+                                            <x-text variant="muted" class="text-center">This action cannot be undone.
+                                                Are you sure you want to proceed?</x-text>
+                                        </x-slot:message>
+                                        <x-slot:footer>
+                                            <div class="flex justify-center gap-3">
+                                                <x-button variant="outline" size="sm"
+                                                    @click="showModal = false">Cancel</x-button>
+                                                <x-button variant="danger" size="sm"
+                                                    @click="showModal = false">Delete</x-button>
+                                            </div>
+                                        </x-slot:footer>
+                                    </x-modal>
                                 </div>
                             </div>
                         </div>
 
                         <div class="grid gap-3">
-                            <x-ui.text.label>Props & Slots</x-ui.text.label>
+                            <x-label>Available Slots</x-label>
                             <ul class="space-y-2 text-sm text-muted">
-                                <li><x-ui.code>id</x-ui.code> - Unique identifier for the modal</li>
-                                <li><x-ui.code>title</x-ui.code> - Modal header title</li>
-                                <li><x-ui.code>:icon</x-ui.code> - Slot for icon (warning/info)</li>
-                                <li><x-ui.code>:message</x-ui.code> - Slot for modal content</li>
-                                <li><x-ui.code>:footer</x-ui.code> - Slot for action buttons</li>
+                                <li><x-code>id</x-code> — Unique identifier for the modal</li>
+                                <li><x-code>:header</x-code> — Slot for heading (use &lt;x-heading&gt;)</li>
+                                <li><x-code>:icon</x-code> — Slot for icon (warning/info)</li>
+                                <li><x-code>:message</x-code> — Slot for modal content (or default slot)</li>
+                                <li><x-code>:footer</x-code> — Slot for action buttons</li>
                             </ul>
                         </div>
                     </div>
-                </x-ui.card>
+                </x-card>
 
-                <x-ui.card id="nav-links" title="Navigation Links">
+                <x-card id="nav-links" title="Navigation Links">
                     <div class="flex flex-wrap gap-3">
-                        <x-ui.nav-link href="#" :active="true">Active</x-ui.nav-link>
-                        <x-ui.nav-link href="#">Default</x-ui.nav-link>
-                        <x-ui.nav-link href="#">Another link</x-ui.nav-link>
+                        <x-nav-link href="#" :active="true">Active</x-nav-link>
+                        <x-nav-link href="#">Default</x-nav-link>
+                        <x-nav-link href="#">Another link</x-nav-link>
                     </div>
-                </x-ui.card>
+                </x-card>
 
-                <x-ui.card id="tables" title="Tables">
-                    <x-ui.table>
+                <x-card id="tables" title="Tables">
+                    <x-table>
                         <thead>
                             <tr>
                                 <th scope="col">Name</th>
@@ -272,23 +334,23 @@
                             <tr>
                                 <td>Jane Doe</td>
                                 <td>Speaker</td>
-                                <td><x-ui.chip color="green">Confirmed</x-ui.chip></td>
+                                <td><x-badge color="green">Confirmed</x-badge></td>
                             </tr>
                             <tr>
                                 <td>John Smith</td>
                                 <td>Organizer</td>
-                                <td><x-ui.chip color="gold">Pending</x-ui.chip></td>
+                                <td><x-badge color="gold">Pending</x-badge></td>
                             </tr>
                             <tr>
                                 <td>Aisha Patel</td>
                                 <td>Member</td>
-                                <td><x-ui.chip color="coral">Invited</x-ui.chip></td>
+                                <td><x-badge color="coral">Invited</x-badge></td>
                             </tr>
                         </tbody>
-                    </x-ui.table>
-                </x-ui.card>
+                    </x-table>
+                </x-card>
 
-                <x-ui.card id="palette" title="Color Palette">
+                <x-card id="palette" title="Color Palette">
                     @php
                         $swatches = [
                             ['label' => 'bg-background', 'bg' => 'bg-background', 'text' => 'text-foreground'],
@@ -307,44 +369,59 @@
                                 <div class="h-16 {{ $swatch['bg'] }}"></div>
                                 <div class="p-5">
                                     <div class="font-mono text-sm {{ $swatch['text'] }}">{{ $swatch['label'] }}</div>
-                                    <div class="mt-1 text-xs text-muted">Token / utility</div>
+                                    <x-text variant="muted" class="mt-1 text-xs">Token / utility</x-text>
                                 </div>
                             </div>
                         @endforeach
                     </div>
-                </x-ui.card>
+                </x-card>
 
-                <x-ui.card id="typography" title="Typography">
+                <x-card id="typography" title="Typography">
                     <div class="grid gap-8">
-                        <div class="grid gap-4">
-                            <x-ui.text.h1 class="text-display-lg font-bold tracking-tighter">Heading
-                                1</x-ui.text.h1>
-                            <x-ui.text.h2 class="text-display font-bold tracking-tight">Heading
-                                2</x-ui.text.h2>
-                            <x-ui.text.h3 class="text-3xl font-bold tracking-tight">Heading 3</x-ui.text.h3>
-                            <x-ui.text.h4 class="text-2xl font-bold tracking-snug">Heading 4</x-ui.text.h4>
-                            <x-ui.text.h5 class="text-lg font-bold">Heading 5</x-ui.text.h5>
-                            <x-ui.text.h6 class="text-base font-bold uppercase tracking-wider text-muted">Heading
-                                6</x-ui.text.h6>
+                        <div class="grid gap-3">
+                            <x-label>Headings</x-label>
+                            <div class="grid gap-4">
+                                <x-heading level="1">Heading 1</x-heading>
+                                <x-heading level="2">Heading 2</x-heading>
+                                <x-heading level="3">Heading 3</x-heading>
+                                <x-heading level="4">Heading 4</x-heading>
+                                <x-heading level="5">Heading 5</x-heading>
+                                <x-heading level="6">Heading 6</x-heading>
+                            </div>
                         </div>
 
                         <div class="grid gap-3">
-                            <x-ui.text.body class="text-md leading-relaxed text-foreground">
-                                Body text is readable and token-driven. Use <span class="text-muted">muted</span> for
-                                supporting information.
-                            </x-ui.text.body>
-                            <x-ui.text.muted class="text-sm">Small / muted text for captions, help text, and
-                                meta.</x-ui.text.muted>
-                            <p class="text-base">
-                                <a href="#"
-                                    class="text-primary hover:text-primary-hover underline underline-offset-4">Link
-                                    style</a>
-                                for navigation and inline references.
-                            </p>
+                            <x-label>Text Variants</x-label>
+                            <div class="grid gap-3">
+                                <x-text size="md">
+                                    Body text is readable and token-driven. Use <span class="text-muted">muted</span> for
+                                    supporting information.
+                                </x-text>
+                                <x-text variant="muted">Small / muted text for captions, help text, and meta.</x-text>
+                                <x-text variant="strong">Strong / emphasized text for important information.</x-text>
+                                <x-text variant="subtitle">Subtitle for section labels</x-text>
+                            </div>
+                        </div>
+
+                        <div class="grid gap-3">
+                            <x-label>Links</x-label>
+                            <div class="flex flex-wrap items-center gap-6">
+                                <x-link href="#">Default link</x-link>
+                                <x-link href="#" variant="muted">Muted link</x-link>
+                                <x-link href="#" variant="subtle">Subtle link</x-link>
+                                <x-link href="#" :external="true">External link</x-link>
+                            </div>
+                        </div>
+
+                        <div class="grid gap-3">
+                            <x-label>Inline Code</x-label>
+                            <x-text>
+                                Use <x-code>x-button</x-code> for actions and <x-code>x-link</x-code> for navigation.
+                            </x-text>
                         </div>
                     </div>
-                </x-ui.card>
+                </x-card>
             </div>
-        </x-ui.section>
+        </x-section>
     </main>
 @endsection
