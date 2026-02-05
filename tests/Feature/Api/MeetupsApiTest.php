@@ -74,3 +74,75 @@ test('it shows a single meetup', function () {
 
     Date::setTestNow();
 });
+
+test('it includes rsvp link for upcoming events', function () {
+    $now = now('UTC')->toImmutable();
+    Date::setTestNow($now);
+
+    $event = Event::factory()->create([
+        'title' => 'Upcoming Meetup',
+        'starts_at' => $now->addDays(1),
+        'ends_at' => $now->addDays(1)->addHours(2),
+        'type' => EventLocation::Online,
+    ]);
+
+    $response = $this->getJson("/api/meetups/{$event->id}");
+
+    $response
+        ->assertOk()
+        ->assertJsonPath('data.rsvp_link', route('events.rsvp', $event));
+
+    Date::setTestNow();
+});
+
+test('it returns null rsvp link for past events', function () {
+    $now = now('UTC')->toImmutable();
+    Date::setTestNow($now);
+
+    $event = Event::factory()->create([
+        'title' => 'Past Meetup',
+        'starts_at' => $now->subDays(2),
+        'ends_at' => $now->subDays(2)->addHours(2),
+        'type' => EventLocation::Online,
+    ]);
+
+    $response = $this->getJson("/api/meetups/{$event->id}");
+
+    $response
+        ->assertOk()
+        ->assertJsonPath('data.rsvp_link', null);
+
+    Date::setTestNow();
+});
+
+test('it includes rsvp links in the meetups list', function () {
+    $now = now('UTC')->toImmutable();
+    Date::setTestNow($now);
+
+    // Query orders by oldest start date first, so past event comes before upcoming
+    $past = Event::factory()->create([
+        'title' => 'Past',
+        'starts_at' => $now->subDays(2),
+        'ends_at' => $now->subDays(2)->addHours(2),
+        'type' => EventLocation::Online,
+    ]);
+
+    $upcoming = Event::factory()->create([
+        'title' => 'Upcoming',
+        'starts_at' => $now->addDays(1),
+        'ends_at' => $now->addDays(1)->addHours(2),
+        'type' => EventLocation::Online,
+    ]);
+
+    $response = $this->getJson('/api/meetups');
+
+    $response
+        ->assertOk()
+        ->assertJsonCount(2, 'data')
+        // Past event comes first (oldest starts_at)
+        ->assertJsonPath('data.0.rsvp_link', null)
+        // Upcoming event comes second
+        ->assertJsonPath('data.1.rsvp_link', route('events.rsvp', $upcoming));
+
+    Date::setTestNow();
+});

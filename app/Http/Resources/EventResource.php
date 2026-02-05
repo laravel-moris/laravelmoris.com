@@ -20,7 +20,21 @@ class EventResource extends JsonResource
             'description' => $this->description,
             'starts_at' => $this->starts_at,
             'ends_at' => $this->ends_at,
+            'rsvp_link' => $this->rsvpLink(),
         ];
+    }
+
+    /**
+     * Get the RSVP link for the event.
+     * Returns null if the event has already passed.
+     */
+    protected function rsvpLink(): ?string
+    {
+        if ($this->ends_at?->isPast()) {
+            return null;
+        }
+
+        return route('events.rsvp', $this->resource);
     }
 
     /**
