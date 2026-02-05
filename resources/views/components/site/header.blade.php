@@ -58,6 +58,9 @@
             @endforeach
 
             @auth
+                @if (auth()->user()->hasRole([\App\Enums\Roles::SuperAdmin->value, \App\Enums\Roles::Organizer->value]))
+                    <x-rainbow-nav-link href="{{ route('filament.admin.pages.dashboard') }}" text="Admin" />
+                @endif
                 <a href="{{ route('profile.index') }}"
                     class="relative text-muted text-sm font-semibold uppercase tracking-wide py-1 transition-colors hover:text-foreground after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 after:bg-primary after:transition-[width] after:duration-300 hover:after:w-full">
                     Profile
@@ -101,8 +104,8 @@
                 <div class="flex items-center justify-between px-6 py-5 border-b border-border/70">
                     <span class="text-sm font-semibold uppercase tracking-wider text-muted">Menu</span>
                     <x-icon-button class="size-10" data-mobile-menu-close aria-label="Close menu">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                            stroke-width="2" class="size-5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2" class="size-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </x-icon-button>
@@ -121,6 +124,11 @@
 
                     <div class="mt-6 pt-6 border-t border-border/70">
                         @auth
+                            @if (auth()->user()->hasRole([\App\Enums\Roles::SuperAdmin->value, \App\Enums\Roles::Organizer->value]))
+                                <x-rainbow-nav-link href="{{ route('filament.admin.pages.dashboard') }}" text="Admin"
+                                    class="flex items-center gap-3 px-4 py-3 rounded-xl border border-transparent hover:border-border/70 hover:bg-surface-2 transition"
+                                    data-mobile-menu-close />
+                            @endif
                             <a href="{{ route('profile.index') }}"
                                 class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-snug text-foreground border border-transparent hover:border-border/70 hover:bg-surface-2 transition"
                                 data-mobile-menu-close>

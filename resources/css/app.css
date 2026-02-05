@@ -346,3 +346,43 @@
 .lm-pulse-gold {
     animation: lm-pulse-glow 2s infinite ease-in-out;
 }
+
+/* Rainbow wave animation for nav links */
+@keyframes lm-rainbow-jump {
+    0%,
+    100% {
+        color: var(--sunset-coral);
+        transform: translateY(0);
+    }
+    10% {
+        color: var(--sunset-orange);
+        transform: translateY(-4px);
+    }
+    20% {
+        color: var(--sand-gold);
+        transform: translateY(0);
+    }
+    30% {
+        color: var(--palm-green);
+    }
+    45% {
+        color: var(--ocean-cyan);
+    }
+    60% {
+        color: var(--ocean-teal);
+    }
+    75% {
+        color: var(--sunset-purple);
+    }
+    90% {
+        color: var(--sunset-pink);
+    }
+}
+
+.lm-rainbow-text {
+    display: inline-flex;
+}
+
+.lm-rainbow-text span {
+    animation: lm-rainbow-jump 1.2s ease-in-out infinite;
+}
