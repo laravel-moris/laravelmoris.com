@@ -1,4 +1,4 @@
 @props(['class' => ''])
-<h4 {{ $attributes->class(['text-[22px] font-bold tracking-[-0.01em] text-foreground', $class]) }}>
+<h4 {{ $attributes->class(['text-2xl font-bold tracking-snug text-foreground', $class]) }}>
     {{ $slot }}
 </h4>

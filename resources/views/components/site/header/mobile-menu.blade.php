@@ -21,7 +21,7 @@
         <div class="absolute right-0 top-0 h-full w-[min(360px,92vw)] bg-surface border-l border-border/70 shadow-2xl translate-x-full transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform group-data-[open=true]:translate-x-0"
             data-mobile-menu-panel>
             <div class="flex items-center justify-between px-6 py-5 border-b border-border/70">
-                <span class="text-[13px] font-semibold uppercase tracking-[0.12em] text-muted">Menu</span>
+                <span class="text-sm font-semibold uppercase tracking-wider text-muted">Menu</span>
                 <x-ui.icon-button class="size-10" data-mobile-menu-close aria-label="Close menu">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                         stroke-width="2" class="size-5">
@@ -34,7 +34,7 @@
                 <div class="flex flex-col gap-2">
                     @foreach ($links as $link)
                         <a href="{{ $link['href'] }}"
-                            class="rounded-xl px-4 py-3 text-[14px] font-semibold tracking-[-0.01em] text-foreground border border-transparent hover:border-border/70 hover:bg-surface-2 transition"
+                            class="rounded-xl px-4 py-3 text-sm font-semibold tracking-snug text-foreground border border-transparent hover:border-border/70 hover:bg-surface-2 transition"
                             data-mobile-menu-close>
                             {{ $link['label'] }}
                         </a>
@@ -44,7 +44,7 @@
                 <div class="mt-6 pt-6 border-t border-border/70">
                     @auth
                         <a href="{{ route('profile.index') }}"
-                            class="flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-semibold tracking-[-0.01em] text-foreground border border-transparent hover:border-border/70 hover:bg-surface-2 transition"
+                            class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-snug text-foreground border border-transparent hover:border-border/70 hover:bg-surface-2 transition"
                             data-mobile-menu-close>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                                 stroke-width="2" class="w-5 h-5">
@@ -56,7 +56,7 @@
                         <form action="{{ route('logout') }}" method="POST" class="mt-2">
                             @csrf
                             <button type="submit"
-                                class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-semibold tracking-[-0.01em] text-foreground border border-transparent hover:border-border/70 hover:bg-surface-2 transition"
+                                class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-snug text-foreground border border-transparent hover:border-border/70 hover:bg-surface-2 transition"
                                 data-mobile-menu-close>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor" stroke-width="2" class="w-5 h-5">

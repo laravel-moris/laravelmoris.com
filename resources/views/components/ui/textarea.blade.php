@@ -22,7 +22,7 @@
         ->implode(' ');
 
     $textareaClasses = array_filter([
-        'w-full rounded-2xl bg-surface-2 border border-border/70 px-4 py-3 text-[15px] text-foreground placeholder:text-muted/80 resize-none',
+        'w-full rounded-2xl bg-surface-2 border border-border/70 px-4 py-3 text-base text-foreground placeholder:text-muted/80 resize-none',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:border-primary/60',
         'disabled:cursor-not-allowed disabled:opacity-50',
         $error ? 'border-coral/50 focus-visible:ring-coral/50 focus-visible:border-coral/60' : null,
@@ -32,7 +32,7 @@
 <div class="grid gap-2">
     @if ($label)
         <label @if ($id) for="{{ $id }}" @endif
-            class="text-[12px] font-bold uppercase tracking-[0.14em] text-muted">
+            class="text-label uppercase text-muted">
             {{ $label }}
         </label>
     @endif
@@ -41,10 +41,10 @@
         @if ($name) name="{{ $name }}" @endif rows="{{ $rows }}"
         @if ($currentValue) >{{ $currentValue }}</textarea>
         @else {{ $attributes->class($textareaClasses) }}></textarea> @endif
-        @if ($help) <p ___inline_directive__________________________________________2___ class="text-[13px] text-muted">
+        @if ($help) <p ___inline_directive__________________________________________2___ class="text-sm text-muted">
             {{ $help }}
         </p> @endif
-        @if ($error) <p ___inline_directive__________________________________________3___ class="text-[13px] text-coral font-medium">
+        @if ($error) <p ___inline_directive__________________________________________3___ class="text-sm text-coral font-medium">
             {{ $error }}
         </p> @endif
         </div>

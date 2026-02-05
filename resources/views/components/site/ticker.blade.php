@@ -20,14 +20,14 @@
 @endphp
 
 <div class="w-full overflow-hidden bg-surface border-b border-border/70 py-2.5 relative z-10">
-    <div class="flex w-max motion-reduce:animate-none animate-[lm-ticker_25s_linear_infinite]">
+    <div class="flex w-max motion-reduce:animate-none animate-ticker">
         @foreach ($loopItems as $item)
             @php
                 $label = is_array($item) ? $item['label'] ?? null : null;
                 $value = is_array($item) ? $item['value'] ?? '' : $item;
             @endphp
             <div
-                class="shrink-0 px-12 text-[12px] font-semibold uppercase tracking-[0.15em] text-muted whitespace-nowrap flex items-center gap-2">
+                class="shrink-0 px-12 text-xs font-semibold uppercase tracking-ultra text-muted whitespace-nowrap flex items-center gap-2">
                 <span class="inline-block size-1 rounded-full bg-primary"></span>
                 @if ($label)
                     <span class="text-primary font-bold">{{ $label }}</span>

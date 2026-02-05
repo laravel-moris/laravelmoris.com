@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="grid gap-3">
-                            <p class="text-[12px] font-bold uppercase tracking-[0.14em] text-muted">Sizes</p>
+                            <p class="text-label uppercase text-muted">Sizes</p>
                             <div class="flex flex-wrap items-center gap-3">
                                 <x-ui.button size="sm">Small</x-ui.button>
                                 <x-ui.button size="md">Medium</x-ui.button>
@@ -94,7 +94,8 @@
                 <x-ui.card id="cards" title="Cards">
                     <div class="grid gap-7 md:grid-cols-2">
                         <x-ui.card title="Card with title">
-                            <p class="text-muted leading-relaxed">Use <x-ui.code>.lm-card</x-ui.code> for the base container
+                            <p class="text-muted leading-relaxed">Use <x-ui.code>&lt;x-ui.card&gt;</x-ui.code> for the base
+                                container
                                 and add padding at the component level when needed.</p>
                             <div class="mt-5 flex gap-3">
                                 <x-ui.button size="sm">Action</x-ui.button>
@@ -106,8 +107,8 @@
                             <x-slot:header>
                                 <div class="flex items-start justify-between gap-4">
                                     <div>
-                                        <div class="text-[16px] font-bold tracking-[-0.01em]">Custom header slot</div>
-                                        <div class="mt-1 text-[13px] text-muted">Optional header content with actions.</div>
+                                        <div class="text-md font-bold tracking-snug">Custom header slot</div>
+                                        <div class="mt-1 text-sm text-muted">Optional header content with actions.</div>
                                     </div>
                                     <x-ui.button size="sm" variant="outline">Manage</x-ui.button>
                                 </div>
@@ -302,11 +303,11 @@
 
                     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         @foreach ($swatches as $swatch)
-                            <div class="lm-card overflow-hidden">
+                            <div class="relative overflow-hidden rounded-3xl bg-surface border border-border/70">
                                 <div class="h-16 {{ $swatch['bg'] }}"></div>
                                 <div class="p-5">
-                                    <div class="font-mono text-[13px] {{ $swatch['text'] }}">{{ $swatch['label'] }}</div>
-                                    <div class="mt-1 text-[12px] text-muted">Token / utility</div>
+                                    <div class="font-mono text-sm {{ $swatch['text'] }}">{{ $swatch['label'] }}</div>
+                                    <div class="mt-1 text-xs text-muted">Token / utility</div>
                                 </div>
                             </div>
                         @endforeach
@@ -316,25 +317,25 @@
                 <x-ui.card id="typography" title="Typography">
                     <div class="grid gap-8">
                         <div class="grid gap-4">
-                            <x-ui.text.h1 class="text-[clamp(32px,5vw,54px)] font-bold tracking-[-0.03em]">Heading
+                            <x-ui.text.h1 class="text-display-lg font-bold tracking-tighter">Heading
                                 1</x-ui.text.h1>
-                            <x-ui.text.h2 class="text-[clamp(28px,4vw,44px)] font-bold tracking-[-0.02em]">Heading
+                            <x-ui.text.h2 class="text-display font-bold tracking-tight">Heading
                                 2</x-ui.text.h2>
-                            <x-ui.text.h3 class="text-[28px] font-bold tracking-[-0.02em]">Heading 3</x-ui.text.h3>
-                            <x-ui.text.h4 class="text-[22px] font-bold tracking-[-0.01em]">Heading 4</x-ui.text.h4>
-                            <x-ui.text.h5 class="text-[18px] font-bold">Heading 5</x-ui.text.h5>
-                            <x-ui.text.h6 class="text-[15px] font-bold uppercase tracking-[0.12em] text-muted">Heading
+                            <x-ui.text.h3 class="text-3xl font-bold tracking-tight">Heading 3</x-ui.text.h3>
+                            <x-ui.text.h4 class="text-2xl font-bold tracking-snug">Heading 4</x-ui.text.h4>
+                            <x-ui.text.h5 class="text-lg font-bold">Heading 5</x-ui.text.h5>
+                            <x-ui.text.h6 class="text-base font-bold uppercase tracking-wider text-muted">Heading
                                 6</x-ui.text.h6>
                         </div>
 
                         <div class="grid gap-3">
-                            <x-ui.text.body class="text-[16px] leading-relaxed text-foreground">
+                            <x-ui.text.body class="text-md leading-relaxed text-foreground">
                                 Body text is readable and token-driven. Use <span class="text-muted">muted</span> for
                                 supporting information.
                             </x-ui.text.body>
-                            <x-ui.text.muted class="text-[13px]">Small / muted text for captions, help text, and
+                            <x-ui.text.muted class="text-sm">Small / muted text for captions, help text, and
                                 meta.</x-ui.text.muted>
-                            <p class="text-[15px]">
+                            <p class="text-base">
                                 <a href="#"
                                     class="text-primary hover:text-primary-hover underline underline-offset-4">Link
                                     style</a>

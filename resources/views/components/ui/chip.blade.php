@@ -8,9 +8,9 @@
 
 @php
     $sizes = [
-        'xs' => 'px-4 py-2 text-[10px]',
-        'sm' => 'px-3 py-1 text-[12px]',
-        'md' => 'px-4 py-1.5 text-[12px]',
+        'xs' => 'px-4 py-2 text-2xs',
+        'sm' => 'px-3 py-1 text-xs',
+        'md' => 'px-4 py-1.5 text-xs',
     ];
 
     $palettes = [
@@ -54,10 +54,10 @@
     }
 
     $classes = array_filter([
-        'lm-chip',
+        'inline-flex items-center gap-1.5 rounded-full border',
         $sizes[$size] ?? $sizes['sm'],
         $palettes[$variant][$color] ?? $palettes['soft']['muted'],
-        $caps ? 'font-bold uppercase tracking-[0.12em]' : 'font-semibold',
+        $caps ? 'font-bold uppercase tracking-wider' : 'font-semibold',
         $textColors[$resolvedText] ?? $textColors['foreground'],
     ]);
 @endphp

@@ -7,17 +7,17 @@
 
 <section class="relative z-10 flex min-h-[85vh] flex-col items-center justify-center text-center px-6 py-12 md:px-12">
     <h1
-        class="font-display text-[clamp(56px,12vw,140px)] font-bold leading-[0.95] tracking-[-0.02em] opacity-0 animate-[lm-hero-title_1.2s_cubic-bezier(0.16,1,0.3,1)_forwards] [animation-delay:200ms]">
+        class="font-display text-display-xl font-bold leading-hero tracking-tight opacity-0 animate-hero-title [animation-delay:200ms]">
         {{ $title }} <span class="text-coral inline-block">{{ $highlight }}</span>
     </h1>
 
     <x-ui.text.subtitle
-        class="relative mt-6 max-w-[500px] opacity-0 animate-[lm-hero-subtitle_1s_cubic-bezier(0.16,1,0.3,1)_forwards] [animation-delay:400ms] before:content-[''] before:absolute before:top-1/2 before:right-[calc(100%+24px)] before:h-px before:w-[60px] before:bg-border/70 before:opacity-70 after:content-[''] after:absolute after:top-1/2 after:left-[calc(100%+24px)] after:h-px after:w-[60px] after:bg-border/70 after:opacity-70 max-md:before:hidden max-md:after:hidden">
+        class="relative mt-6 max-w-[500px] opacity-0 animate-hero-subtitle [animation-delay:400ms] before:content-[''] before:absolute before:top-1/2 before:right-[calc(100%+24px)] before:h-px before:w-[60px] before:bg-border/70 before:opacity-70 after:content-[''] after:absolute after:top-1/2 after:left-[calc(100%+24px)] after:h-px after:w-[60px] after:bg-border/70 after:opacity-70 max-md:before:hidden max-md:after:hidden">
         {{ $subtitle }}
     </x-ui.text.subtitle>
 
     <div
-        class="mt-12 flex flex-wrap justify-center gap-5 opacity-0 animate-[lm-hero-cta_1s_cubic-bezier(0.16,1,0.3,1)_forwards] [animation-delay:600ms] max-md:w-full max-md:max-w-[320px] max-md:flex-col">
+        class="mt-12 flex flex-wrap justify-center gap-5 opacity-0 animate-hero-cta [animation-delay:600ms] max-md:w-full max-md:max-w-[320px] max-md:flex-col">
         @if ($nextMeetupId)
             <x-ui.button href="{{ route('events.show', $nextMeetupId) }}" variant="primary">Join Next Meetup</x-ui.button>
             <x-ui.button href="{{ route('papers.create', $nextMeetupId) }}" variant="secondary">Become a

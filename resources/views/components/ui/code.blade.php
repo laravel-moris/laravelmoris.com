@@ -1,5 +1,5 @@
 @props(['class' => ''])
 
-<code {{ $attributes->class(['font-mono text-[13px]', $class]) }}>
+<code {{ $attributes->class(['font-mono text-sm', $class]) }}>
     {{ $slot }}
 </code>

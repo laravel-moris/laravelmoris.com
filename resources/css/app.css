@@ -38,6 +38,28 @@
 
         --card-border: rgba(255, 45, 32, 0.15);
         --card-border-light: rgba(255, 255, 255, 0.08);
+
+        /* Spacing */
+        --spacing: 0.25rem;
+
+        /* Radii */
+        --radius: 1.5rem; /* 24px - for cards */
+        --radius-sm: 0.75rem; /* 12px */
+        --radius-md: 1rem; /* 16px */
+        --radius-full: 9999px; /* buttons, chips */
+
+        /* Shadows */
+        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        --shadow-md:
+            0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        --shadow-lg:
+            0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+        /* Transition */
+        --transition-fast: 150ms;
+        --transition-normal: 300ms;
+        --transition-slow: 400ms;
     }
 
     [data-theme="light"] {
@@ -56,6 +78,7 @@
 }
 
 @theme inline {
+    /* ========== FONTS ========== */
     --font-sans:
         "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
@@ -65,6 +88,7 @@
         "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
         "Liberation Mono", "Courier New", monospace;
 
+    /* ========== COLORS ========== */
     --color-background: var(--bg-primary);
     --color-surface: var(--bg-secondary);
     --color-surface-2: var(--bg-tertiary);
@@ -86,17 +110,85 @@
     --color-cyan: var(--ocean-cyan);
     --color-gold: var(--sand-gold);
     --color-green: var(--palm-green);
+
+    /* Brand colors (OAuth providers) */
+    --color-github: #24292e;
+    --color-github-hover: #2f363d;
+    --color-google: #ffffff;
+    --color-google-hover: #f8f9fa;
+
+    /* ========== TYPOGRAPHY SCALE ========== */
+    /* Base sizes */
+    --text-2xs: 0.625rem; /* 10px - chips, badges */
+    --text-xs: 0.75rem; /* 12px - labels */
+    --text-sm: 0.8125rem; /* 13px - muted, help */
+    --text-base: 0.9375rem; /* 15px - body default */
+    --text-md: 1rem; /* 16px - body, subtitle */
+    --text-lg: 1.125rem; /* 18px - h5 */
+    --text-xl: 1.25rem; /* 20px - card titles */
+    --text-2xl: 1.375rem; /* 22px - h4 */
+    --text-3xl: 1.75rem; /* 28px - h3 */
+    --text-4xl: 2rem; /* 32px - date numbers */
+
+    /* Display sizes with fluid typography */
+    --text-display-sm: clamp(1.75rem, 4vw, 2.25rem); /* login titles */
+    --text-display: clamp(1.75rem, 4vw, 2.75rem); /* h2 sections */
+    --text-display-lg: clamp(2rem, 5vw, 3.375rem); /* h1 */
+    --text-display-xl: clamp(3.5rem, 12vw, 8.75rem); /* hero */
+
+    /* Compound label token (size + line-height + letter-spacing + weight) */
+    --text-label: 0.75rem;
+    --text-label--line-height: 1;
+    --text-label--letter-spacing: 0.14em;
+    --text-label--font-weight: 700;
+
+    /* ========== LETTER SPACING ========== */
+    --tracking-tighter: -0.03em; /* display text */
+    --tracking-tight: -0.02em; /* headings */
+    --tracking-snug: -0.01em; /* card titles */
+    --tracking-normal: 0;
+    --tracking-wide: 0.08em; /* nav links */
+    --tracking-wider: 0.12em; /* buttons, h6 */
+    --tracking-widest: 0.14em; /* labels */
+    --tracking-ultra: 0.15em; /* ticker */
+    --tracking-caps: 0.2em; /* subtitles */
+
+    /* ========== LEADING (LINE HEIGHT) ========== */
+    --leading-hero: 0.95;
+
+    /* ========== SIZING ========== */
+    --size-avatar-sm: 2.5rem; /* 40px */
+    --size-avatar-md: 5.625rem; /* 90px */
+    --size-avatar-lg: 7.5rem; /* 120px */
+
+    /* ========== ANIMATIONS ========== */
+    --animate-hero-title: lm-hero-title 1.2s cubic-bezier(0.16, 1, 0.3, 1)
+        forwards;
+    --animate-hero-subtitle: lm-hero-subtitle 1s cubic-bezier(0.16, 1, 0.3, 1)
+        forwards;
+    --animate-hero-cta: lm-hero-cta 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    --animate-ticker: lm-ticker 30s linear infinite;
+    --animate-shimmer: lm-shimmer 2s infinite linear;
+    --animate-pulse-glow: lm-pulse-glow 2s infinite ease-in-out;
+
+    /* ========== RADII ========== */
+    --radius-sm: var(--radius-sm);
+    --radius-md: var(--radius-md);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 0.25rem);
+    --radius-full: var(--radius-full);
+
+    /* ========== SHADOWS ========== */
+    --shadow-sm: var(--shadow-sm);
+    --shadow: var(--shadow);
+    --shadow-md: var(--shadow-md);
+    --shadow-lg: var(--shadow-lg);
 }
 
 @layer components {
-    .lm-container {
-        @apply mx-auto max-w-[1600px] px-6 md:px-12;
-    }
+    /* Container - simple utility composition in templates preferred */
 
-    .lm-section {
-        @apply relative z-10 py-16 md:py-[100px];
-    }
-
+    /* Reveal animation - requires state-based CSS */
     .lm-reveal {
         opacity: 0;
         transform: translateY(40px);
@@ -119,65 +211,20 @@
         }
     }
 
-    .lm-btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-full font-bold uppercase tracking-[0.12em] duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 disabled:pointer-events-none disabled:opacity-50;
+    /* Card accent - pseudo-element pattern that can't be done with utilities */
+    .lm-card-accent-top::before {
+        content: "";
+        position: absolute;
+        inset-inline: 0;
+        top: 0;
+        height: 0.25rem;
+        transform-origin: left;
+        transform: scaleX(0);
+        transition: transform 400ms;
     }
 
-    .lm-btn-md {
-        @apply px-10 py-[18px] text-[13px];
-    }
-
-    .lm-btn-sm {
-        @apply px-6 py-2.5 text-[13px];
-    }
-
-    .lm-btn-primary {
-        @apply bg-primary text-white hover:bg-primary-hover hover:-translate-y-0.5;
-    }
-
-    .lm-btn-secondary {
-        @apply bg-surface-2 text-foreground border-2 border-border/70 hover:border-teal hover:text-teal hover:-translate-y-0.5;
-    }
-
-    .lm-icon-btn {
-        @apply relative grid place-items-center rounded-full bg-surface-2 border border-border/70 text-muted duration-300 hover:border-primary hover:text-primary hover:scale-[1.05] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60;
-        @apply size-11;
-    }
-
-    .lm-card {
-        @apply relative overflow-hidden rounded-3xl bg-surface border border-border/70 duration-[400ms];
-    }
-
-    .lm-card-accent-top {
-        @apply before:content-[''] before:absolute before:inset-x-0 before:top-0 before:h-1 before:origin-left before:scale-x-0 before:transition-transform before:duration-[400ms] group-hover:before:scale-x-100;
-    }
-
-    .lm-avatar {
-        @apply relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-surface-2 border border-border/70;
-    }
-
-    .lm-chip {
-        @apply inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-surface-2 px-3 py-1 text-sm font-medium text-muted;
-    }
-
-    .lm-table {
-        @apply w-full border-collapse text-left;
-    }
-
-    .lm-table thead {
-        @apply border-b border-border/70 text-sm uppercase tracking-wider text-muted;
-    }
-
-    .lm-table th {
-        @apply px-4 py-4 font-semibold;
-    }
-
-    .lm-table tbody tr {
-        @apply border-b border-border/40 transition-colors duration-200 hover:bg-surface-2/50;
-    }
-
-    .lm-table td {
-        @apply px-4 py-4;
+    .group:hover .lm-card-accent-top::before {
+        transform: scaleX(1);
     }
 }
 
@@ -237,7 +284,7 @@
     }
 }
 
-@keyframes lm-pulse-gold {
+@keyframes lm-pulse-glow {
     0%,
     100% {
         box-shadow: 0 0 20px rgba(253, 203, 110, 0.3);
@@ -283,17 +330,6 @@
     pointer-events: none;
     z-index: -1;
     border-radius: 9999px;
-}
-
-@keyframes lm-pulse-glow {
-    0%,
-    100% {
-        box-shadow: 0 0 20px rgba(253, 203, 110, 0.3);
-    }
-
-    50% {
-        box-shadow: 0 0 40px rgba(253, 203, 110, 0.6);
-    }
 }
 
 .lm-shimmer-gold {

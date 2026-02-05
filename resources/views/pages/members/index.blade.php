@@ -28,7 +28,7 @@
 
                                     @if ($member->title)
                                         <x-ui.text.muted
-                                            class="mt-1 font-semibold uppercase tracking-[0.14em] text-teal text-xs">
+                                            class="mt-1 font-semibold uppercase tracking-widest text-teal text-xs">
                                             {{ $member->title }}
                                         </x-ui.text.muted>
                                     @endif

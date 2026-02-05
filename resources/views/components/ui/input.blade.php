@@ -25,7 +25,7 @@
         ->implode(' ');
 
     $inputClasses = array_filter([
-        'w-full rounded-2xl bg-surface-2 border border-border/70 px-4 py-3 text-[15px] text-foreground placeholder:text-muted/80',
+        'w-full rounded-2xl bg-surface-2 border border-border/70 px-4 py-3 text-base text-foreground placeholder:text-muted/80',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:border-primary/60',
         'disabled:cursor-not-allowed disabled:opacity-50',
         $error ? 'border-coral/50 focus-visible:ring-coral/50 focus-visible:border-coral/60' : null,
@@ -35,7 +35,7 @@
 <div class="grid gap-2">
     @if ($label)
         <label @if ($id) for="{{ $id }}" @endif
-            class="text-[12px] font-bold uppercase tracking-[0.14em] text-muted">
+            class="text-label uppercase text-muted">
             {{ $label }}
         </label>
     @endif
@@ -48,14 +48,13 @@
         {{ $attributes->class($inputClasses) }}>
 
     @if ($help)
-        <p @if ($helpId) id="{{ $helpId }}" @endif class="text-[13px] text-muted">
+        <p @if ($helpId) id="{{ $helpId }}" @endif class="text-sm text-muted">
             {{ $help }}
         </p>
     @endif
 
     @if ($error)
-        <p @if ($errorId) id="{{ $errorId }}" @endif
-            class="text-[13px] text-coral font-medium">
+        <p @if ($errorId) id="{{ $errorId }}" @endif class="text-sm text-coral font-medium">
             {{ $error }}
         </p>
     @endif

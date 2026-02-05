@@ -23,7 +23,7 @@ spec:
         fsGroup: 82
       containers:
         - name: laravel-moris
-          image: registry.brunobernard.dev/laravelmoris.com:0.1.30
+          image: registry.brunobernard.dev/laravelmoris.com:0.1.74
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -43,8 +43,8 @@ spec:
               memory: "64Mi"
               cpu: "50m"
             limits:
-              memory: "100Mi"
-              cpu: "250m"
+              memory: "512Mi"
+              cpu: "1000m"
           livenessProbe:
             httpGet:
               path: /up

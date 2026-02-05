@@ -28,7 +28,7 @@
                     <span class="absolute inline-flex size-2 animate-ping rounded-full bg-coral/60"></span>
                     <span class="relative inline-flex size-2 rounded-full bg-coral"></span>
                 </span>
-                <span class="text-[11px] font-bold uppercase tracking-[0.14em] text-muted">Happening Now</span>
+                <span class="text-xs font-bold uppercase tracking-widest text-muted">Happening Now</span>
             </div>
 
             <x-ui.text.h4 class="mt-4">
@@ -39,7 +39,7 @@
                 <div class="mt-4 flex flex-wrap items-center gap-2">
                     @foreach ($meta as $item)
                         <span
-                            class="inline-flex items-center gap-2 rounded-full border border-border/70 bg-surface-2 px-3 py-1.5 text-[12px] font-semibold text-muted">
+                            class="inline-flex items-center gap-2 rounded-full border border-border/70 bg-surface-2 px-3 py-1.5 text-xs font-semibold text-muted">
                             <span class="inline-block size-1.5 rounded-full bg-primary"></span>
                             <span>{{ $item }}</span>
                         </span>

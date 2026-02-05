@@ -13,7 +13,7 @@
 @endphp
 
 <header class="relative z-[100]">
-    <div class="lm-container flex items-center justify-between py-6">
+    <div class="mx-auto max-w-7xl px-6 md:px-12 flex items-center justify-between py-6">
         <div class="flex items-center">
             <x-site.header.logo />
         </div>

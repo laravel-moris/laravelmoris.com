@@ -5,8 +5,7 @@
 ])
 
 @php
-    $base =
-        'relative rounded-2xl border border-border/70 bg-surface px-4 py-3 text-[14px] leading-relaxed text-foreground';
+    $base = 'relative rounded-2xl border border-border/70 bg-surface px-4 py-3 text-sm leading-relaxed text-foreground';
     $variants = [
         'success' => 'border-green/25 bg-green/10',
         'info' => 'border-cyan/25 bg-cyan/10',

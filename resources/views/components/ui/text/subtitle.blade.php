@@ -1,4 +1,4 @@
 @props(['class' => ''])
-<p {{ $attributes->class(['text-[16px] font-medium uppercase tracking-[0.2em] text-muted', $class]) }}>
+<p {{ $attributes->class(['text-md font-medium uppercase tracking-caps text-muted', $class]) }}>
     {{ $slot }}
 </p>
