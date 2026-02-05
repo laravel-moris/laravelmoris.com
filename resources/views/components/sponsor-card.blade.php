@@ -4,7 +4,7 @@
     <x-card class="p-5 transition-all duration-300 hover:border-primary/50 h-full">
         <div class="flex flex-col items-center text-center">
             <div
-                class="w-full h-32 rounded-xl bg-white/5 border border-border/70 overflow-hidden mb-3 flex items-center justify-center p-4">
+                class="w-full h-32 rounded-xl bg-white overflow-hidden mb-3 flex items-center justify-center p-4">
                 <img src="{{ $sponsor->logoUrl }}" alt="{{ $sponsor->name }}" class="max-w-full max-h-full object-contain">
             </div>
 
