@@ -53,6 +53,20 @@ test('it redirects with error for past events', function () {
         ->assertSessionHas('error', 'You cannot submit a talk for past events.');
 });
 
+test('it prevents showing submission form for past events', function () {
+    /** @var TestCase $this */
+    $user = User::factory()->create();
+    $event = Event::factory()->create([
+        'starts_at' => now()->subWeek(),
+        'ends_at' => now()->subWeek()->addHours(4),
+    ]);
+
+    $response = $this->actingAs($user)->get(route('papers.create', $event));
+
+    $response->assertRedirect(route('events.show', $event))
+        ->assertSessionHas('error', 'You cannot submit a talk for past events.');
+});
+
 test('it submits talk successfully', function () {
     /** @var TestCase $this */
     $user = User::factory()->create();
