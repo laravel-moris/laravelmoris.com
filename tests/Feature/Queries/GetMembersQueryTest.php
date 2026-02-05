@@ -41,3 +41,18 @@ test('it returns empty when no members exist', function () {
 
     expect($result->total())->toBe(0);
 });
+
+test('it uses cached counts from database columns', function () {
+    $user = User::factory()->create([
+        'papers_count_cache' => 5,
+        'rsvps_count_cache' => 3,
+    ]);
+
+    $result = app(GetMembersQuery::class)->execute();
+
+    $returnedUser = $result->first();
+    expect($returnedUser->papers_count)->toBe(5)
+        ->and($returnedUser->rsvps_count)->toBe(3)
+        ->and($returnedUser->papers_count_cache)->toBe(5)
+        ->and($returnedUser->rsvps_count_cache)->toBe(3);
+});

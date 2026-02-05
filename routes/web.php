@@ -16,6 +16,7 @@ use App\Http\Controllers\MembersController;
 use App\Http\Controllers\Paper\PaperSubmissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SponsorsController;
+use App\Http\Middleware\EnsureEventIsUpcoming;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -47,8 +48,10 @@ Route::get('/events/{event}', [EventsController::class, 'show'])->name('events.s
 Route::post('/events/{event}/rsvp', RSVPController::class)->name('events.rsvp');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/events/{event}/submit-paper', [PaperSubmissionController::class, 'create'])->name('papers.create');
-    Route::post('/events/{event}/submit-paper', [PaperSubmissionController::class, 'store'])->name('papers.store');
+    Route::middleware([EnsureEventIsUpcoming::class])->group(function () {
+        Route::get('/events/{event}/submit-paper', [PaperSubmissionController::class, 'create'])->name('papers.create');
+        Route::post('/events/{event}/submit-paper', [PaperSubmissionController::class, 'store'])->name('papers.store');
+    });
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');

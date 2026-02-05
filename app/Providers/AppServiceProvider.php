@@ -5,15 +5,18 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Enums\Roles;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Password;
 
 final class AppServiceProvider extends ServiceProvider
 {
@@ -54,9 +57,21 @@ final class AppServiceProvider extends ServiceProvider
         Blade::if('provider', function (string $provider): bool {
             return config("services.{$provider}.client_id") !== null;
         });
+
+        Date::use(CarbonImmutable::class);
+
+        Password::defaults(
+            fn (): ?Password => when(app()->isProduction(), Password::min(8)
+                ->mixedCase()
+                ->letters()
+                ->numbers()
+                ->symbols()
+                ->uncompromised()
+            )
+        );
     }
 
-    private function enforceMorphMap()
+    private function enforceMorphMap(): void
     {
 
         $ns = app()->getNamespace();

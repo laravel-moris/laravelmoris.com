@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\PaperStatus;
+use App\Observers\PaperObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[ObservedBy(PaperObserver::class)]
 class Paper extends Model
 {
     use HasFactory, SoftDeletes;
