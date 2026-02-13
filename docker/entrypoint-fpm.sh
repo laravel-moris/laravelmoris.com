@@ -35,6 +35,7 @@ php -d memory_limit=100M artisan operations:process
 
 echo "Optimizing..."
 php artisan optimize
+php artisan filament:optimize
 
 echo "Creating storage link..."
 php artisan storage:link 2>/dev/null || true

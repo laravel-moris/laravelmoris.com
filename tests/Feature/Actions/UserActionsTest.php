@@ -51,7 +51,9 @@ it('creates a user with avatar', function () {
 
     $user = app(CreateUser::class)->execute($data);
 
-    expect($user)->toBeInstanceOf(User::class)->and($user->getFirstMediaUrl('avatar'))->not->toBeEmpty();
+    expect($user)->toBeInstanceOf(User::class)
+        ->and($user->getFirstMediaUrl('avatar'))
+        ->not->toBeEmpty();
 });
 
 it('creates a user without optional fields', function () {

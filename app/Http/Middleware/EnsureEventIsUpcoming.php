@@ -14,7 +14,7 @@ final readonly class EnsureEventIsUpcoming
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param \Closure(Request):Response $next
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -22,7 +22,7 @@ final readonly class EnsureEventIsUpcoming
         $event = $request->route('event');
 
         if ($event instanceof Event && $event->ends_at?->isPast()) {
-            return redirect()->route('events.show', $event)
+            return to_route('events.show', $event)
                 ->with('error', 'You cannot submit a talk for past events.');
         }
 
