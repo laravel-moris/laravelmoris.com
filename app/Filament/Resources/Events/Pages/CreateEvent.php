@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Events\Pages;
 
-use Illuminate\Support\Facades\Date;
 use App\Actions\CreateOnlineEvent;
 use App\Actions\CreatePhysicalEvent;
 use App\Data\CreateOnlineEventData;
@@ -14,6 +13,7 @@ use App\Filament\Resources\Events\EventResource;
 use App\Models\Event;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Support\Facades\Date;
 
 class CreateEvent extends CreateRecord
 {

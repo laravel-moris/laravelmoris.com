@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Models\OnlineLocation;
 use App\Enums\EventLocation;
 use App\Enums\PaperStatus;
 use App\Enums\RsvpStatus;
@@ -14,6 +13,7 @@ use App\Filament\Resources\Events\RelationManagers\AttendeesRelationManager;
 use App\Filament\Resources\Events\RelationManagers\PapersRelationManager;
 use App\Filament\Resources\Events\RelationManagers\RsvpsRelationManager;
 use App\Models\Event;
+use App\Models\OnlineLocation;
 use App\Models\Paper;
 use App\Models\PhysicalLocation;
 use App\Models\User;

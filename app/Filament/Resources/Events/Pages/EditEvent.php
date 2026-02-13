@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Events\Pages;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Date;
 use App\Actions\UpdateOnlineEvent;
 use App\Actions\UpdatePhysicalEvent;
 use App\Data\UpdateOnlineEventData;
@@ -19,6 +17,8 @@ use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Date;
 
 class EditEvent extends EditRecord
 {
