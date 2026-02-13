@@ -19,6 +19,9 @@ tasks:
   build:
     desc: Build the Docker image
     cmd: docker build -t {{.FULL_IMAGE}} . || true
+  build:frankenphp:
+    desc: Build the FrankenPHP Docker image
+    cmd: docker build -f Dockerfile.frankenphp -t {{.FULL_IMAGE}} . || true
   update-manifest:
     desc: Update Kubernetes StatefulSet with the new image tag
     cmd: yq e -i '.spec.template.spec.containers[0].image = "{{.FULL_IMAGE}}"' kubernetes/02-statefulset.yaml
@@ -28,6 +31,14 @@ tasks:
   deploy:
     desc: Build, update manifest, push, and deploy to Kubernetes
     deps: [build, update-manifest]
+    cmds:
+      - task: push
+      - kubectl apply -f kubernetes/
+      - sleep 10
+      - task: restart
+  deploy:frankenphp:
+    desc: Build FrankenPHP image, update manifest, push, and deploy to Kubernetes
+    deps: [build:frankenphp, update-manifest]
     cmds:
       - task: push
       - kubectl apply -f kubernetes/

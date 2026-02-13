@@ -58,12 +58,12 @@ RUN groupmod -g 82 www-data \
 
 COPY --from=hivemind /go/bin/hivemind /usr/local/bin/hivemind
 
-COPY docker/php-fpm.conf /usr/local/etc/php-fpm.conf
-COPY docker/php-fpm-pool.conf /usr/local/etc/php-fpm.d/zz-app.conf
-COPY docker/php-opcache.ini /usr/local/etc/php/conf.d/zz-opcache.ini
-COPY docker/nginx.conf /etc/nginx/nginx.conf
-COPY docker/Procfile /etc/Procfile
-COPY docker/entrypoint-fpm.sh /entrypoint.sh
+COPY docker/fpm/php-fpm.conf /usr/local/etc/php-fpm.conf
+COPY docker/fpm/php-fpm-pool.conf /usr/local/etc/php-fpm.d/zz-app.conf
+COPY docker/fpm/php-opcache.ini /usr/local/etc/php/conf.d/zz-opcache.ini
+COPY docker/fpm/nginx.conf /etc/nginx/nginx.conf
+COPY docker/fpm/Procfile /etc/Procfile
+COPY docker/fpm/entrypoint-fpm.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 WORKDIR /var/www/html

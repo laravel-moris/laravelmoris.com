@@ -1,0 +1,82 @@
+FROM node:20-alpine AS frontend
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN --mount=type=cache,target=/root/.npm npm ci
+COPY resources resources
+COPY vite.config.js vite.config.js
+RUN npm run build
+
+FROM dunglas/frankenphp:latest AS base
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+RUN install-php-extensions \
+    pcntl \
+    curl \
+    gd \
+    intl \
+    mbstring \
+    xml \
+    zip \
+    sqlite3 \
+    exif \
+    opcache
+
+FROM base AS build
+WORKDIR /var/www/html
+
+COPY . .
+COPY --from=frontend /app/public/build /var/www/html/public/build
+
+RUN --mount=type=cache,target=/tmp/composer-cache \
+    composer require laravel/octane:^2 \
+        --no-interaction \
+        --no-scripts \
+        --prefer-dist \
+    && composer install \
+        --no-dev \
+        --no-interaction \
+        --no-scripts \
+        --prefer-dist \
+        --optimize-autoloader \
+    && php artisan octane:install --server=frankenphp --no-interaction
+
+FROM base AS final
+WORKDIR /var/www/html
+
+RUN groupmod -g 82 www-data \
+    && usermod -u 82 -g 82 www-data
+
+COPY docker/fpm/php-opcache.ini /usr/local/etc/php/conf.d/zz-opcache.ini
+COPY docker/octane/entrypoint.sh /entrypoint.sh
+
+COPY --from=build --chown=www-data:www-data /var/www/html /var/www/html
+
+RUN mkdir -p \
+        /data/sessions \
+        /data/uploads \
+        /var/www/html/bootstrap/cache \
+        /var/www/html/storage/framework/cache \
+        /var/www/html/storage/framework/sessions \
+        /var/www/html/storage/framework/views \
+        /var/www/html/storage/logs \
+    && chown -R www-data:www-data \
+        /data \
+        /var/www/html/storage \
+        /var/www/html/bootstrap/cache \
+    && chmod -R 775 \
+        /data \
+        /var/www/html/storage \
+        /var/www/html/bootstrap/cache \
+    && chmod +x /entrypoint.sh
+
+USER www-data
+EXPOSE 8080
+
+ENV APP_ENV=production \
+    APP_DEBUG=false \
+    LOG_CHANNEL=stderr \
+    DB_CONNECTION=sqlite \
+    DB_DATABASE=/data/database.sqlite
+
+ENTRYPOINT ["/entrypoint.sh"]
