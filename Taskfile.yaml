@@ -18,16 +18,16 @@ vars:
 tasks:
   build:
     desc: Build the Docker image
-    cmd: docker build -t {{.FULL_IMAGE}} . || true
+    cmd: docker buildx build --platform linux/amd64,linux/arm64 -t {{.FULL_IMAGE}} --push .
   build:frankenphp:
     desc: Build the FrankenPHP Docker image
-    cmd: docker build -f Dockerfile.frankenphp -t {{.FULL_IMAGE}} . || true
+    cmd: docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile.frankenphp -t {{.FULL_IMAGE}} --push .
   update-manifest:
     desc: Update Kubernetes StatefulSet with the new image tag
     cmd: yq e -i '.spec.template.spec.containers[0].image = "{{.FULL_IMAGE}}"' kubernetes/02-statefulset.yaml
   push:
     desc: Push the Docker image to the container registry
-    cmd: docker push {{.FULL_IMAGE}}
+    cmd: docker buildx imagetools inspect {{.FULL_IMAGE}} >/dev/null 2>&1 || docker push {{.FULL_IMAGE}}
   deploy:
     desc: Build, update manifest, push, and deploy to Kubernetes
     deps: [build, update-manifest]

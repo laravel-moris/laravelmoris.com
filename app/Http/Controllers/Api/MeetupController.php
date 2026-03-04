@@ -4,20 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Api\IndexMeetupsRequest;
 use App\Http\Resources\EventResource;
 use App\Models\Event;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class MeetupController
+final readonly class MeetupController
 {
     /**
      * List all meetups.
      */
-    public function index(): AnonymousResourceCollection
+    public function index(IndexMeetupsRequest $request): AnonymousResourceCollection
     {
+        $perPage = $request->integer('per_page', 15);
+
         $events = Event::with('location')
             ->oldest('starts_at')
-            ->get();
+            ->paginate($perPage)
+            ->withQueryString();
 
         return EventResource::collection($events);
     }

@@ -37,7 +37,6 @@ final readonly class SponsorsController
 
         return view('pages.sponsors.show', [
             'sponsor' => $sponsor,
-            'logoUrl' => $sponsor->logo,
         ]);
     }
 }

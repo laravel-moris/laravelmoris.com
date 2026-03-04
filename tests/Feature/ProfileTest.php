@@ -174,3 +174,27 @@ it('preserves existing avatar when no file uploaded', function () {
     // Avatar should still be in media library
     expect($user->getFirstMedia('avatar'))->not->toBeNull();
 });
+
+it('replaces existing avatar when a new file is uploaded', function () {
+    $user = User::factory()->create([
+        'name' => 'Test User',
+    ]);
+
+    $originalAvatar = UploadedFile::fake()->image('old-avatar.jpg', 100, 100);
+    $user->addMedia($originalAvatar)->toMediaCollection('avatar');
+    $originalMediaId = $user->getFirstMedia('avatar')?->id;
+
+    actingAs($user);
+
+    patch(route('profile.update'), [
+        'name' => 'New Name',
+        'avatar' => UploadedFile::fake()->image('new-avatar.jpg', 100, 100),
+    ])->assertRedirect(route('profile.index'));
+
+    $user->refresh();
+    $updatedMedia = $user->getFirstMedia('avatar');
+
+    expect($user->getMedia('avatar'))->toHaveCount(1)
+        ->and($updatedMedia)->not->toBeNull()
+        ->and($updatedMedia?->id)->not->toBe($originalMediaId);
+});

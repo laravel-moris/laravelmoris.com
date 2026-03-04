@@ -1,4 +1,4 @@
-FROM node:20-alpine AS frontend
+FROM platformatic/node-caged:25-alpine AS frontend
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN --mount=type=cache,target=/root/.npm npm ci

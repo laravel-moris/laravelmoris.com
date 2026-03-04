@@ -11,7 +11,7 @@ use App\Queries\GetPastSponsorsQuery;
 use App\Queries\GetUpcomingMeetupsQuery;
 use Illuminate\Contracts\View\View;
 
-class HomeController
+final readonly class HomeController
 {
     public function __invoke(
         GetHappeningNowQuery $getHappeningNowQuery,

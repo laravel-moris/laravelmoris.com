@@ -28,3 +28,17 @@ it('shows team members on the about page', function () {
         ->assertSee('Nice Human Being')
         ->assertSee('Vibe Engineer');
 });
+
+it('eager loads media for team members on the about page', function () {
+    User::factory()->create([
+        'name' => 'Team Member',
+        'title' => 'Organizer',
+    ]);
+
+    $response = get(route('about'));
+
+    $response->assertOk()
+        ->assertViewHas('teamMembers', function ($teamMembers): bool {
+            return $teamMembers->every(fn (User $member): bool => $member->relationLoaded('media'));
+        });
+});

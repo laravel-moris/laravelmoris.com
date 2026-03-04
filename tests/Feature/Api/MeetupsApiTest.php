@@ -36,6 +36,11 @@ test('it lists meetups ordered by start date', function () {
     $response
         ->assertOk()
         ->assertJsonCount(2, 'data')
+        ->assertJsonPath('meta.current_page', 1)
+        ->assertJsonPath('meta.per_page', 15)
+        ->assertJsonStructure([
+            'links' => ['first', 'last', 'prev', 'next'],
+        ])
         ->assertJsonPath('data.0.title', 'First')
         ->assertJsonPath('data.0.description', 'First description')
         ->assertJsonPath('data.0.starts_at', $first->starts_at->toJSON())
@@ -46,6 +51,36 @@ test('it lists meetups ordered by start date', function () {
         ->assertJsonPath('data.1.ends_at', $second->ends_at->toJSON());
 
     Date::setTestNow();
+});
+
+test('it supports per page pagination for meetups list', function () {
+    $now = now('UTC')->toImmutable();
+    Date::setTestNow($now);
+
+    Event::factory()->count(3)->create([
+        'starts_at' => $now->addDay(),
+        'ends_at' => $now->addDay()->addHours(2),
+        'type' => EventLocation::Online,
+    ]);
+
+    $response = $this->getJson('/api/meetups?per_page=2');
+
+    $response
+        ->assertOk()
+        ->assertJsonCount(2, 'data')
+        ->assertJsonPath('meta.per_page', 2)
+        ->assertJsonPath('meta.total', 3)
+        ->assertJsonPath('meta.last_page', 2);
+
+    Date::setTestNow();
+});
+
+test('it validates per page query parameter', function () {
+    $response = $this->getJson('/api/meetups?per_page=0');
+
+    $response
+        ->assertUnprocessable()
+        ->assertJsonValidationErrors(['per_page']);
 });
 
 test('it shows a single meetup', function () {
@@ -103,6 +138,26 @@ test('it returns null rsvp link for past events', function () {
         'title' => 'Past Meetup',
         'starts_at' => $now->subDays(2),
         'ends_at' => $now->subDays(2)->addHours(2),
+        'type' => EventLocation::Online,
+    ]);
+
+    $response = $this->getJson("/api/meetups/{$event->id}");
+
+    $response
+        ->assertOk()
+        ->assertJsonPath('data.rsvp_link', null);
+
+    Date::setTestNow();
+});
+
+test('it returns null rsvp link for events that already started', function () {
+    $now = now('UTC')->toImmutable();
+    Date::setTestNow($now);
+
+    $event = Event::factory()->create([
+        'title' => 'Ongoing Meetup',
+        'starts_at' => $now->subHour(),
+        'ends_at' => $now->addHour(),
         'type' => EventLocation::Online,
     ]);
 

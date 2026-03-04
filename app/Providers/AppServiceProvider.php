@@ -6,13 +6,16 @@ namespace App\Providers;
 
 use App\Enums\Roles;
 use Carbon\CarbonImmutable;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
@@ -33,6 +36,18 @@ final class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        RateLimiter::for('login', function (Request $request): Limit {
+            $email = Str::lower((string) $request->string('email'));
+
+            return Limit::perMinute(5)->by("{$email}|{$request->ip()}");
+        });
+
+        RateLimiter::for('register', function (Request $request): Limit {
+            $email = Str::lower((string) $request->string('email'));
+
+            return Limit::perMinute(3)->by("{$email}|{$request->ip()}");
+        });
+
         // Super Admin access
         Gate::before(function ($user, $ability) {
             return $user->hasRole(Roles::SuperAdmin->value) ? true : null;

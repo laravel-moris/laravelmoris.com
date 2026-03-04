@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Enums\EventLocation;
+use App\Models\OnlineLocation;
+use App\Models\PhysicalLocation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -30,7 +32,7 @@ class EventResource extends JsonResource
      */
     protected function rsvpLink(): ?string
     {
-        if ($this->ends_at?->isPast()) {
+        if ($this->starts_at?->isPast()) {
             return null;
         }
 
@@ -38,33 +40,40 @@ class EventResource extends JsonResource
     }
 
     /**
-     * Transform location into a unified format.
+     * @return array<string, string>|null
      */
     protected function transformLocation(): ?array
     {
-        if (! $this->relationLoaded('location')) {
+        if (! $this->resource->relationLoaded('location')) {
             return null;
         }
 
-        if (! $this->type instanceof EventLocation) {
+        if (! $this->resource->type instanceof EventLocation) {
             return null;
         }
 
-        $location = $this->location;
+        if ($this->resource->type === EventLocation::Physical) {
+            if (! $this->resource->location instanceof PhysicalLocation) {
+                return null;
+            }
 
-        return match ($this->type) {
-            EventLocation::Physical => [
-                'type' => 'physical',
-                'name' => $location?->venue_name,
-                'address' => $location?->address,
-                'city' => $location?->city,
-                'directions_url' => $location?->directions_url,
-            ],
-            EventLocation::Online => [
-                'type' => 'online',
-                'platform' => $location?->platform,
-                'url' => $location?->url,
-            ],
-        };
+            return [
+                'type' => EventLocation::Physical->value,
+                'name' => $this->resource->location->venue_name,
+                'address' => $this->resource->location->address,
+                'city' => $this->resource->location->city,
+                'directions_url' => $this->resource->location->directions_url,
+            ];
+        }
+
+        if (! $this->resource->location instanceof OnlineLocation) {
+            return null;
+        }
+
+        return [
+            'type' => EventLocation::Online->value,
+            'platform' => $this->resource->location->platform,
+            'url' => $this->resource->location->url,
+        ];
     }
 }

@@ -1,4 +1,4 @@
-FROM node:20-alpine AS frontend
+FROM platformatic/node-caged:25-alpine AS frontend
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN --mount=type=cache,target=/root/.npm npm ci
@@ -6,21 +6,16 @@ COPY resources resources
 COPY vite.config.js vite.config.js
 RUN npm run build
 
-FROM dunglas/frankenphp:latest AS base
+FROM dunglas/frankenphp:1.11.2-alpine AS base
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 RUN install-php-extensions \
     pcntl \
-    curl \
     gd \
     intl \
-    mbstring \
-    xml \
     zip \
-    sqlite3 \
-    exif \
-    opcache
+    exif
 
 FROM base AS build
 WORKDIR /var/www/html
@@ -43,9 +38,6 @@ RUN --mount=type=cache,target=/tmp/composer-cache \
 
 FROM base AS final
 WORKDIR /var/www/html
-
-RUN groupmod -g 82 www-data \
-    && usermod -u 82 -g 82 www-data
 
 COPY docker/fpm/php-opcache.ini /usr/local/etc/php/conf.d/zz-opcache.ini
 COPY docker/octane/entrypoint.sh /entrypoint.sh

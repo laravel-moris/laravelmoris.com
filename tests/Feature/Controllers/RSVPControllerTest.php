@@ -4,7 +4,16 @@ declare(strict_types=1);
 
 use App\Models\Event;
 use App\Models\User;
+use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
+
+test('rsvp route requires auth middleware', function () {
+    $middleware = Route::getRoutes()
+        ->getByName('events.rsvp')
+        ?->gatherMiddleware();
+
+    expect($middleware)->toContain('auth');
+});
 
 test('it redirects guest to login', function () {
     /** @var TestCase $this */
@@ -26,7 +35,8 @@ test('it redirects with error for past events', function () {
         'ends_at' => now()->subWeek()->addHours(4),
     ]);
 
-    $response = $this->actingAs($user)->post(route('events.rsvp', $event), ['status' => 'going']);
+    $response = $this->actingAs($user)
+        ->post(route('events.rsvp', $event), ['status' => 'going']);
 
     $response->assertRedirect(route('events.show', $event))
         ->assertSessionHas('error', 'You cannot change your RSVP for past events.');
@@ -40,7 +50,8 @@ test('it RSVPs user as going', function () {
         'ends_at' => now()->addWeek()->addHours(4),
     ]);
 
-    $response = $this->actingAs($user)->post(route('events.rsvp', $event), ['status' => 'going']);
+    $response = $this->actingAs($user)
+        ->post(route('events.rsvp', $event), ['status' => 'going']);
 
     $response->assertRedirect(route('events.show', $event));
     expect($user->rsvps()->where('event_id', $event->id)->exists())->toBeTrue()
@@ -55,7 +66,8 @@ test('it RSVPs user as maybe', function () {
         'ends_at' => now()->addWeek()->addHours(4),
     ]);
 
-    $response = $this->actingAs($user)->post(route('events.rsvp', $event), ['status' => 'maybe']);
+    $response = $this->actingAs($user)
+        ->post(route('events.rsvp', $event), ['status' => 'maybe']);
 
     $response->assertRedirect(route('events.show', $event));
     expect($user->rsvps()->where('event_id', $event->id)->first()->rsvp->status)->toBe('maybe');
@@ -71,7 +83,8 @@ test('it removes RSVP when not going', function () {
 
     $user->rsvps()->attach($event, ['status' => 'going']);
 
-    $response = $this->actingAs($user)->post(route('events.rsvp', $event), ['status' => 'not_going']);
+    $response = $this->actingAs($user)
+        ->post(route('events.rsvp', $event), ['status' => 'not_going']);
 
     $response->assertRedirect(route('events.show', $event));
     expect($user->rsvps()->where('event_id', $event->id)->exists())->toBeFalse();
@@ -85,7 +98,8 @@ test('it defaults to going when no status provided', function () {
         'ends_at' => now()->addWeek()->addHours(4),
     ]);
 
-    $response = $this->actingAs($user)->post(route('events.rsvp', $event));
+    $response = $this->actingAs($user)
+        ->post(route('events.rsvp', $event));
 
     $response->assertRedirect(route('events.show', $event));
     expect($user->rsvps()->where('event_id', $event->id)->first()->rsvp->status)->toBe('going');
@@ -107,4 +121,19 @@ test('it validates RSVP status', function () {
     $response
         ->assertRedirect(route('events.show', $event))
         ->assertSessionHasErrors('status');
+});
+
+test('it does not allow RSVP changes after an event has started', function () {
+    /** @var TestCase $this */
+    $user = User::factory()->create();
+    $event = Event::factory()->create([
+        'starts_at' => now()->subHour(),
+        'ends_at' => now()->addHour(),
+    ]);
+
+    $response = $this->actingAs($user)
+        ->post(route('events.rsvp', $event), ['status' => 'going']);
+
+    $response->assertRedirect(route('events.show', $event))
+        ->assertSessionHas('error', 'You cannot change your RSVP for past events.');
 });

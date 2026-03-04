@@ -11,8 +11,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
-final class RegisterController
+final readonly class RegisterController
 {
+    public function __construct(
+        private RegisterUser $registerUser,
+    ) {}
+
     public function create(): View
     {
         return view('pages.auth.register');
@@ -22,8 +26,7 @@ final class RegisterController
     {
         $data = RegisterUserData::validateAndCreate($request->all());
 
-        $registerUser = app(RegisterUser::class);
-        $user = $registerUser->execute($data);
+        $user = $this->registerUser->execute($data);
 
         Auth::login($user);
 

@@ -10,8 +10,12 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-final class LoginController
+final readonly class LoginController
 {
+    public function __construct(
+        private Authenticate $authenticate,
+    ) {}
+
     public function create(): View
     {
         return view('pages.auth.login');
@@ -21,7 +25,7 @@ final class LoginController
     {
         $data = LoginData::validateAndCreate($request->all());
 
-        app(Authenticate::class)->execute($data);
+        $this->authenticate->execute($data);
 
         return to_route('home')->with('status', 'Welcome back!');
     }

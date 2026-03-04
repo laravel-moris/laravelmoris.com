@@ -60,7 +60,6 @@ describe('sponsor show', function (): void {
         $response->assertOk()
             ->assertViewIs('pages.sponsors.show')
             ->assertViewHas('sponsor')
-            ->assertViewHas('logoUrl')
             ->assertSee($this->sponsor->name)
             ->assertSee('Events Sponsored');
     });

@@ -32,16 +32,7 @@ final readonly class ProfileController
 
     public function update(UpdateProfileData $data): RedirectResponse
     {
-        $user = Auth::user();
-
-        $data = new UpdateProfileData(
-            name: $data->name,
-            title: $data->title,
-            bio: $data->bio,
-            avatar: request()->file('avatar'),
-        );
-
-        $this->updateProfile->execute($user, $data);
+        $this->updateProfile->execute(Auth::user(), $data);
 
         return to_route('profile.index')
             ->with('success', 'Profile updated successfully.');

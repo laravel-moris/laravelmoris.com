@@ -29,13 +29,13 @@ final readonly class PaperSubmissionController
             return to_route('login');
         }
 
-        if ($event->starts_at->isPast()) {
+        if ($event->ends_at?->isPast()) {
             Session::flash('error', 'You cannot submit a talk for past events.');
 
             return to_route('events.show', $event);
         }
 
-        $data = SubmitPaperData::from($request->all());
+        $data = SubmitPaperData::validateAndCreate($request->all());
 
         $submitPaperAction->execute($user, $event, $data);
 

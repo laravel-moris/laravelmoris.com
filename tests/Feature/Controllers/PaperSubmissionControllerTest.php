@@ -44,13 +44,33 @@ test('it redirects with error for past events', function () {
         'ends_at' => now()->subWeek()->addHours(4),
     ]);
 
-    $response = $this->actingAs($user)->post(route('papers.store', $event), [
-        'title' => 'My Talk',
-        'description' => 'Description',
-    ]);
+    $response = $this->actingAs($user)
+        ->post(route('papers.store', $event), [
+            'title' => 'My Talk',
+            'description' => 'Description',
+        ]);
 
     $response->assertRedirect(route('events.show', $event))
         ->assertSessionHas('error', 'You cannot submit a talk for past events.');
+});
+
+test('it allows paper submission for ongoing events', function () {
+    /** @var TestCase $this */
+    $user = User::factory()->create();
+    $event = Event::factory()->create([
+        'starts_at' => now()->subHour(),
+        'ends_at' => now()->addHour(),
+    ]);
+
+    $response = $this->actingAs($user)
+        ->post(route('papers.store', $event), [
+            'title' => 'Ongoing event talk',
+            'description' => 'Description',
+        ]);
+
+    $response->assertRedirect(route('events.show', $event))
+        ->assertSessionHas('success', 'Your talk has been submitted successfully!');
+    expect($user->papers()->where('event_id', $event->id)->exists())->toBeTrue();
 });
 
 test('it prevents showing submission form for past events', function () {
@@ -75,10 +95,11 @@ test('it submits talk successfully', function () {
         'ends_at' => now()->addWeek()->addHours(4),
     ]);
 
-    $response = $this->actingAs($user)->post(route('papers.store', $event), [
-        'title' => 'My Talk Title',
-        'description' => 'Talk description',
-    ]);
+    $response = $this->actingAs($user)
+        ->post(route('papers.store', $event), [
+            'title' => 'My Talk Title',
+            'description' => 'Talk description',
+        ]);
 
     $response->assertRedirect(route('events.show', $event))
         ->assertSessionHas('success', 'Your talk has been submitted successfully!');
@@ -93,10 +114,30 @@ test('it updates user phone when submitting', function () {
         'ends_at' => now()->addWeek()->addHours(4),
     ]);
 
-    $this->actingAs($user)->post(route('papers.store', $event), [
-        'title' => 'My Talk',
-        'phone' => '57654321',
-    ]);
+    $this->actingAs($user)
+        ->post(route('papers.store', $event), [
+            'title' => 'My Talk',
+            'phone' => '57654321',
+        ]);
 
     expect($user->refresh()->phone)->toBe('57654321');
+});
+
+test('it validates paper submission payload before creating a paper', function () {
+    /** @var TestCase $this */
+    $user = User::factory()->create();
+    $event = Event::factory()->create([
+        'starts_at' => now()->addWeek(),
+        'ends_at' => now()->addWeek()->addHours(4),
+    ]);
+
+    $response = $this->from(route('papers.create', $event))
+        ->actingAs($user)
+        ->post(route('papers.store', $event), [
+            'description' => 'Missing title',
+        ]);
+
+    $response->assertRedirect(route('papers.create', $event))
+        ->assertSessionHasErrors(['title']);
+    expect($user->papers()->where('event_id', $event->id)->exists())->toBeFalse();
 });

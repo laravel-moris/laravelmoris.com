@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Actions\Auth\Authenticate;
 use App\Actions\Auth\RegisterUser;
 use App\Data\Auth\RegisterUserData;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -485,4 +488,52 @@ it('can remember user with remember option', function () {
         ->assertRedirect(route('home'));
 
     expect(auth()->check())->toBeTrue();
+});
+
+it('rate limits login post requests', function () {
+    $email = 'throttle-login@example.com';
+
+    foreach (range(1, 5) as $attempt) {
+        post(route('login.store'), [
+            'email' => $email,
+            'password' => 'WrongPassword123!',
+        ]);
+    }
+
+    post(route('login.store'), [
+        'email' => $email,
+        'password' => 'WrongPassword123!',
+    ])->assertTooManyRequests();
+});
+
+it('rate limits register post requests', function () {
+    $email = 'throttle-register@example.com';
+
+    foreach (range(1, 3) as $attempt) {
+        post(route('register.store'), [
+            'name' => 'Rate Limit User',
+            'email' => $email,
+            'password' => 'Password123!',
+            'password_confirmation' => 'DifferentPassword123!',
+        ]);
+    }
+
+    post(route('register.store'), [
+        'name' => 'Rate Limit User',
+        'email' => $email,
+        'password' => 'Password123!',
+        'password_confirmation' => 'DifferentPassword123!',
+    ])->assertTooManyRequests();
+});
+
+it('uses constructor injection in auth controllers', function () {
+    $loginConstructor = (new ReflectionClass(LoginController::class))->getConstructor();
+    $registerConstructor = (new ReflectionClass(RegisterController::class))->getConstructor();
+
+    expect($loginConstructor)->not->toBeNull()
+        ->and($registerConstructor)->not->toBeNull()
+        ->and($loginConstructor->getParameters())->toHaveCount(1)
+        ->and($registerConstructor->getParameters())->toHaveCount(1)
+        ->and($loginConstructor->getParameters()[0]->getType()?->getName())->toBe(Authenticate::class)
+        ->and($registerConstructor->getParameters()[0]->getType()?->getName())->toBe(RegisterUser::class);
 });

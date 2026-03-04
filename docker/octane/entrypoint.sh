@@ -25,8 +25,8 @@ fi
 
 php artisan filament:upgrade
 php artisan livewire:publish --assets
-php artisan migrate --force
 php -d memory_limit=100M artisan operations:process --tag=before-migrations
+php artisan migrate --force
 php -d memory_limit=100M artisan operations:process
 php artisan optimize
 php artisan filament:optimize

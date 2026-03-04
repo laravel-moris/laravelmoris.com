@@ -15,6 +15,7 @@ final readonly class AboutController
     public function index(): View
     {
         $teamMembers = User::query()
+            ->with('media')
             ->whereNotNull('title')
             ->orWhere('bio', 'LIKE', '%founder%')
             ->orWhere('bio', 'LIKE', '%organizer%')

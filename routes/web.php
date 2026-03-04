@@ -29,10 +29,10 @@ Route::view('/cookies', 'pages.cookies')->name('cookies');
 Route::get('/join', [JoinController::class, 'index'])->name('join.index');
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
-Route::post('/login', [LoginController::class, 'store'])->name('login.store');
+Route::post('/login', [LoginController::class, 'store'])->middleware('throttle:login')->name('login.store');
 
 Route::get('/register', [RegisterController::class, 'create'])->name('register.create');
-Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
+Route::post('/register', [RegisterController::class, 'store'])->middleware('throttle:register')->name('register.store');
 Route::get('/auth/{provider}', RedirectController::class)->name('auth.provider');
 Route::get('/auth/{provider}/callback', CallbackController::class)->name('auth.callback');
 Route::post('/logout', LogoutController::class)->name('logout');
@@ -45,7 +45,7 @@ Route::get('/sponsors/{sponsor}', [SponsorsController::class, 'show'])->name('sp
 
 Route::get('/events', [EventsController::class, 'index'])->name('events.index');
 Route::get('/events/{event}', [EventsController::class, 'show'])->name('events.show');
-Route::post('/events/{event}/rsvp', RSVPController::class)->name('events.rsvp');
+Route::post('/events/{event}/rsvp', RSVPController::class)->middleware('auth')->name('events.rsvp');
 
 Route::middleware(['auth'])->group(function () {
     Route::middleware([EnsureEventIsUpcoming::class])->group(function () {
