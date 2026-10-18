@@ -3,6 +3,107 @@ import "./bootstrap";
 import Alpine from "alpinejs";
 import InstantPage from "./instant.js";
 
+const FOCUSABLE_SELECTOR = [
+    "a[href]",
+    "button:not([disabled])",
+    "input:not([disabled])",
+    "select:not([disabled])",
+    "textarea:not([disabled])",
+    '[tabindex]:not([tabindex="-1"])',
+].join(",");
+
+function getFocusableElements(container) {
+    return Array.from(container.querySelectorAll(FOCUSABLE_SELECTOR)).filter(
+        (element) => !element.hidden && element.offsetParent !== null,
+    );
+}
+
+function containFocus(container, event) {
+    const focusableElements = getFocusableElements(container);
+
+    if (!focusableElements.length) {
+        event.preventDefault();
+        container.focus();
+        return;
+    }
+
+    const first = focusableElements[0];
+    const last = focusableElements.at(-1);
+
+    if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+    }
+
+    if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+    }
+}
+
+function makeBackgroundInert(dialog) {
+    const inertedElements = [];
+    let current = dialog;
+
+    while (current.parentElement) {
+        for (const sibling of current.parentElement.children) {
+            if (sibling === current || sibling.inert) {
+                continue;
+            }
+
+            sibling.inert = true;
+            inertedElements.push(sibling);
+        }
+
+        current = current.parentElement;
+    }
+
+    return inertedElements;
+}
+
+function restoreBackground(inertedElements) {
+    for (const element of inertedElements) {
+        element.inert = false;
+    }
+}
+
+Alpine.data("accessibleDialog", () => ({
+    inertedElements: [],
+    previouslyFocused: null,
+
+    init() {
+        this.$watch("showModal", (isOpen) => {
+            this.$nextTick(() => this.syncDialog(isOpen));
+        });
+    },
+
+    syncDialog(isOpen) {
+        if (!isOpen) {
+            restoreBackground(this.inertedElements);
+            this.inertedElements = [];
+            this.previouslyFocused?.focus();
+            this.previouslyFocused = null;
+            return;
+        }
+
+        this.previouslyFocused = document.activeElement;
+        this.inertedElements = makeBackgroundInert(this.$el);
+        getFocusableElements(this.$el)[0]?.focus();
+    },
+
+    trapFocus(event) {
+        containFocus(this.$el, event);
+    },
+
+    closeDialog() {
+        this.showModal = false;
+    },
+
+    destroy() {
+        restoreBackground(this.inertedElements);
+    },
+}));
+
 // Register Alpine data for avatar upload
 Alpine.data("avatarUpload", (config = {}) => ({
     fileName: null,
@@ -209,6 +310,8 @@ function initMobileMenu() {
         "(prefers-reduced-motion: reduce)",
     ).matches;
     let closeTimer = null;
+    let inertedElements = [];
+    let previouslyFocused = null;
 
     function setOpen(isOpen) {
         if (closeTimer) {
@@ -221,10 +324,14 @@ function initMobileMenu() {
         if (isOpen) {
             menu.classList.remove("hidden");
             document.body.classList.add("overflow-hidden");
+            if (!inertedElements.length) {
+                previouslyFocused = document.activeElement;
+                inertedElements = makeBackgroundInert(menu);
+            }
 
             if (prefersReducedMotion) {
                 menu.dataset.open = "true";
-                closeButtons[0]?.focus();
+                getFocusableElements(panel)[0]?.focus();
                 return;
             }
 
@@ -232,7 +339,7 @@ function initMobileMenu() {
             menu.dataset.open = "false";
             window.requestAnimationFrame(() => {
                 menu.dataset.open = "true";
-                closeButtons[0]?.focus();
+                getFocusableElements(panel)[0]?.focus();
             });
 
             return;
@@ -241,16 +348,20 @@ function initMobileMenu() {
         menu.dataset.open = "false";
         document.body.classList.remove("overflow-hidden");
 
-        if (prefersReducedMotion) {
+        const finishClosing = () => {
             menu.classList.add("hidden");
-            toggle.focus();
+            restoreBackground(inertedElements);
+            inertedElements = [];
+            previouslyFocused?.focus();
+            previouslyFocused = null;
+        };
+
+        if (prefersReducedMotion) {
+            finishClosing();
             return;
         }
 
-        closeTimer = window.setTimeout(() => {
-            menu.classList.add("hidden");
-            toggle.focus();
-        }, 320);
+        closeTimer = window.setTimeout(finishClosing, 320);
     }
 
     toggle.addEventListener("click", () => {
@@ -265,15 +376,19 @@ function initMobileMenu() {
     }
 
     document.addEventListener("keydown", (event) => {
-        if (event.key !== "Escape") {
-            return;
-        }
-
         if (menu.classList.contains("hidden")) {
             return;
         }
 
-        setOpen(false);
+        if (event.key === "Tab") {
+            containFocus(panel, event);
+            return;
+        }
+
+        if (event.key === "Escape") {
+            event.preventDefault();
+            setOpen(false);
+        }
     });
 }
 

@@ -23,5 +23,5 @@ test('it returns view with all data', function () {
         ->assertViewHas('speakers')
         ->assertViewHas('communityLinks')
         ->assertViewHas('sponsors')
-        ->assertViewHas('nextMeetupId');
+        ->assertViewHas('nextMeetupSlug');
 });

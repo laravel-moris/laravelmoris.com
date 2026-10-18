@@ -10,7 +10,7 @@ use App\Models\Event;
 use App\Models\OnlineLocation;
 use Illuminate\Support\Facades\DB;
 
-final class CreateOnlineEvent
+final readonly class CreateOnlineEvent
 {
     public function execute(CreateOnlineEventData $data): Event
     {
@@ -18,7 +18,7 @@ final class CreateOnlineEvent
             // Create the online location first
             $onlineLocation = OnlineLocation::query()->create([
                 'platform' => $data->platform,
-                'url' => $data->meeting_url,
+                'url' => $data->meetingUrl,
             ]);
 
             // Create the event with polymorphic relationship
@@ -26,8 +26,8 @@ final class CreateOnlineEvent
                 'title' => $data->title,
                 'description' => $data->description,
                 'type' => EventLocation::Online,
-                'starts_at' => $data->starts_at,
-                'ends_at' => $data->ends_at,
+                'starts_at' => $data->startsAt,
+                'ends_at' => $data->endsAt,
                 'location_type' => OnlineLocation::class,
                 'location_id' => $onlineLocation->id,
             ]);

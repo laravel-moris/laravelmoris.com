@@ -16,13 +16,13 @@
                     </x-text>
                 </div>
 
-                @if ($communityLinks->count() > 0)
+                @if($communityLinks->count() > 0)
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                        @foreach ($communityLinks as $link)
+                        @foreach($communityLinks as $link)
                             <a href="{{ $link->url }}"
-                                @if ($link->isAvailable()) target="_blank" rel="noopener noreferrer" @endif
+                                @if($link->isAvailable()) target="_blank" rel="noopener noreferrer" @endif
                                 class="group block"
-                                @if (!$link->isAvailable()) @click.prevent="showModal = true" @endif>
+                                @if(!$link->isAvailable()) @click.prevent="showModal = true" @endif>
                                 <x-card class="p-6 transition-all duration-300 hover:border-primary/50 h-full">
                                     <div class="flex flex-col items-center text-center">
                                         <div

@@ -56,8 +56,10 @@ final class AppServiceProvider extends ServiceProvider
         // Unguard models (no $fillable needed on models)
         Model::unguard();
 
-        // Strict mode only in production
-        Model::shouldBeStrict(app()->isProduction());
+        // Strict mode enabled in all environments
+        Model::preventLazyLoading();
+        Model::preventSilentlyDiscardingAttributes();
+        Model::preventAccessingMissingAttributes();
 
         $this->enforceMorphMap();
 

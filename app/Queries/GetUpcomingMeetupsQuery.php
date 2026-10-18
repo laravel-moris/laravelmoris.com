@@ -111,6 +111,7 @@ readonly class GetUpcomingMeetupsQuery
         return new MeetupCardData(
             id: $event->id,
             title: $event->title,
+            slug: $event->slug,
             startsAt: $event->starts_at->toImmutable(),
             endsAt: $event->ends_at?->toImmutable(),
             featured: $featuredEventId === $event->id,

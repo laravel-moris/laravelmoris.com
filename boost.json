@@ -1,12 +1,15 @@
 {
     "agents": [
-        "opencode"
+        "opencode",
+        "claude_code",
+        "codex"
     ],
     "guidelines": true,
-    "herd_mcp": true,
+    "herd_mcp": false,
     "mcp": true,
     "packages": [
-        "spatie/boost-spatie-guidelines"
+        "spatie/boost-spatie-guidelines",
+        "filament/filament"
     ],
     "sail": false,
     "skills": [

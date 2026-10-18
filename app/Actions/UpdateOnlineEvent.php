@@ -10,7 +10,7 @@ use App\Models\Event;
 use App\Models\OnlineLocation;
 use Illuminate\Support\Facades\DB;
 
-final class UpdateOnlineEvent
+final readonly class UpdateOnlineEvent
 {
     public function execute(UpdateOnlineEventData $data): Event
     {
@@ -25,13 +25,13 @@ final class UpdateOnlineEvent
                 $onlineLocation = OnlineLocation::query()->findOrFail($event->location_id);
                 $onlineLocation->update([
                     'platform' => $data->platform,
-                    'url' => $data->meeting_url,
+                    'url' => $data->meetingUrl,
                 ]);
             } else {
                 // Create new location
                 $onlineLocation = OnlineLocation::query()->create([
                     'platform' => $data->platform,
-                    'url' => $data->meeting_url,
+                    'url' => $data->meetingUrl,
                 ]);
             }
 
@@ -40,8 +40,8 @@ final class UpdateOnlineEvent
                 'title' => $data->title,
                 'description' => $data->description,
                 'type' => EventLocation::Online,
-                'starts_at' => $data->starts_at,
-                'ends_at' => $data->ends_at,
+                'starts_at' => $data->startsAt,
+                'ends_at' => $data->endsAt,
                 'location_type' => OnlineLocation::class,
                 'location_id' => $onlineLocation->id,
             ]);

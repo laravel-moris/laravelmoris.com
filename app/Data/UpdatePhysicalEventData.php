@@ -10,11 +10,11 @@ use Spatie\LaravelData\Data;
 final class UpdatePhysicalEventData extends Data
 {
     public function __construct(
-        public int $eventId,
-        public string $title,
-        public ?string $description,
-        public Carbon $starts_at,
-        public Carbon $ends_at,
-        public int $location_id,
+        public readonly int $eventId,
+        public readonly string $title,
+        public readonly ?string $description,
+        public readonly Carbon $startsAt,
+        public readonly Carbon $endsAt,
+        public readonly int $locationId,
     ) {}
 }

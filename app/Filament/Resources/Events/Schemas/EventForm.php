@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Events\Schemas;
 
 use App\Enums\EventLocation;
+use App\Models\Event;
 use App\Models\OnlineLocation;
 use App\Models\PhysicalLocation;
 use Filament\Forms\Components\DateTimePicker;
@@ -25,6 +26,10 @@ class EventForm
                 TextInput::make('title')
                     ->required()
                     ->maxLength(255),
+                TextInput::make('slug')
+                    ->unique(Event::class, 'slug', ignoreRecord: true)
+                    ->maxLength(255)
+                    ->helperText('Leave empty to auto-generate from title'),
                 Textarea::make('description')
                     ->columnSpanFull(),
                 Select::make('type')
@@ -94,6 +99,10 @@ class EventForm
                     ->required()
                     ->after('starts_at')
                     ->native(false),
+                TextInput::make('capacity')
+                    ->numeric()
+                    ->placeholder('Unlimited')
+                    ->helperText('Maximum number of attendees (leave empty for unlimited)'),
             ]);
     }
 }

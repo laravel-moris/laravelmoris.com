@@ -17,10 +17,16 @@ class Paper extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $casts = [
-        'status' => PaperStatus::class,
-        'description' => 'string',
-    ];
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'status' => PaperStatus::class,
+            'description' => 'string',
+        ];
+    }
 
     /**
      * Get the user (speaker) who submitted this paper.

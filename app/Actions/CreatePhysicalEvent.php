@@ -9,7 +9,7 @@ use App\Enums\EventLocation;
 use App\Models\Event;
 use App\Models\PhysicalLocation;
 
-final class CreatePhysicalEvent
+final readonly class CreatePhysicalEvent
 {
     public function execute(CreatePhysicalEventData $data): Event
     {
@@ -17,10 +17,10 @@ final class CreatePhysicalEvent
             'title' => $data->title,
             'description' => $data->description,
             'type' => EventLocation::Physical,
-            'starts_at' => $data->starts_at,
-            'ends_at' => $data->ends_at,
+            'starts_at' => $data->startsAt,
+            'ends_at' => $data->endsAt,
             'location_type' => PhysicalLocation::class,
-            'location_id' => $data->location_id,
+            'location_id' => $data->locationId,
         ]);
 
         return $event->fresh('location');

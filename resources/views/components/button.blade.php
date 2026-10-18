@@ -16,13 +16,13 @@
     ];
 
     $variants = [
-        'primary' => 'bg-primary text-white hover:bg-primary-hover hover:-translate-y-0.5',
+        'primary' => 'bg-primary text-primary-foreground hover:bg-primary-hover hover:-translate-y-0.5',
         'secondary' =>
             'bg-surface-2 text-foreground border-2 border-border/70 hover:border-teal hover:text-teal hover:-translate-y-0.5',
         'outline' =>
             'bg-transparent text-foreground border-2 border-border/70 hover:border-primary hover:text-primary hover:-translate-y-0.5',
         'ghost' => 'bg-transparent text-muted hover:text-foreground hover:bg-surface-2',
-        'danger' => 'bg-coral text-white hover:bg-coral/90 hover:-translate-y-0.5',
+        'danger' => 'bg-coral text-primary-foreground hover:bg-coral/90 hover:-translate-y-0.5',
         'gold' =>
             'bg-surface-2 text-gold border-2 border-gold/50 hover:border-gold hover:bg-gold/10 hover:-translate-y-0.5',
         'github' => 'bg-github text-white hover:bg-github-hover hover:-translate-y-0.5',

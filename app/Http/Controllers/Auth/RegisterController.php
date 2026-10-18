@@ -30,6 +30,7 @@ final readonly class RegisterController
 
         Auth::login($user);
 
-        return to_route('home')->with('status', 'Account created successfully!');
+        return to_route('verification.notice')
+            ->with('success', 'Registration successful! Please verify your email.');
     }
 }

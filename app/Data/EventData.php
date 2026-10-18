@@ -8,7 +8,7 @@ use App\Enums\EventLocation;
 use Carbon\CarbonImmutable;
 use Spatie\LaravelData\Data;
 
-class EventData extends Data
+final class EventData extends Data
 {
     public function __construct(
         public string $title,

@@ -2,25 +2,25 @@
     'title' => 'LARAVEL',
     'highlight' => 'MORIS',
     'subtitle' => 'Mauritius Laravel Meetup Community',
-    'nextMeetupId' => null,
+    'nextMeetupSlug' => null,
 ])
 
 <section class="relative z-10 flex min-h-[85vh] flex-col items-center justify-center text-center px-6 py-12 md:px-12">
     <h1
-        class="font-display text-display-xl font-bold leading-hero tracking-tight opacity-0 animate-hero-title [animation-delay:200ms]">
+        class="font-display text-display-xl font-bold leading-hero tracking-tight motion-safe:opacity-0 motion-safe:animate-hero-title [animation-delay:200ms]">
         {{ $title }} <span class="text-coral inline-block">{{ $highlight }}</span>
     </h1>
 
     <x-text variant="subtitle"
-        class="relative mt-6 max-w-[500px] opacity-0 animate-hero-subtitle [animation-delay:400ms] before:content-[''] before:absolute before:top-1/2 before:right-[calc(100%+24px)] before:h-px before:w-[60px] before:bg-border/70 before:opacity-70 after:content-[''] after:absolute after:top-1/2 after:left-[calc(100%+24px)] after:h-px after:w-[60px] after:bg-border/70 after:opacity-70 max-md:before:hidden max-md:after:hidden">
+        class="relative mt-6 max-w-[500px] motion-safe:opacity-0 motion-safe:animate-hero-subtitle [animation-delay:400ms] before:content-[''] before:absolute before:top-1/2 before:right-[calc(100%+24px)] before:h-px before:w-[60px] before:bg-border/70 before:opacity-70 after:content-[''] after:absolute after:top-1/2 after:left-[calc(100%+24px)] after:h-px after:w-[60px] after:bg-border/70 after:opacity-70 max-md:before:hidden max-md:after:hidden">
         {{ $subtitle }}
     </x-text>
 
     <div
-        class="mt-12 flex flex-wrap justify-center gap-5 opacity-0 animate-hero-cta [animation-delay:600ms] max-md:w-full max-md:max-w-[320px] max-md:flex-col">
-        @if ($nextMeetupId)
-            <x-button href="{{ route('events.show', $nextMeetupId) }}" variant="primary">Join Next Meetup</x-button>
-            <x-button href="{{ route('papers.create', $nextMeetupId) }}" variant="secondary">Become a
+        class="mt-12 flex flex-wrap justify-center gap-5 motion-safe:opacity-0 motion-safe:animate-hero-cta [animation-delay:600ms] max-md:w-full max-md:max-w-[320px] max-md:flex-col">
+        @if ($nextMeetupSlug)
+            <x-button href="{{ route('events.show', $nextMeetupSlug) }}" variant="primary">Join Next Meetup</x-button>
+            <x-button href="{{ route('papers.create', $nextMeetupSlug) }}" variant="secondary">Become a
                 Speaker</x-button>
         @else
             <x-button href="{{ route('events.index') }}" variant="primary">Join Next Meetup</x-button>

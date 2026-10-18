@@ -358,8 +358,12 @@
                             ['label' => 'bg-surface-2', 'bg' => 'bg-surface-2', 'text' => 'text-foreground'],
                             ['label' => 'text-foreground', 'bg' => 'bg-surface', 'text' => 'text-foreground'],
                             ['label' => 'text-muted', 'bg' => 'bg-surface', 'text' => 'text-muted'],
-                            ['label' => 'bg-primary', 'bg' => 'bg-primary', 'text' => 'text-white'],
-                            ['label' => 'bg-primary-hover', 'bg' => 'bg-primary-hover', 'text' => 'text-white'],
+                            ['label' => 'bg-primary', 'bg' => 'bg-primary', 'text' => 'text-primary-foreground'],
+                            [
+                                'label' => 'bg-primary-hover',
+                                'bg' => 'bg-primary-hover',
+                                'text' => 'text-primary-foreground',
+                            ],
                         ];
                     @endphp
 

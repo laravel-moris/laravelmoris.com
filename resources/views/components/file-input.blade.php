@@ -20,7 +20,7 @@
     $inputClasses = [
         'block w-full text-sm text-muted',
         'file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0',
-        'file:text-sm file:font-semibold file:bg-primary file:text-white',
+        'file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground',
         'hover:file:bg-primary-hover file:cursor-pointer',
         'disabled:cursor-not-allowed disabled:opacity-50',
     ];

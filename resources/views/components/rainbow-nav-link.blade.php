@@ -13,12 +13,12 @@
 
 <a href="{{ $href }}"
     {{ $attributes->class(['relative text-sm font-semibold uppercase tracking-wide py-1 lm-rainbow-text']) }}>
-    @foreach ($characters as $index => $char)
+    @foreach($characters as $index => $char)
         @php
             $delay = round($index * $staggerFactor, 3);
             $style = "animation-delay: {$delay}s";
         @endphp
-        @if ($char === ' ')
+        @if($char === ' ')
             <span class="inline-block w-1"></span>
         @else
             <span class="inline-block" style="{{ $style }}">{{ $char }}</span>

@@ -12,16 +12,16 @@ use Spatie\LaravelData\Data;
 final class UpdateOnlineEventData extends Data
 {
     public function __construct(
-        public int $eventId,
+        public readonly int $eventId,
         #[Required]
-        public string $title,
-        public ?string $description,
+        public readonly string $title,
+        public readonly ?string $description,
         #[Required]
-        public Carbon $starts_at,
+        public readonly Carbon $startsAt,
         #[Required]
-        public Carbon $ends_at,
-        public ?string $platform,
+        public readonly Carbon $endsAt,
+        public readonly ?string $platform,
         #[Required, Url]
-        public string $meeting_url,
+        public readonly string $meetingUrl,
     ) {}
 }

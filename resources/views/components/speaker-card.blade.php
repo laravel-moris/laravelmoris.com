@@ -14,12 +14,12 @@
 
     <x-heading level="3" class="text-xl font-bold tracking-snug">{{ $speaker->name }}</x-heading>
 
-    @if (filled($speaker->title))
+    @if(filled($speaker->title))
         <x-text variant="muted"
             class="mt-2 font-semibold uppercase tracking-widest text-teal">{{ $speaker->title }}</x-text>
     @endif
 
-    @if (filled($speaker->bio))
+    @if(filled($speaker->bio))
         <x-text variant="muted" class="mt-4 leading-relaxed">{{ $speaker->bio }}</x-text>
     @endif
 </a>

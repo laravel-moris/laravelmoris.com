@@ -8,11 +8,11 @@
 
     <main class="px-6 py-12">
         <div class="max-w-6xl mx-auto">
-            @if (Session::has('error'))
+            @if(Session::has('error'))
                 <x-alert variant="danger" class="mb-6">{{ Session::get('error') }}</x-alert>
             @endif
 
-            @if (Session::has('success'))
+            @if(Session::has('success'))
                 <x-alert variant="success" class="mb-6">{{ Session::get('success') }}</x-alert>
             @endif
 
@@ -32,7 +32,7 @@
 
                 <x-heading level="1" class="text-2xl mb-3">{{ $event->title }}</x-heading>
 
-                @if ($event->description)
+                @if($event->description)
                     <x-text size="md" class="mb-4">{{ $event->description }}</x-text>
                 @endif
 
@@ -56,9 +56,9 @@
                         <span>{{ $event->starts_at->format('g:i A') }} - {{ $event->ends_at->format('g:i A') }}</span>
                     </div>
 
-                    @if ($event->location)
+                    @if($event->location)
                         <div class="flex items-center gap-2">
-                            @if ($event->type->value === 'physical')
+                            @if($event->type->value === 'physical')
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                     class="w-5 h-5 text-muted shrink-0">
                                     <path fill-rule="evenodd"
@@ -76,7 +76,7 @@
                             <a href="{{ $event->location->directions_url ?? ($event->location->url ?? '#') }}"
                                 target="_blank" rel="noopener noreferrer"
                                 class="border-b border-dotted border-current hover:text-primary transition-colors cursor-pointer">
-                                @if ($event->type->value === 'physical')
+                                @if($event->type->value === 'physical')
                                     <span class="font-medium">{{ $event->location->venue_name }}</span>
                                     <span class="text-muted"> - {{ $event->location->address }}</span>
                                 @else
@@ -88,14 +88,11 @@
                 </div>
 
                 {{-- RSVP Buttons --}}
-                @if (!$event->starts_at->isPast())
+                @if(!$event->starts_at->isPast())
                     <div class="flex items-center gap-3">
                         @auth
                             @php
-                                $currentStatus = $event
-                                    ->attendees()
-                                    ->whereKey(auth()->id())
-                                    ->first()?->rsvp->status;
+                                $currentStatus = $event->attendees->first()?->rsvp->status;
                                 $isGoing = $currentStatus === RsvpStatus::Going->value;
                                 $isMaybe = $currentStatus === RsvpStatus::Maybe->value;
                             @endphp
@@ -127,7 +124,7 @@
                         @endauth
 
                         @auth
-                            @if (!$event->starts_at->isPast())
+                            @if(!$event->starts_at->isPast())
                                 @php
                                     $hasSubmittedPaper = auth()
                                         ->user()
@@ -135,7 +132,7 @@
                                         ->where('event_id', $event->id)
                                         ->exists();
                                 @endphp
-                                @if ($hasSubmittedPaper)
+                                @if($hasSubmittedPaper)
                                     <x-button variant="secondary" disabled class="opacity-50">
                                         Talk Submitted
                                     </x-button>
@@ -146,16 +143,25 @@
                                 @endif
                             @endif
                         @endauth
+
+                        <x-button href="{{ route('events.calendar', $event) }}" variant="secondary">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                                <path fill-rule="evenodd"
+                                    d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V3.375c0-1.036-.84-1.875-1.875-1.875H5.625ZM17.25 18.75a.75.75 0 0 1-.75.75h-9a.75.75 0 0 1 0-1.5h9a.75.75 0 0 1 .75.75Zm0-3a.75.75 0 0 1-.75.75h-9a.75.75 0 0 1 0-1.5h9a.75.75 0 0 1 .75.75Zm0-3a.75.75 0 0 1-.75.75h-9a.75.75 0 0 1 0-1.5h9a.75.75 0 0 1 .75.75Zm0-3a.75.75 0 0 1-.75.75h-9a.75.75 0 0 1 0-1.5h9a.75.75 0 0 1 .75.75Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            Add to Calendar
+                        </x-button>
                     </div>
                 @endif
             </x-card>
 
             {{-- Row 2: Sponsors (Logos Only Centered) --}}
-            @if ($event->sponsors->count() > 0)
+            @if($event->sponsors->count() > 0)
                 <x-card class="px-6 pb-6 mb-6">
                     <x-heading level="3" class="mb-4">Sponsors</x-heading>
                     <div class="flex items-center justify-center gap-6 flex-wrap">
-                        @foreach ($event->sponsors as $sponsor)
+                        @foreach($event->sponsors as $sponsor)
                             <a href="{{ route('sponsors.show', $sponsor) }}"
                                 class="block transition-opacity hover:opacity-80 p-3 bg-white rounded-lg">
                                 <img src="{{ $sponsor->logo }}" alt="{{ $sponsor->name }}"
@@ -173,9 +179,9 @@
                     <x-badge color="gold">{{ $event->speakers->count() }}</x-badge>
                 </div>
 
-                @if ($event->speakers->count() > 0)
+                @if($event->speakers->count() > 0)
                     <div class="space-y-3">
-                        @foreach ($event->speakers as $speaker)
+                        @foreach($event->speakers as $speaker)
                             <a href="{{ route('members.show', $speaker) }}" class="block group">
                                 <div
                                     class="p-4 bg-surface-2 rounded-lg transition-all duration-300 hover:border-primary/50 border border-transparent">
@@ -191,7 +197,7 @@
                                             class="w-10 h-10 rounded-full object-cover">
                                         <div class="min-w-0">
                                             <div class="font-medium text-sm truncate">{{ $speaker->name }}</div>
-                                            @if ($speaker->title)
+                                            @if($speaker->title)
                                                 <x-text variant="muted"
                                                     class="text-xs truncate">{{ $speaker->title }}</x-text>
                                             @endif

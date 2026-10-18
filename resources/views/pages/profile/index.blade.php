@@ -16,11 +16,11 @@
                             <x-avatar :src="auth()->user()->avatar" :alt="auth()->user()->name" size="2xl" class="mb-4" />
                             <x-heading level="2">{{ auth()->user()->name }}</x-heading>
 
-                            @if (auth()->user()->title)
+                            @if(auth()->user()->title)
                                 <x-text variant="muted" class="mt-1">{{ auth()->user()->title }}</x-text>
                             @endif
 
-                            @if (auth()->user()->bio)
+                            @if(auth()->user()->bio)
                                 <x-text size="md" class="mt-4 text-center">{{ auth()->user()->bio }}</x-text>
                             @endif
 
@@ -37,9 +37,9 @@
                     <x-card class="p-6">
                         <x-heading level="3">My RSVPs</x-heading>
 
-                        @if (auth()->user()->rsvps->count() > 0)
+                        @if($rsvps->total() > 0)
                             <div class="mt-4 space-y-3">
-                                @foreach (auth()->user()->rsvps as $event)
+                                @foreach($rsvps as $event)
                                     <a href="{{ route('events.show', $event) }}" class="block group">
                                         <div
                                             class="flex items-center justify-between p-3 bg-surface-2 rounded-lg group-hover:border-primary/50 border border-transparent transition-all">
@@ -62,6 +62,10 @@
                                     </a>
                                 @endforeach
                             </div>
+
+                            <div class="mt-4">
+                                {{ $rsvps->links() }}
+                            </div>
                         @else
                             <x-text variant="muted" class="mt-4">
                                 You haven't RSVP'd to any events yet.
@@ -73,9 +77,9 @@
                     <x-card class="p-6">
                         <x-heading level="3">My Talks</x-heading>
 
-                        @if (auth()->user()->papers->count() > 0)
+                        @if($papers->total() > 0)
                             <div class="mt-4 space-y-3">
-                                @foreach (auth()->user()->papers as $paper)
+                                @foreach($papers as $paper)
                                     <a href="{{ $paper->event ? route('events.show', $paper->event) : '#' }}"
                                         class="block group">
                                         <div
@@ -104,6 +108,10 @@
                                         </div>
                                     </a>
                                 @endforeach
+                            </div>
+
+                            <div class="mt-4">
+                                {{ $papers->links() }}
                             </div>
                         @else
                             <x-text variant="muted" class="mt-4">

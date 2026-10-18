@@ -16,6 +16,7 @@ class MeetupCardData extends Data
     public function __construct(
         public int $id,
         public string $title,
+        public string $slug,
         public CarbonImmutable $startsAt,
         public ?CarbonImmutable $endsAt,
         public bool $featured,

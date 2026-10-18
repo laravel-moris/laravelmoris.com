@@ -15,9 +15,15 @@ class Rsvp extends Model
 
     protected $table = 'event_user';
 
-    protected $casts = [
-        'status' => RsvpStatus::class,
-    ];
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'status' => RsvpStatus::class,
+        ];
+    }
 
     public function user(): BelongsTo
     {

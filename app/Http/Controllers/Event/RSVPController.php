@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Event;
 use App\Actions\Event\RSVPAction;
 use App\Data\Event\RsvpData;
 use App\Enums\RsvpStatus;
+use App\Exceptions\EventFullException;
 use App\Models\Event;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -24,16 +25,16 @@ final readonly class RSVPController
             return to_route('login');
         }
 
-        if ($event->starts_at->isPast()) {
-            Session::flash('error', 'You cannot change your RSVP for past events.');
-
-            return to_route('events.show', $event);
-        }
-
         $data = RsvpData::validateAndCreate($request->all());
         $status = $data->status ? RsvpStatus::from($data->status) : null;
 
-        $this->rsvpAction->execute($user, $event, $status);
+        try {
+            $this->rsvpAction->execute($user, $event, $status);
+        } catch (EventFullException $e) {
+            Session::flash('error', $e->getMessage());
+
+            return to_route('events.show', $event);
+        }
 
         return to_route('events.show', $event);
     }

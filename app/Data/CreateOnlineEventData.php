@@ -13,14 +13,14 @@ final class CreateOnlineEventData extends Data
 {
     public function __construct(
         #[Required]
-        public string $title,
-        public ?string $description,
+        public readonly string $title,
+        public readonly ?string $description,
         #[Required]
-        public Carbon $starts_at,
+        public readonly Carbon $startsAt,
         #[Required]
-        public Carbon $ends_at,
-        public ?string $platform,
+        public readonly Carbon $endsAt,
+        public readonly ?string $platform,
         #[Required, Url]
-        public string $meeting_url,
+        public readonly string $meetingUrl,
     ) {}
 }

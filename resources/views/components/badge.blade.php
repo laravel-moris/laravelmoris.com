@@ -23,13 +23,13 @@
             'primary' => 'bg-primary/10 border-primary/20 text-foreground',
         ],
         'solid' => [
-            'green' => 'bg-green border-transparent text-white',
-            'gold' => 'bg-gold border-transparent text-white',
-            'coral' => 'bg-coral border-transparent text-white',
-            'muted' => 'bg-muted border-transparent text-white',
-            'teal' => 'bg-teal border-transparent text-white',
-            'cyan' => 'bg-cyan border-transparent text-white',
-            'primary' => 'bg-primary border-transparent text-white',
+            'green' => 'bg-green border-transparent text-bright-foreground',
+            'gold' => 'bg-gold border-transparent text-bright-foreground',
+            'coral' => 'bg-coral border-transparent text-primary-foreground',
+            'muted' => 'bg-muted border-transparent text-primary-foreground',
+            'teal' => 'bg-teal border-transparent text-bright-foreground',
+            'cyan' => 'bg-cyan border-transparent text-bright-foreground',
+            'primary' => 'bg-primary border-transparent text-primary-foreground',
         ],
     ];
 

@@ -28,7 +28,7 @@ final readonly class HomeController
             'speakers' => $getFeaturedSpeakersQuery->execute(),
             'communityLinks' => $getCommunityLinksQuery->execute(),
             'sponsors' => $getPastSponsorsQuery->execute(),
-            'nextMeetupId' => $meetups->toCollection()->firstWhere('featured', true)?->id,
+            'nextMeetupSlug' => $meetups->toCollection()->firstWhere('featured', true)?->slug,
         ]);
     }
 }

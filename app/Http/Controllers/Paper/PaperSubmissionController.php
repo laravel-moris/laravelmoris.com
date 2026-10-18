@@ -14,8 +14,14 @@ use Illuminate\View\View;
 
 final readonly class PaperSubmissionController
 {
-    public function create(Event $event): View
+    public function create(Event $event): View|RedirectResponse
     {
+        if ($event->ends_at?->isPast()) {
+            Session::flash('error', 'You cannot submit a talk for past events.');
+
+            return to_route('events.show', $event);
+        }
+
         return view('pages.papers.create', [
             'event' => $event,
         ]);

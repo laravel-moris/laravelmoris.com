@@ -16,16 +16,16 @@
                                 class="w-32 h-32 rounded-full object-cover mb-4">
                             <x-heading level="2">{{ $member->name }}</x-heading>
 
-                            @if ($member->title)
+                            @if($member->title)
                                 <x-text variant="muted" class="mt-1">{{ $member->title }}</x-text>
                             @endif
 
-                            @if ($member->bio)
+                            @if($member->bio)
                                 <x-text size="md" class="mt-4 text-center">{{ $member->bio }}</x-text>
                             @endif
 
                             <div class="flex items-center gap-4 mt-6 text-sm">
-                                @if ($member->papers->count() > 0)
+                                @if($member->papers->count() > 0)
                                     <span class="flex items-center gap-1 text-gold">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                             class="w-4 h-4">
@@ -37,7 +37,7 @@
                                     </span>
                                 @endif
 
-                                @if ($member->rsvps->count() > 0)
+                                @if($member->rsvps->count() > 0)
                                     <span class="flex items-center gap-1 text-green">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                             class="w-4 h-4">
@@ -63,9 +63,9 @@
                     <x-card class="p-6">
                         <x-heading level="3">Speaking History</x-heading>
 
-                        @if ($member->speakingEvents->count() > 0)
+                        @if($member->speakingEvents->count() > 0)
                             <div class="mt-4 space-y-3">
-                                @foreach ($member->speakingEvents as $event)
+                                @foreach($member->speakingEvents as $event)
                                     <a href="{{ route('events.show', $event) }}" class="block group">
                                         <div
                                             class="p-3 bg-surface-2 rounded-lg transition-all duration-300 hover:border-primary/50 border border-transparent">
@@ -89,9 +89,9 @@
                     <x-card class="p-6">
                         <x-heading level="3">Attendance History</x-heading>
 
-                        @if ($member->rsvps->count() > 0)
+                        @if($member->rsvps->count() > 0)
                             <div class="mt-4 space-y-3">
-                                @foreach ($member->rsvps as $event)
+                                @foreach($member->rsvps as $event)
                                     <a href="{{ route('events.show', $event) }}" class="block group">
                                         <div
                                             class="flex items-center justify-between p-3 bg-surface-2 rounded-lg transition-all duration-300 hover:border-primary/50 border border-transparent">

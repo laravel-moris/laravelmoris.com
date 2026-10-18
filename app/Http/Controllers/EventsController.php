@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Actions\Event\GenerateCalendarAction;
 use App\Models\Event;
 use App\Queries\GetEventDetailQuery;
 use App\Queries\GetEventsQuery;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 final readonly class EventsController
@@ -36,8 +38,27 @@ final readonly class EventsController
     {
         $event = $this->getEventDetailQuery->execute($event);
 
+        if (auth()->check()) {
+            $event->load(['attendees' => function ($query) {
+                $query->where('user_id', auth()->id());
+            }]);
+        }
+
         return view('pages.events.show', [
             'event' => $event,
+        ]);
+    }
+
+    /**
+     * Download the calendar invite (.ics) for an event.
+     */
+    public function calendar(Event $event, GenerateCalendarAction $generateCalendar): Response
+    {
+        $ics = $generateCalendar->execute($event);
+
+        return response($ics, 200, [
+            'Content-Type' => 'text/calendar; charset=utf-8',
+            'Content-Disposition' => 'attachment; filename="'.$generateCalendar->filename($event).'"',
         ]);
     }
 }

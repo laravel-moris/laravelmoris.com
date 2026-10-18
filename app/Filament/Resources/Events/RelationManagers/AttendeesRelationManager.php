@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Events\RelationManagers;
 
+use App\Actions\Event\ImportCsvAttendeesAction;
+use App\Data\Event\ImportCsvAttendeesData;
 use App\Enums\RsvpStatus;
+use Filament\Actions\Action;
+use Filament\Forms\Components\Textarea;
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -47,7 +52,44 @@ class AttendeesRelationManager extends RelationManager
                         };
                     }),
             ])
-            ->headerActions([])
+            ->headerActions([
+                Action::make('importCsv')
+                    ->label('Import Attendees')
+                    ->icon('heroicon-m-arrow-up-tray')
+                    ->form([
+                        Textarea::make('csv_data')
+                            ->label('Paste CSV Data')
+                            ->placeholder("name,email\nJohn Doe,john@example.com\nJane Smith,jane@example.com")
+                            ->rows(10)
+                            ->helperText('CSV format: name,email — one attendee per line. Header row is optional.')
+                            ->required(),
+                    ])
+                    ->action(function (array $data, RelationManager $livewire, ImportCsvAttendeesAction $importCsvAttendeesAction): void {
+                        $result = $importCsvAttendeesAction->execute(
+                            $livewire->ownerRecord,
+                            ImportCsvAttendeesData::from(['csvData' => $data['csv_data']]),
+                        );
+
+                        $message = 'Imported '.$result['imported'].' attendee(s).';
+
+                        if ($result['skipped'] > 0) {
+                            $message .= ' '.$result['skipped'].' skipped (already RSVP\'d).';
+                        }
+
+                        Notification::make()
+                            ->title($message)
+                            ->success()
+                            ->send();
+
+                        if ($result['errors'] !== []) {
+                            Notification::make()
+                                ->title('Import completed with errors')
+                                ->body(implode("\n", array_slice($result['errors'], 0, 5)))
+                                ->warning()
+                                ->send();
+                        }
+                    }),
+            ])
             ->recordActions([])
             ->toolbarActions([]);
     }

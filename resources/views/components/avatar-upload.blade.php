@@ -61,9 +61,10 @@
             <template x-if="fileName">
                 <div class="flex items-center gap-2">
                     <x-text variant="muted" class="text-xs truncate max-w-32" x-text="fileName"></x-text>
-                    <button type="button" @click="clearFile()"
-                        class="text-coral hover:text-coral/80 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+                    <button type="button" aria-label="Remove selected image" @click="clearFile()"
+                        class="grid size-11 place-items-center rounded-full text-coral transition-colors hover:bg-coral/10 hover:text-coral/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4"
+                            aria-hidden="true">
                             <path fill-rule="evenodd"
                                 d="M4.47 4.47a.75.75 0 0 1 1.06 0L10 8.94l4.47-4.47a.75.75 0 1 1 1.06 1.06L11.06 10l4.47 4.47a.75.75 0 0 1-1.06 1.06L10 11.06l-4.47 4.47a.75.75 0 0 1-1.06-1.06L8.94 10 4.47 5.53a.75.75 0 0 1 0-1.06Z"
                                 clip-rule="evenodd" />

@@ -44,9 +44,9 @@
                     </div>
 
                     {{-- Team Members --}}
-                    @if ($teamMembers->count() > 0)
+                    @if($teamMembers->count() > 0)
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                            @foreach ($teamMembers as $member)
+                            @foreach($teamMembers as $member)
                                 <x-card
                                     class="p-6 group/member hover:-translate-y-1 transition-all duration-300 border-border/40 hover:border-primary/30">
                                     <a href="{{ route('members.show', $member) }}"
@@ -62,7 +62,7 @@
                                             class="font-bold group-hover/member:text-primary transition-colors">
                                             {{ $member->name }}
                                         </x-text>
-                                        @if ($member->title)
+                                        @if($member->title)
                                             <x-text variant="muted"
                                                 class="text-xs uppercase tracking-widest mt-1">{{ $member->title }}</x-text>
                                         @endif

@@ -26,10 +26,10 @@ class CreateEvent extends CreateRecord
             $onlineEventData = CreateOnlineEventData::from([
                 'title' => $data['title'],
                 'description' => $data['description'] ?? null,
-                'starts_at' => Date::parse($data['starts_at']),
-                'ends_at' => Date::parse($data['ends_at']),
+                'startsAt' => Date::parse($data['starts_at']),
+                'endsAt' => Date::parse($data['ends_at']),
                 'platform' => $data['online_platform'] ?? null,
-                'meeting_url' => $data['meeting_url'],
+                'meetingUrl' => $data['meeting_url'],
             ]);
 
             return app(CreateOnlineEvent::class)->execute($onlineEventData);
@@ -40,9 +40,9 @@ class CreateEvent extends CreateRecord
             $physicalEventData = CreatePhysicalEventData::from([
                 'title' => $data['title'],
                 'description' => $data['description'] ?? null,
-                'starts_at' => Date::parse($data['starts_at']),
-                'ends_at' => Date::parse($data['ends_at']),
-                'location_id' => $data['location_id'],
+                'startsAt' => Date::parse($data['starts_at']),
+                'endsAt' => Date::parse($data['ends_at']),
+                'locationId' => $data['location_id'],
             ]);
 
             return app(CreatePhysicalEvent::class)->execute($physicalEventData);

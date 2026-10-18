@@ -14,9 +14,9 @@
                 </x-text>
             </div>
 
-            @if (count($sponsors) > 0)
+            @if(count($sponsors) > 0)
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                    @foreach ($sponsors as $sponsor)
+                    @foreach($sponsors as $sponsor)
                         <a href="{{ route('sponsors.show', $sponsor['id']) }}" class="group block">
                             <x-card class="p-5 transition-all duration-300 hover:border-primary/50 h-full">
                                 <div class="flex flex-col items-center text-center">
@@ -30,14 +30,14 @@
                                         {{ $sponsor['name'] }}
                                     </x-heading>
 
-                                    @if ($sponsor['eventsCount'] > 0)
+                                    @if($sponsor['eventsCount'] > 0)
                                         <x-text variant="muted" class="mt-2 text-sm">
                                             {{ $sponsor['eventsCount'] }}
                                             {{ Str::plural('event', $sponsor['eventsCount']) }} sponsored
                                         </x-text>
                                     @endif
 
-                                    @if ($sponsor['website'])
+                                    @if($sponsor['website'])
                                         <x-text variant="muted" class="mt-1 text-xs text-teal">
                                             {{ parse_url($sponsor['website'], PHP_URL_HOST) }}
                                         </x-text>

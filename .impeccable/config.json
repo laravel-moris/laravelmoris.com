@@ -1,0 +1,14 @@
+{
+    "detector": {
+        "ignoreRules": [],
+        "ignoreFiles": [],
+        "ignoreValues": [
+            {
+                "rule": "overused-font",
+                "value": "instrument sans",
+                "createdAt": "2026-08-24T08:04:10.255Z",
+                "reason": "Retained as the established body identity with all four weights in use; unused JetBrains Mono and Oswald weights were removed"
+            }
+        ]
+    }
+}

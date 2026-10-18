@@ -11,7 +11,7 @@
                 {{ $sponsor->name }}
             </x-heading>
 
-            @if ($sponsor->website)
+            @if($sponsor->website)
                 <x-text variant="muted" class="mt-1 text-xs text-teal">
                     {{ parse_url($sponsor->website, PHP_URL_HOST) }}
                 </x-text>

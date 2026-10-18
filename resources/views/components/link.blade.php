@@ -16,5 +16,5 @@
     $classes = [$base, $variants[$variant] ?? $variants['default']];
 @endphp
 
-<a href="{{ $href }}" @if ($external) target="_blank" rel="noopener noreferrer" @endif
+<a href="{{ $href }}" @if($external) target="_blank" rel="noopener noreferrer" @endif
     {{ $attributes->class($classes) }}>{{ $slot }}</a>

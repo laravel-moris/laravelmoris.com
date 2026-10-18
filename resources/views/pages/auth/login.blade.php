@@ -66,7 +66,7 @@
                                 <span class="text-sm text-muted">Remember me</span>
                             </label>
 
-                            @if (Route::has('password.request'))
+                            @if(Route::has('password.request'))
                                 <a href="{{ route('password.request') }}"
                                     class="text-sm text-primary hover:text-primary-hover">
                                     Forgot password?

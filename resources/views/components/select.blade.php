@@ -30,33 +30,33 @@
 @endphp
 
 <div class="grid gap-2">
-    @if ($label)
+    @if($label)
         <x-label :for="$id">{{ $label }}</x-label>
     @endif
 
-    <select @if ($id) id="{{ $id }}" @endif
-        @if ($name) name="{{ $name }}" @endif
-        @if ($error) aria-invalid="true" @endif
-        @if ($describedBy) aria-describedby="{{ $describedBy }}" @endif
+    <select @if($id) id="{{ $id }}" @endif
+        @if($name) name="{{ $name }}" @endif
+        @if($error) aria-invalid="true" @endif
+        @if($describedBy) aria-describedby="{{ $describedBy }}" @endif
         {{ $attributes->class($selectClasses) }}>
-        @if ($placeholder)
+        @if($placeholder)
             <option value="" @selected($current === null || $current === '')>{{ $placeholder }}</option>
         @endif
 
-        @if (is_array($options))
-            @foreach ($options as $value => $optionLabel)
+        @if(is_array($options))
+            @foreach($options as $value => $optionLabel)
                 <option value="{{ $value }}" @selected((string) $current === (string) $value)>{{ $optionLabel }}</option>
             @endforeach
-        @elseif (trim($slot) !== '')
+        @elseif(trim($slot) !== '')
             {{ $slot }}
         @endif
     </select>
 
-    @if ($help)
+    @if($help)
         <x-text variant="muted" id="{{ $helpId }}">{{ $help }}</x-text>
     @endif
 
-    @if ($error)
+    @if($error)
         <p id="{{ $errorId }}" class="text-sm text-coral font-medium">{{ $error }}</p>
     @endif
 </div>

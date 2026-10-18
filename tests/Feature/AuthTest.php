@@ -241,7 +241,7 @@ it('creates a new user with email and password', function () {
     expect(User::query()->where('email', 'newuser@example.com')->exists())->toBeFalse();
 
     post(route('register.store'), $data)
-        ->assertRedirect(route('home'));
+        ->assertRedirect(route('verification.notice'));
 
     expect(User::query()->where('email', 'newuser@example.com')->exists())->toBeTrue();
 
@@ -305,7 +305,7 @@ it('logs in user after registration', function () {
     ];
 
     post(route('register.store'), $data)
-        ->assertRedirect(route('home'));
+        ->assertRedirect(route('verification.notice'));
 
     expect(auth()->check())->toBeTrue()->and(auth()->user()->email)->toBe('autologin@example.com');
 });

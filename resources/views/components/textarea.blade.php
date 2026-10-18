@@ -28,21 +28,21 @@
 @endphp
 
 <div class="grid gap-2">
-    @if ($label)
+    @if($label)
         <x-label :for="$id">{{ $label }}</x-label>
     @endif
 
-    <textarea @if ($id) id="{{ $id }}" @endif
-        @if ($name) name="{{ $name }}" @endif rows="{{ $rows }}"
-        @if ($error) aria-invalid="true" @endif
-        @if ($describedBy) aria-describedby="{{ $describedBy }}" @endif
+    <textarea @if($id) id="{{ $id }}" @endif
+        @if($name) name="{{ $name }}" @endif rows="{{ $rows }}"
+        @if($error) aria-invalid="true" @endif
+        @if($describedBy) aria-describedby="{{ $describedBy }}" @endif
         {{ $attributes->class($textareaClasses) }}>{{ $currentValue }}</textarea>
 
-    @if ($help)
+    @if($help)
         <x-text variant="muted" id="{{ $helpId }}">{{ $help }}</x-text>
     @endif
 
-    @if ($error)
+    @if($error)
         <p id="{{ $errorId }}" class="text-sm text-coral font-medium">{{ $error }}</p>
     @endif
 </div>

@@ -8,7 +8,7 @@ use App\Models\OnlineLocation;
 use App\Models\PhysicalLocation;
 use Spatie\LaravelData\Data;
 
-class EventLocationData extends Data
+final class EventLocationData extends Data
 {
     /**
      * @param  class-string<PhysicalLocation|OnlineLocation>  $class

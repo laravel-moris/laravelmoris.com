@@ -207,7 +207,7 @@ it('renders the edit event form', function () {
     ]);
 
     Livewire::test(EditEvent::class, [
-        'record' => $event->getKey(),
+        'record' => $event->getRouteKey(),
     ])
         ->assertOk()
         ->assertFormSet([
@@ -228,7 +228,7 @@ it('updates an event title', function () {
     ]);
 
     Livewire::test(EditEvent::class, [
-        'record' => $event->getKey(),
+        'record' => $event->getRouteKey(),
     ])
         ->fillForm([
             'title' => 'New title',
@@ -260,7 +260,7 @@ it('edits an online event and loads existing location data', function () {
     ]);
 
     Livewire::test(EditEvent::class, [
-        'record' => $event->getKey(),
+        'record' => $event->getRouteKey(),
     ])
         ->assertOk()
         ->assertFormSet([
@@ -287,7 +287,7 @@ it('updates an online event meeting URL', function () {
     ]);
 
     Livewire::test(EditEvent::class, [
-        'record' => $event->getKey(),
+        'record' => $event->getRouteKey(),
     ])
         ->fillForm([
             'title' => 'Updated Online Event',
@@ -315,7 +315,7 @@ it('renders the view event page with infolist', function () {
     ]);
 
     Livewire::test(ViewEvent::class, [
-        'record' => $event->getKey(),
+        'record' => $event->getRouteKey(),
     ])
         ->assertOk()
         ->assertSee('Viewable event')
@@ -339,7 +339,7 @@ it('displays physical location details in event view', function () {
     ]);
 
     Livewire::test(ViewEvent::class, [
-        'record' => $event->getKey(),
+        'record' => $event->getRouteKey(),
     ])
         ->assertOk()
         ->assertSee('Test Venue')
@@ -363,7 +363,7 @@ it('displays online location details in event view', function () {
     ]);
 
     Livewire::test(ViewEvent::class, [
-        'record' => $event->getKey(),
+        'record' => $event->getRouteKey(),
     ])
         ->assertOk()
         ->assertSee('Zoom')

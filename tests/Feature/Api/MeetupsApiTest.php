@@ -98,7 +98,7 @@ test('it shows a single meetup', function () {
     ]);
     $event->location()->associate($location)->save();
 
-    $response = $this->getJson("/api/meetups/{$event->id}");
+    $response = $this->getJson("/api/meetups/{$event->slug}");
 
     $response
         ->assertOk()
@@ -121,7 +121,7 @@ test('it includes rsvp link for upcoming events', function () {
         'type' => EventLocation::Online,
     ]);
 
-    $response = $this->getJson("/api/meetups/{$event->id}");
+    $response = $this->getJson("/api/meetups/{$event->slug}");
 
     $response
         ->assertOk()
@@ -141,7 +141,7 @@ test('it returns null rsvp link for past events', function () {
         'type' => EventLocation::Online,
     ]);
 
-    $response = $this->getJson("/api/meetups/{$event->id}");
+    $response = $this->getJson("/api/meetups/{$event->slug}");
 
     $response
         ->assertOk()
@@ -161,7 +161,7 @@ test('it returns null rsvp link for events that already started', function () {
         'type' => EventLocation::Online,
     ]);
 
-    $response = $this->getJson("/api/meetups/{$event->id}");
+    $response = $this->getJson("/api/meetups/{$event->slug}");
 
     $response
         ->assertOk()

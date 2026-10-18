@@ -9,7 +9,7 @@
     ]);
 @endphp
 
-<a href="{{ $href }}" @if ($active) aria-current="page" @endif
+<a href="{{ $href }}" @if($active) aria-current="page" @endif
     {{ $attributes->class($classes) }}>
     {{ $slot }}
 </a>

@@ -19,16 +19,16 @@
                     Share your knowledge with the Laravel Moris community at {{ $event->title }}
                 </x-text>
 
-                @if (Session::has('error'))
+                @if(Session::has('error'))
                     <div class="mb-6 p-4 bg-coral/10 border border-coral/30 rounded-lg text-coral">
                         {{ Session::get('error') }}
                     </div>
                 @endif
 
-                @if ($errors->any())
+                @if($errors->any())
                     <div class="mb-6 p-4 bg-coral/10 border border-coral/30 rounded-lg">
                         <ul class="list-disc list-inside text-coral">
-                            @foreach ($errors->all() as $error)
+                            @foreach($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>

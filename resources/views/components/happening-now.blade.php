@@ -35,9 +35,9 @@
                 {{ $event->title }}
             </x-heading>
 
-            @if (count($meta))
+            @if(count($meta))
                 <div class="mt-4 flex flex-wrap items-center gap-2">
-                    @foreach ($meta as $item)
+                    @foreach($meta as $item)
                         <span
                             class="inline-flex items-center gap-2 rounded-full border border-border/70 bg-surface-2 px-3 py-1.5 text-xs font-semibold text-muted">
                             <span class="inline-block size-1.5 rounded-full bg-primary"></span>
@@ -49,7 +49,7 @@
         </div>
 
         <div class="flex flex-wrap gap-3 md:flex-nowrap">
-            @if (filled($event->ctaUrl))
+            @if(filled($event->ctaUrl))
                 <x-button :href="$event->ctaUrl" variant="primary" size="sm" class="rounded-xl" target="_blank"
                     rel="noopener">Join the meetup</x-button>
             @endif

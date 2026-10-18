@@ -23,18 +23,18 @@
     );
 @endphp
 
-<a href="{{ route('events.show', $card->id) }}" class="block {{ $rootClasses }}" data-reveal>
+<a href="{{ route('events.show', $card->slug) }}" class="block {{ $rootClasses }}" data-reveal>
     <span
-        class="absolute right-6 top-6 rounded-full px-4 py-2 text-2xs font-bold uppercase tracking-wider border {{ $isUpcoming ? ($featured ? 'bg-coral text-white border-transparent' : 'bg-coral/10 text-coral border-coral/20') : 'bg-muted/10 text-muted border-muted/20' }}">
+        class="absolute right-6 top-6 rounded-full px-4 py-2 text-2xs font-bold uppercase tracking-wider border {{ $isUpcoming ? ($featured ? 'bg-coral text-primary-foreground border-transparent' : 'bg-coral/10 text-coral border-coral/20') : 'bg-muted/10 text-muted border-muted/20' }}">
         {{ $isUpcoming ? 'Upcoming' : 'Past' }}
     </span>
 
     <div
         class="inline-flex flex-col items-center rounded-2xl border border-border/70 px-5 py-4 transition-transform duration-300 {{ $featured ? 'bg-coral border-transparent scale-105' : 'bg-surface-2 group-hover:scale-105 group-hover:bg-coral group-hover:border-transparent' }}">
         <span
-            class="text-xs font-bold uppercase tracking-widest {{ $featured ? 'text-white/85' : 'text-muted group-hover:text-white/85' }}">{{ $month }}</span>
+            class="text-xs font-bold uppercase tracking-widest {{ $featured ? 'text-primary-foreground' : 'text-muted group-hover:text-primary-foreground' }}">{{ $month }}</span>
         <span
-            class="mt-1 text-4xl font-bold leading-none {{ $featured ? 'text-white' : 'text-foreground group-hover:text-white' }}">{{ $day }}</span>
+            class="mt-1 text-4xl font-bold leading-none {{ $featured ? 'text-primary-foreground' : 'text-foreground group-hover:text-primary-foreground' }}">{{ $day }}</span>
     </div>
 
     <x-heading level="3" class="mt-6 text-xl font-bold leading-snug tracking-snug">{{ $title }}</x-heading>

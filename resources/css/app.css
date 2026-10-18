@@ -25,6 +25,7 @@
 
         --accent: #ff2d20;
         --accent-hover: #ff4535;
+        --primary-foreground: #0a0908;
 
         /* Mauritius accent colors (subtle use only) */
         --sunset-coral: #ff6b6b;
@@ -72,6 +73,12 @@
         --text-primary: #1c1a17;
         --text-secondary: #6b6560;
 
+        --accent: #c52219;
+        --accent-hover: #a91d16;
+        --primary-foreground: #ffffff;
+
+        --sunset-coral: #b4232b;
+
         --card-border: rgba(255, 45, 32, 0.15);
         --card-border-light: rgba(0, 0, 0, 0.05);
     }
@@ -101,6 +108,8 @@
 
     --color-primary: var(--accent);
     --color-primary-hover: var(--accent-hover);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-bright-foreground: #0a0908;
 
     --color-coral: var(--sunset-coral);
     --color-orange: var(--sunset-orange);

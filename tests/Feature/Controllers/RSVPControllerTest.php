@@ -39,7 +39,7 @@ test('it redirects with error for past events', function () {
         ->post(route('events.rsvp', $event), ['status' => 'going']);
 
     $response->assertRedirect(route('events.show', $event))
-        ->assertSessionHas('error', 'You cannot change your RSVP for past events.');
+        ->assertSessionHas('error', 'This event has already started.');
 });
 
 test('it RSVPs user as going', function () {
@@ -135,5 +135,5 @@ test('it does not allow RSVP changes after an event has started', function () {
         ->post(route('events.rsvp', $event), ['status' => 'going']);
 
     $response->assertRedirect(route('events.show', $event))
-        ->assertSessionHas('error', 'You cannot change your RSVP for past events.');
+        ->assertSessionHas('error', 'This event has already started.');
 });

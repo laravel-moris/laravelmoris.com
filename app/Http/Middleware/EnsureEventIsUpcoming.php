@@ -21,9 +21,9 @@ final readonly class EnsureEventIsUpcoming
         /** @var Event|null $event */
         $event = $request->route('event');
 
-        if ($event instanceof Event && $event->ends_at?->isPast()) {
+        if ($event instanceof Event && $event->starts_at?->isPast()) {
             return to_route('events.show', $event)
-                ->with('error', 'You cannot submit a talk for past events.');
+                ->with('error', 'This event has already started.');
         }
 
         return $next($request);

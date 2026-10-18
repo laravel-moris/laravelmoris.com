@@ -20,14 +20,14 @@
 
                             <x-heading level="2">{{ $sponsor->name }}</x-heading>
 
-                            @if ($sponsor->events->count() > 0)
+                            @if($sponsor->events->count() > 0)
                                 <x-text variant="muted" class="mt-2">
                                     {{ $sponsor->events->count() }} {{ Str::plural('event', $sponsor->events->count()) }}
                                     sponsored
                                 </x-text>
                             @endif
 
-                            @if ($sponsor->website)
+                            @if($sponsor->website)
                                 <x-button href="{{ $sponsor->website }}" variant="primary" class="mt-6 w-full"
                                     target="_blank" rel="noopener noreferrer">
                                     Visit Website
@@ -46,9 +46,9 @@
                     <x-card class="p-6">
                         <x-heading level="3">Events Sponsored</x-heading>
 
-                        @if ($sponsor->events->count() > 0)
+                        @if($sponsor->events->count() > 0)
                             <div class="mt-4 space-y-3">
-                                @foreach ($sponsor->events as $event)
+                                @foreach($sponsor->events as $event)
                                     <a href="{{ route('events.show', $event) }}" class="block group">
                                         <div
                                             class="flex items-center justify-between p-4 bg-surface-2 rounded-lg transition-all duration-300 group-hover:border-primary/50 border border-transparent">

@@ -14,9 +14,9 @@
                 </x-text>
             </div>
 
-            @if ($members->count() > 0)
+            @if($members->count() > 0)
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                    @foreach ($members as $member)
+                    @foreach($members as $member)
                         <a href="{{ route('members.show', $member) }}" class="group block">
                             <x-card class="p-5 transition-all duration-300 hover:border-primary/50 h-full">
                                 <div class="flex flex-col items-center text-center">
@@ -26,21 +26,21 @@
                                         {{ $member->name }}
                                     </x-heading>
 
-                                    @if ($member->title)
+                                    @if($member->title)
                                         <x-text variant="muted"
                                             class="mt-1 font-semibold uppercase tracking-widest text-teal text-xs">
                                             {{ $member->title }}
                                         </x-text>
                                     @endif
 
-                                    @if ($member->bio)
+                                    @if($member->bio)
                                         <x-text variant="muted" class="mt-2 text-sm leading-relaxed line-clamp-2">
                                             {{ $member->bio }}
                                         </x-text>
                                     @endif
 
                                     <div class="flex items-center gap-4 mt-3 text-sm">
-                                        @if ($member->papers_count > 0)
+                                        @if($member->papers_count > 0)
                                             <span class="flex items-center gap-1 text-gold">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                                     fill="currentColor" class="w-4 h-4">
@@ -52,7 +52,7 @@
                                             </span>
                                         @endif
 
-                                        @if ($member->rsvps_count > 0)
+                                        @if($member->rsvps_count > 0)
                                             <span class="flex items-center gap-1 text-green">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                                     fill="currentColor" class="w-4 h-4">
