@@ -38,7 +38,7 @@ return static function (RectorConfig $rectorConfig): void {
         ChainExpectCallsRector::class,
     ]);
 
-    $rectorConfig->phpVersion(PhpVersion::PHP_84);
+    $rectorConfig->phpVersion(PhpVersion::PHP_85);
 
     $rectorConfig->parallel();
     $rectorConfig->importNames();

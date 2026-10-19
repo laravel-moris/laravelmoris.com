@@ -4,10 +4,10 @@
 
 ![header image](./branding/header.png)
 
-The official website for the Mauritius Laravel Meetup Community. Built with Laravel 12 and Tailwind CSS.
+The official website for the Mauritius Laravel Meetup Community. Built with Laravel 13 and Tailwind CSS.
 
-[![Laravel 12](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel)](https://laravel.com)
-[![PHP 8.4](https://img.shields.io/badge/PHP-8.4-777BB4?logo=php)](https://php.net)
+[![Laravel 13](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel)](https://laravel.com)
+[![PHP 8.5](https://img.shields.io/badge/PHP-8.5-777BB4?logo=php)](https://php.net)
 [![Tailwind CSS 4](https://img.shields.io/badge/Tailwind-4-38BDF8?logo=tailwindcss)](https://tailwindcss.com)
 
 </div>
@@ -24,7 +24,7 @@ Laravel Moris is a community website for the Mauritius Laravel Meetup group. It 
 
 ## Tech Stack
 
-- **Framework**: Laravel 12 (PHP 8.4)
+- **Framework**: Laravel 13 (PHP 8.5)
 - **Styling**: Tailwind CSS v4
 - **Database**: SQLite (development) / PostgreSQL (production)
 - **Testing**: Pest 4
@@ -74,7 +74,7 @@ Icons are loaded using Laravel's `Vite::asset()` helper and styled with Tailwind
 
 ### Prerequisites
 
-- PHP 8.4+
+- PHP 8.5+
 - Composer
 - Node.js & npm
 - Laravel Herd (recommended)

@@ -444,6 +444,24 @@ it('renders the attendees relation manager table', function () {
         ->assertCanSeeTableRecords([$user]);
 });
 
+it('imports attendees through the relation manager action', function (): void {
+    asAdmin();
+
+    $event = Event::factory()->create();
+
+    Livewire::test(AttendeesRelationManager::class, [
+        'ownerRecord' => $event,
+        'pageClass' => ViewEvent::class,
+    ])
+        ->callTableAction('importCsv', data: [
+            'csv_data' => "name,email\nImported Attendee,imported@example.test",
+        ])
+        ->assertHasNoTableActionErrors()
+        ->assertNotified();
+
+    expect($event->attendees()->where('email', 'imported@example.test')->exists())->toBeTrue();
+});
+
 it('renders the rsvps relation manager table with status badges', function () {
     asAdmin();
 

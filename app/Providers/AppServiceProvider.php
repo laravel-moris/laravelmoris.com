@@ -105,6 +105,9 @@ final class AppServiceProvider extends ServiceProvider
 
         // user => User::class
         // snake-case => PascalCase::class
-        Relation::enforceMorphMap($map);
+        // Keep existing fully qualified morph types readable alongside their aliases.
+        $legacyMap = collect($map)->mapWithKeys(fn (string $class): array => [$class => $class])->all();
+
+        Relation::enforceMorphMap($map + $legacyMap);
     }
 }

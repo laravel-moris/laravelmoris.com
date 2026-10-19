@@ -12,7 +12,7 @@ RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.cache/go-build \
     go install github.com/DarthSim/hivemind@v1.1.0
 
-FROM php:8.4-fpm-alpine AS phpbase
+FROM php:8.5.11-fpm-alpine AS phpbase
 
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 

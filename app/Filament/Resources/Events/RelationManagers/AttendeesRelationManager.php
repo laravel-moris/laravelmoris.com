@@ -56,7 +56,7 @@ class AttendeesRelationManager extends RelationManager
                 Action::make('importCsv')
                     ->label('Import Attendees')
                     ->icon('heroicon-m-arrow-up-tray')
-                    ->form([
+                    ->schema([
                         Textarea::make('csv_data')
                             ->label('Paste CSV Data')
                             ->placeholder("name,email\nJohn Doe,john@example.com\nJane Smith,jane@example.com")
