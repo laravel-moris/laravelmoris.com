@@ -15,7 +15,9 @@ RUN install-php-extensions \
     gd \
     intl \
     zip \
-    exif
+    exif \
+    pdo_pgsql \
+    redis
 
 FROM base AS build
 WORKDIR /var/www/html
